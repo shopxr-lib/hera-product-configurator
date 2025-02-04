@@ -2,12 +2,9 @@ import { Canvas as ThreeCanvas } from "@react-three/fiber";
 import * as THREE from "three";
 import Room from "./Room";
 import { Environment, OrbitControls } from "@react-three/drei";
-import useStore from "../store/useStore";
 import { isMobile } from "react-device-detect";
 
 const Canvas: React.FC = () => {
-  const roomDimension = useStore((state) => state.roomDimensions);
-
   return (
     <ThreeCanvas
       shadows={{
@@ -20,7 +17,7 @@ const Canvas: React.FC = () => {
         toneMappingExposure: 1.2,
       }}
       camera={{
-        position: [0, roomDimension.height / 2, 2.5],
+        position: [0, 1, 0.5],
         fov: 80,
         near: 0.001,
         far: 1000,
@@ -32,10 +29,7 @@ const Canvas: React.FC = () => {
       <Environment files={["hdri/city.hdr"]} />
 
       <Room />
-      <OrbitControls
-        target={[0, roomDimension.height / 2, 0]}
-        maxPolarAngle={Math.PI}
-      />
+      <OrbitControls />
     </ThreeCanvas>
   );
 };

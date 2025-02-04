@@ -6,8 +6,6 @@ import Customize from "./components/Customize";
 import CustomizePopUp from "./components/CustomizePopup";
 
 import { MantineProvider } from "@mantine/core";
-import PackagePopUp from "./components/PackagePopUp";
-import PackageChooserFloating from "./components/PackageChooserFloating";
 import ShoppingCartFloating from "./components/ShoppingCartFloating";
 import { Notifications } from "@mantine/notifications";
 import ShoppingCartDrawer from "./components/ShoppingCartDrawer";
@@ -38,8 +36,6 @@ function App() {
       <Canvas />
       <Customize />
       <CustomizePopUp />
-      <PackagePopUp />
-      <PackageChooserFloating />
       <ShoppingCartFloating />
       <ShoppingCartDrawer />
       <Branding />

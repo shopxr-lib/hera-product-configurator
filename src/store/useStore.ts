@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 
 export enum FurnitureType {
   Basin = 1,
@@ -668,285 +669,308 @@ const roomDimensions = {
   length: 1.8,
 };
 
-const useStore = create<StoreState>((set, get) => ({
-  roomDimensions,
-  package: "default",
-  setPackage: (p: string) => set({ package: p as PackageType }),
-  textures: {
-    floor: allFloorsTextures[0],
-    wall: allWallTextures[0],
-    ceiling: allCeilingTextures[0],
-  },
-  modals: {
-    shoppingCart: false,
-    customize: false,
-  },
-  cartItems: [],
-  addToCart: (id: string) => {
-    const furniture = allFurnitures.find((furniture) => furniture.key === id);
-    if (!furniture) {
-      return;
-    }
-
-    set((state) => {
-      return {
-        ...state,
-        cartItems: [...state.cartItems, furniture],
-      };
-    });
-  },
-  removeFromCart: (type: FurnitureType) => {
-    set((state) => {
-      return {
-        ...state,
-        cartItems: state.cartItems.filter((item) => item.type !== type),
-      };
-    });
-  },
-  clearCart: () => set({ cartItems: [] }),
-  setModal: (modal: string, open: boolean) => {
-    set((state) => {
-      return {
-        ...state,
-        modals: {
-          ...state.modals,
-          [modal]: open,
-        },
-      };
-    });
-  },
-  furnitureMap: defaultFurnitureMap,
-  setDefaultFurnitureMap: () => {
-    set((state) => {
-      return {
-        ...state,
-        furnitureMap: defaultFurnitureMap,
-      };
-    });
-  },
-
-  setFurnitureDimensions: (type, dimensions) => {
-    set((state) => {
-      return {
-        ...state,
-        furnitureMap: {
-          ...state.furnitureMap,
-          [type]: {
-            ...state.furnitureMap[type],
-            dimensions,
-          },
-        },
-      };
-    });
-  },
-  setFurniturePosition: (type, position) => {
-    set((state) => {
-      return {
-        ...state,
-        furnitureMap: {
-          ...state.furnitureMap,
-          [type]: {
-            ...state.furnitureMap[type],
-            position,
-          },
-        },
-      };
-    });
-  },
-
-  customizePopUpKey: "",
-  customizeSelected: [],
-  customizeSelectedLevelKeys: [],
-  addCustomizeSelectedLevelKeys: (key, level) => {
-    const current = get().customizeSelectedLevelKeys;
-
-    if (level < 0) {
-      return;
-    }
-
-    const cappedLevel = Math.min(level, current.length);
-
-    if (cappedLevel === current.length) {
-      set({ customizeSelectedLevelKeys: [...current, key] });
-      return;
-    }
-
-    const newSelected = [...current];
-    newSelected[cappedLevel] = key;
-    set({ customizeSelectedLevelKeys: newSelected });
-  },
-  clearCustomizeSelectedLevelKeys() {
-    set({ customizeSelectedLevelKeys: [] });
-  },
-  setCustomizePopUpKey: (key) => set({ customizePopUpKey: key }),
-  clearCustomizeSelected: () => set({ customizeSelected: [] }),
-  addCustomizeSelected: (key, level) => {
-    const current = get().customizeSelected;
-    if (level < 0) {
-      return;
-    }
-
-    const cappedLevel = Math.min(level, current.length);
-
-    if (cappedLevel === current.length) {
-      set({ customizeSelected: [...current, key] });
-      return;
-    }
-
-    const newSelected = [...current];
-    newSelected[cappedLevel] = key;
-    set({ customizeSelected: newSelected });
-  },
-  commitCustomizeSelected: () => {
-    const selected = get().customizeSelected;
-    if (selected.length <= 0) {
-      return;
-    }
-
-    const popupKey = get().customizePopUpKey;
-
-    switch (popupKey) {
-      case "wallpaper": {
-        switch (selected[0]) {
-          case "wall": {
-            if (selected.length <= 1) {
-              return;
-            }
-            const texture = allWallTextures.find(
-              (texture) => texture.key === selected[1],
-            );
-            if (!texture) {
-              return;
-            }
-
-            set({
-              textures: {
-                ...get().textures,
-                wall: texture,
-              },
-            });
-            break;
-          }
-          case "ceiling": {
-            if (selected.length <= 1) {
-              return;
-            }
-            const texture = allCeilingTextures.find(
-              (texture) => texture.key === selected[1],
-            );
-            if (!texture) {
-              return;
-            }
-
-            set({
-              textures: {
-                ...get().textures,
-                ceiling: texture,
-              },
-            });
-
-            break;
-          }
-
-          case "floor": {
-            if (selected.length <= 1) {
-              return;
-            }
-            const texture = allFloorsTextures.find(
-              (texture) => texture.key === selected[1],
-            );
-            if (!texture) {
-              return;
-            }
-
-            set({
-              textures: {
-                ...get().textures,
-                floor: texture,
-              },
-            });
-          }
-        }
-        break;
+const useStore = create(
+  devtools<StoreState>((set, get) => ({
+    roomDimensions,
+    package: "default",
+    setPackage: (p: string) => set({ package: p as PackageType }),
+    textures: {
+      floor: allFloorsTextures[0],
+      wall: allWallTextures[0],
+      ceiling: allCeilingTextures[0],
+    },
+    modals: {
+      shoppingCart: false,
+      customize: false,
+    },
+    cartItems: [],
+    addToCart: (id: string) => {
+      const furniture = allFurnitures.find((furniture) => furniture.key === id);
+      if (!furniture) {
+        return;
       }
 
-      case "vanitycabinet": {
-        const size = selected[0];
-        const cabinetVariant = selected[1];
-        const finalLevelComponent = selected[2]; // countertop or insert-basin
+      set((state) => {
+        return {
+          ...state,
+          cartItems: [...state.cartItems, furniture],
+        };
+      });
+    },
+    removeFromCart: (type: FurnitureType) => {
+      set((state) => {
+        return {
+          ...state,
+          cartItems: state.cartItems.filter((item) => item.type !== type),
+        };
+      });
+    },
+    clearCart: () => set({ cartItems: [] }),
+    setModal: (modal: string, open: boolean) => {
+      set((state) => {
+        return {
+          ...state,
+          modals: {
+            ...state.modals,
+            [modal]: open,
+          },
+        };
+      });
+    },
+    furnitureMap: defaultFurnitureMap,
+    setDefaultFurnitureMap: () => {
+      set((state) => {
+        return {
+          ...state,
+          furnitureMap: defaultFurnitureMap,
+        };
+      });
+    },
 
-        const finalComponentKey = `${finalLevelComponent}-${size}mm`;
-        const vanityCabinetKey = `vanity-cabinet-${cabinetVariant}-${size}mm`;
-
-        const vanityCabinet = allFurnitures.find(
-          (furniture) => furniture.key === vanityCabinetKey,
-        );
-        const { addToCart, removeFromCart } = get();
-        if (vanityCabinet) {
-          const oldFurnitureMap = get().furnitureMap;
-          const newFurnitureMap = {
-            ...oldFurnitureMap,
-            [FurnitureType.VanityCabinet]: {
-              ...{
-                position: [0, 0, 0] as Triplet,
-                dimensions: [0, 0, 0] as Triplet,
-              },
-              ...oldFurnitureMap[FurnitureType.VanityCabinet],
-              ...vanityCabinet,
+    setFurnitureDimensions: (type, dimensions) => {
+      set((state) => {
+        return {
+          ...state,
+          furnitureMap: {
+            ...state.furnitureMap,
+            [type]: {
+              ...state.furnitureMap[type],
+              dimensions,
             },
-          };
+          },
+        };
+      });
+    },
+    setFurniturePosition: (type, position) => {
+      set((state) => {
+        return {
+          ...state,
+          furnitureMap: {
+            ...state.furnitureMap,
+            [type]: {
+              ...state.furnitureMap[type],
+              position,
+            },
+          },
+        };
+      });
+    },
 
-          // Remove default basin and counter top if hybrid
-          if (vanityCabinet.variant?.isHybrid) {
-            delete newFurnitureMap[FurnitureType.Basin];
-            delete newFurnitureMap[FurnitureType.BasinCounterTop];
-          } else if (!newFurnitureMap[FurnitureType.Basin]) {
-            newFurnitureMap[FurnitureType.Basin] = defaultBasin;
-            newFurnitureMap[FurnitureType.VanityCabinet].variant = {
-              ...newFurnitureMap[FurnitureType.VanityCabinet].variant,
-              isHybrid: false,
+    customizePopUpKey: "",
+    customizeSelected: [],
+    customizeSelectedLevelKeys: [],
+    addCustomizeSelectedLevelKeys: (key, level) => {
+      const current = get().customizeSelectedLevelKeys;
+
+      if (level < 0) {
+        return;
+      }
+
+      const cappedLevel = Math.min(level, current.length);
+
+      if (cappedLevel === current.length) {
+        set(
+          { customizeSelectedLevelKeys: [...current, key] },
+          undefined,
+          "addCustomizeSelectedLevelKeys",
+        );
+        return;
+      }
+
+      const newSelected = current.slice(0, cappedLevel);
+      newSelected[cappedLevel] = key;
+      set(
+        { customizeSelectedLevelKeys: newSelected },
+        undefined,
+        "addCustomizeSelectedLevelKeys",
+      );
+    },
+    clearCustomizeSelectedLevelKeys() {
+      set(
+        { customizeSelectedLevelKeys: [] },
+        undefined,
+        "clearCustomizeSelectedLevelKeys",
+      );
+    },
+    setCustomizePopUpKey: (key) => set({ customizePopUpKey: key }),
+    clearCustomizeSelected: () =>
+      set({ customizeSelected: [] }, undefined, "clearCustomizeSelected"),
+    addCustomizeSelected: (key, level) => {
+      const current = get().customizeSelected;
+      if (level < 0) {
+        return;
+      }
+
+      const cappedLevel = Math.min(level, current.length);
+
+      if (cappedLevel === current.length) {
+        set(
+          { customizeSelected: [...current, key] },
+          undefined,
+          "addCustomizeSelected",
+        );
+        return;
+      }
+
+      const newSelected = current.slice(0, cappedLevel);
+      newSelected[cappedLevel] = key;
+      set(
+        { customizeSelected: newSelected },
+        undefined,
+        "addCustomizeSelected",
+      );
+    },
+    commitCustomizeSelected: () => {
+      const selected = get().customizeSelected;
+      if (selected.length <= 0) {
+        return;
+      }
+
+      const popupKey = get().customizePopUpKey;
+
+      switch (popupKey) {
+        case "wallpaper": {
+          switch (selected[0]) {
+            case "wall": {
+              if (selected.length <= 1) {
+                return;
+              }
+              const texture = allWallTextures.find(
+                (texture) => texture.key === selected[1],
+              );
+              if (!texture) {
+                return;
+              }
+
+              set({
+                textures: {
+                  ...get().textures,
+                  wall: texture,
+                },
+              });
+              break;
+            }
+            case "ceiling": {
+              if (selected.length <= 1) {
+                return;
+              }
+              const texture = allCeilingTextures.find(
+                (texture) => texture.key === selected[1],
+              );
+              if (!texture) {
+                return;
+              }
+
+              set({
+                textures: {
+                  ...get().textures,
+                  ceiling: texture,
+                },
+              });
+
+              break;
+            }
+
+            case "floor": {
+              if (selected.length <= 1) {
+                return;
+              }
+              const texture = allFloorsTextures.find(
+                (texture) => texture.key === selected[1],
+              );
+              if (!texture) {
+                return;
+              }
+
+              set({
+                textures: {
+                  ...get().textures,
+                  floor: texture,
+                },
+              });
+            }
+          }
+          break;
+        }
+
+        case "vanitycabinet": {
+          const size = selected[0];
+          const cabinetVariant = selected[1];
+          const finalLevelComponent = selected[2]; // countertop or insert-basin
+
+          const finalComponentKey = `${finalLevelComponent}-${size}mm`;
+          const vanityCabinetKey = `vanity-cabinet-${cabinetVariant}-${size}mm`;
+
+          const vanityCabinet = allFurnitures.find(
+            (furniture) => furniture.key === vanityCabinetKey,
+          );
+          const { addToCart, removeFromCart } = get();
+          if (vanityCabinet) {
+            const oldFurnitureMap = get().furnitureMap;
+            const newFurnitureMap = {
+              ...oldFurnitureMap,
+              [FurnitureType.VanityCabinet]: {
+                ...{
+                  position: [0, 0, 0] as Triplet,
+                  dimensions: [0, 0, 0] as Triplet,
+                },
+                ...oldFurnitureMap[FurnitureType.VanityCabinet],
+                ...vanityCabinet,
+              },
             };
 
-            delete newFurnitureMap[FurnitureType.InsertBasin];
+            // Remove default basin and counter top if hybrid
+            if (vanityCabinet.variant?.isHybrid) {
+              delete newFurnitureMap[FurnitureType.Basin];
+              delete newFurnitureMap[FurnitureType.BasinCounterTop];
+            } else if (!newFurnitureMap[FurnitureType.Basin]) {
+              newFurnitureMap[FurnitureType.Basin] = defaultBasin;
+              newFurnitureMap[FurnitureType.VanityCabinet].variant = {
+                ...newFurnitureMap[FurnitureType.VanityCabinet].variant,
+                isHybrid: false,
+              };
+
+              delete newFurnitureMap[FurnitureType.InsertBasin];
+            }
+
+            set({
+              furnitureMap: newFurnitureMap,
+            });
+            removeFromCart(FurnitureType.VanityCabinet);
+            addToCart(vanityCabinetKey);
           }
 
-          set({
-            furnitureMap: newFurnitureMap,
-          });
-          removeFromCart(FurnitureType.VanityCabinet);
-          addToCart(vanityCabinetKey);
-        }
+          const finalComponent = allFurnitures.find(
+            (furniture) => furniture.key === finalComponentKey,
+          );
+          if (finalComponent) {
+            const oldFurnitureMap = get().furnitureMap;
 
-        const finalComponent = allFurnitures.find(
-          (furniture) => furniture.key === finalComponentKey,
-        );
-        if (finalComponent) {
-          const oldFurnitureMap = get().furnitureMap;
-
-          const newFurnitureMap = {
-            ...oldFurnitureMap,
-            [finalComponent.type]: {
-              ...{
-                position: [0, 0, 0] as Triplet,
-                dimensions: [0, 0, 0] as Triplet,
+            const newFurnitureMap = {
+              ...oldFurnitureMap,
+              [finalComponent.type]: {
+                ...{
+                  position: [0, 0, 0] as Triplet,
+                  dimensions: [0, 0, 0] as Triplet,
+                },
+                ...oldFurnitureMap[finalComponent.type],
+                ...finalComponent,
               },
-              ...oldFurnitureMap[finalComponent.type],
-              ...finalComponent,
-            },
-          };
+            };
 
-          set({
-            furnitureMap: newFurnitureMap,
-          });
-          removeFromCart(FurnitureType.BasinCounterTop);
-          removeFromCart(FurnitureType.InsertBasin);
-          addToCart(finalComponentKey);
+            set({
+              furnitureMap: newFurnitureMap,
+            });
+            removeFromCart(FurnitureType.BasinCounterTop);
+            removeFromCart(FurnitureType.InsertBasin);
+            addToCart(finalComponentKey);
+          }
+
+          break;
         }
-
-        break;
       }
-    }
-  },
-}));
+    },
+  })),
+);
 
 export default useStore;

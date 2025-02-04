@@ -24,9 +24,6 @@ const CustomizePopUp: React.FC = () => {
   const addCustomizeSelectedLevelKey = useStore(
     (state) => state.addCustomizeSelectedLevelKeys,
   );
-  const clearCustomizeSelectedLevelKeys = useStore(
-    (state) => state.clearCustomizeSelectedLevelKeys,
-  );
 
   const [step, setStep] = useState(0);
 
@@ -41,6 +38,127 @@ const CustomizePopUp: React.FC = () => {
     setStep(0);
   };
 
+  const renderLevel = (
+    levelStruct: DependentLevel | IndependentLevel,
+    level: number,
+  ) => {
+    if (isDependentLevel(levelStruct)) {
+      if (!(customizeSelectedLevelKeys[level - 2] in levelStruct.items)) {
+        return null;
+      }
+
+      return (
+        <div className="flex flex-col gap-4">
+          <Title order={3}>
+            {levelStruct.items[customizeSelectedLevelKeys[level - 2]].title}
+          </Title>
+          <div className="grid grid-cols-3 items-center justify-items-center gap-4">
+            {levelStruct.items[
+              customizeSelectedLevelKeys[level - 2]
+            ].choices.map((choice) => {
+              const choiceKey = choice.productKey ?? choice.key;
+              const selected = customizeSelected[level - 1] === choiceKey;
+
+              return (
+                <button
+                  key={choice.key}
+                  className={clsx(
+                    "flex h-fit min-h-min w-full flex-col items-center justify-between rounded-md border-4 p-2",
+                    {
+                      "border-brand": selected,
+                      "border-transparent hover:border-gray-300": !selected,
+                    },
+                  )}
+                  onClick={() => {
+                    addCustomizeSelected(choiceKey, level - 1);
+
+                    const nextKey =
+                      choice.computeNextLevelKey?.(
+                        customizeSelectedLevelKeys,
+                      ) ??
+                      choice.nextLevelKey ??
+                      choice.key;
+
+                    addCustomizeSelectedLevelKey(nextKey, level - 1);
+                    setStep(Math.max(step, level));
+                  }}
+                >
+                  {choice.image ? (
+                    <div className="relative w-full pb-[100%]">
+                      <img
+                        className="absolute top-0 left-0 h-full w-full object-cover"
+                        src={choice.image}
+                        alt={choice.title}
+                      />
+                    </div>
+                  ) : (
+                    choice.title
+                  )}
+                  {choice.title && choice.image && (
+                    <Text size="sm">{choice.title}</Text>
+                  )}
+                  {choice.subtitle && (
+                    <Text size="xs" c="dimmed">
+                      {choice.subtitle}
+                    </Text>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+
+    return levelStruct.items.map((item) => (
+      <div key={item.title} className="flex flex-col gap-4">
+        <Title order={3}>{item.title}</Title>
+        <div className="flex gap-4">
+          {item.choices.map((choice) => {
+            const selected = customizeSelected[level - 1] === choice.key;
+            return (
+              <button
+                key={choice.key}
+                className={clsx(
+                  "flex h-fit min-h-min w-full flex-col items-center justify-between rounded-md border-4 p-2",
+                  {
+                    "border-brand": selected,
+                    "border-transparent hover:border-gray-300": !selected,
+                  },
+                )}
+                onClick={() => {
+                  const choiceKey = choice.key;
+                  addCustomizeSelected(choiceKey, level - 1);
+
+                  const nextKey =
+                    choice.computeNextLevelKey?.(customizeSelectedLevelKeys) ??
+                    choice.nextLevelKey ??
+                    choice.key;
+
+                  addCustomizeSelectedLevelKey(nextKey, level - 1);
+
+                  setStep(Math.max(step, level));
+                }}
+              >
+                {choice.image ? (
+                  <div className="relative w-full pb-[100%]">
+                    <img
+                      className="absolute top-0 left-0 h-full w-full object-cover"
+                      src={choice.image}
+                      alt={choice.title}
+                    />
+                  </div>
+                ) : (
+                  choice.title
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    ));
+  };
+
   return (
     <Modal
       opened={opened}
@@ -53,187 +171,12 @@ const CustomizePopUp: React.FC = () => {
     >
       <div className="flex flex-col gap-8">
         <Text>{popUpInfo.subtitle}</Text>
-        {popUpInfo.l1.items.map((l1) => (
-          <div key={l1.title} className="flex flex-col gap-4">
-            <Title order={3}>{l1.title}</Title>
-            <div className="grid grid-cols-3 gap-4">
-              {l1.choices.map((choice) => {
-                const selected = customizeSelected[0] === choice.key;
-                return (
-                  <button
-                    key={choice.key}
-                    className={clsx(
-                      "flex h-fit min-h-min w-full flex-col items-center justify-between rounded-md border-4 p-2",
-                      {
-                        "border-brand": selected,
-                        "border-transparent hover:border-gray-300": !selected,
-                      },
-                    )}
-                    onClick={() => {
-                      clearCustomizeSelected();
-                      addCustomizeSelected(choice.key, 0);
+        {renderLevel(popUpInfo.l1, 1)}
+        {step >= 1 && popUpInfo.l2 && renderLevel(popUpInfo.l2, 2)}
+        {step >= 2 && popUpInfo.l3 && renderLevel(popUpInfo.l3, 3)}
+        {step >= 3 && popUpInfo.l4 && renderLevel(popUpInfo.l4, 4)}
+        {step >= 4 && popUpInfo.l5 && renderLevel(popUpInfo.l5, 5)}
 
-                      clearCustomizeSelectedLevelKeys();
-                      addCustomizeSelectedLevelKey(choice.key, 0);
-
-                      setStep(1);
-                    }}
-                  >
-                    {choice.image ? (
-                      <div className="relative w-full pb-[100%]">
-                        <img
-                          className="absolute left-0 top-0 h-full w-full object-cover"
-                          src={choice.image}
-                          alt={choice.title}
-                        />
-                      </div>
-                    ) : (
-                      choice.title
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-        {step >= 1 &&
-          customizeSelected.length > 0 &&
-          customizeSelected[0] in popUpInfo.l2.items && (
-            <div className="flex flex-col gap-4">
-              <Title order={3}>
-                {popUpInfo.l2.items[customizeSelected[0]].title}
-              </Title>
-              <div className="grid grid-cols-3 items-center justify-items-center gap-4">
-                {popUpInfo.l2.items[customizeSelectedLevelKeys[0]].choices.map(
-                  (choice) => {
-                    const selected = customizeSelected[1] === choice.productKey;
-                    const currentRecord =
-                      popUpInfo.l2.items[customizeSelectedLevelKeys[0]];
-                    return (
-                      <button
-                        key={choice.key}
-                        className={clsx(
-                          "flex h-fit min-h-min w-full flex-col items-center justify-between rounded-md border-4 p-2",
-                          {
-                            "border-brand": selected,
-                            "border-transparent hover:border-gray-300":
-                              !selected,
-                          },
-                        )}
-                        onClick={() => {
-                          addCustomizeSelected(choice.productKey, 1);
-
-                          if (choice.nextLevelKey) {
-                            addCustomizeSelectedLevelKey(
-                              choice.nextLevelKey,
-                              1,
-                            );
-                          } else if (currentRecord.nextLevelKey) {
-                            addCustomizeSelectedLevelKey(
-                              currentRecord.nextLevelKey,
-                              1,
-                            );
-                          }
-                          setStep(Math.max(2, step));
-                        }}
-                      >
-                        {choice.image ? (
-                          <div className="relative w-full pb-[100%]">
-                            <img
-                              className="absolute left-0 top-0 h-full w-full object-cover"
-                              src={choice.image}
-                              alt={choice.title}
-                            />
-                          </div>
-                        ) : (
-                          choice.title
-                        )}
-                        {choice.title && <Text size="sm">{choice.title}</Text>}
-                        {choice.subtitle && (
-                          <Text size="xs" c="dimmed">
-                            {choice.subtitle}
-                          </Text>
-                        )}
-                      </button>
-                    );
-                  },
-                )}
-              </div>
-            </div>
-          )}
-        {step >= 2 &&
-          popUpInfo.l3 &&
-          customizeSelectedLevelKeys[1] in popUpInfo.l3.items && (
-            <div className="flex flex-col gap-4">
-              <Title order={3}>
-                {popUpInfo.l3.items[customizeSelectedLevelKeys[1]].title}
-              </Title>
-              <div className="grid grid-cols-3 items-center justify-items-center gap-4">
-                {popUpInfo.l3.items[customizeSelectedLevelKeys[1]].choices.map(
-                  (choice) => {
-                    const selected = customizeSelected[2] === choice.productKey;
-                    return (
-                      <button
-                        key={choice.key}
-                        className={clsx(
-                          "flex h-fit min-h-min w-full flex-col items-center justify-between rounded-md border-4 p-2",
-                          {
-                            "border-brand": selected,
-                            "border-transparent hover:border-gray-300":
-                              !selected,
-                          },
-                        )}
-                        onClick={() => {
-                          addCustomizeSelected(choice.productKey, 2);
-                          setStep(Math.max(3, step));
-                        }}
-                      >
-                        {choice.image ? (
-                          <div className="relative w-full pb-[100%]">
-                            <img
-                              className="absolute left-0 top-0 h-full w-full object-cover"
-                              src={choice.image}
-                              alt={choice.title}
-                            />
-                          </div>
-                        ) : (
-                          choice.title
-                        )}
-                        {choice.title && <Text size="sm">{choice.title}</Text>}
-                        {choice.subtitle && (
-                          <Text size="xs" c="dimmed">
-                            {choice.subtitle}
-                          </Text>
-                        )}
-                      </button>
-                    );
-                  },
-                )}
-              </div>
-              {customizeSelected.length >= 1 &&
-                (customizeSelected[1].includes("hybrid") ? (
-                  <div className="flex flex-col gap-2">
-                    <Title order={3}>Tap</Title>
-                    <Text size="sm">
-                      Our enhanced package reuses the BTO default tap,
-                      thoughtfully integrated into a stylish cabinet set. This
-                      approach not only enhances your bathroom's aesthetics but
-                      also reflects our commitment to sustainability.
-                    </Text>
-                  </div>
-                ) : (
-                  <div className="flex flex-col gap-2">
-                    <Title order={3}>Basin and Tap</Title>
-                    <Text size="sm">
-                      Our enhanced package reuses the BTO default basin and tap,
-                      thoughtfully integrated into a stylish cabinet set. This
-                      approach not only enhances your bathroom's aesthetics but
-                      also reflects our commitment to sustainability.
-                    </Text>
-                  </div>
-                ))}
-            </div>
-          )}
         {step >= popUpInfo.maxStep - 1 && (
           <Button
             onClick={() => {
@@ -256,14 +199,14 @@ const CustomizePopUp: React.FC = () => {
 };
 
 const vanityCabinetDimensionsText = {
-  "600": "W:596 x H:450 x D:455 mm",
-  "800": "W:796 x H:450 x D:455 mm",
+  "600": "W:60 x H:45 x D:46 cm",
+  "800": "W:80 x H:45 x D:46 cm",
 };
 
 const vanityCabinetHybridDimensionsText = {
-  "500": "W:500 x H:455 x D:386 mm",
-  "600": "W:600 x H:455 x D:386 mm",
-  "800": "W:800 x H:455 x D:386 mm",
+  "500": "W:50 x H:45 x D:40 cm",
+  "600": "W:60 x H:45 x D:40 cm",
+  "800": "W:80 x H:45 x D:40 cm",
 };
 
 const countertopDimensionsText = {
@@ -273,16 +216,16 @@ const countertopDimensionsText = {
 
 const insertBasinDimensionsText = {
   "500": {
-    ceramic: " W:510 x H:164 x D:395 mm",
-    glass: "W:515 x H:150 x D:400 mm",
+    ceramic: "W:51 x H:16 x D:40 cm",
+    glass: "W:51 x H:15 x D:40 cm",
   },
   "600": {
-    ceramic: "W:610 x H:164 x D:395 mm",
-    glass: "W:615 x H:150 x D:400 mm",
+    ceramic: "W:60 x H:16 x D:40 cm",
+    glass: "W:60 x H:15 x D:40 cm",
   },
   "800": {
-    ceramic: "W:810 x H:164 x D:395 mm",
-    glass: "W:815 x H:150 x D:400 mm",
+    ceramic: "W:80 x H:16 x D:40 cm",
+    glass: "W:80 x H:15 x D:40 cm",
   },
 };
 
@@ -366,23 +309,19 @@ const PopUpInfos: Record<string, PopUpInfo> = {
     subtitle:
       "Mix & Match your very own vanity cabinet set & add it into the scene.",
     buttonText: "Add Furniture",
-    maxStep: 3,
+    maxStep: 4,
     l1: {
       items: [
         {
-          title: "Sizes",
+          title: "Breadth",
           choices: [
             {
-              key: "500",
-              title: "500mm",
+              key: "breadth-40",
+              title: "40cm",
             },
             {
-              key: "600",
-              title: "600mm",
-            },
-            {
-              key: "800",
-              title: "800mm",
+              key: "breadth-46",
+              title: "46cm",
             },
           ],
         },
@@ -390,10 +329,50 @@ const PopUpInfos: Record<string, PopUpInfo> = {
     },
     l2: {
       items: {
-        "500": {
-          parent: "500",
-          nextLevelKey: "500-hybrid",
-          title: "Cabinet",
+        "breadth-40": {
+          parent: "breadth-40",
+          title: "Width",
+          choices: [
+            {
+              key: "width-50",
+              title: "50cm",
+              nextLevelKey: "breadth-40:width-50",
+            },
+            {
+              key: "width-60",
+              title: "60cm",
+              nextLevelKey: "breadth-40:width-60",
+            },
+            {
+              key: "width-80",
+              title: "80cm",
+              nextLevelKey: "breadth-40:width-80",
+            },
+          ],
+        },
+        "breadth-46": {
+          parent: "breadth-46",
+          title: "Width",
+          choices: [
+            {
+              key: "width-60",
+              title: "60cm",
+              nextLevelKey: "breadth-46:width-60",
+            },
+            {
+              key: "width-80",
+              title: "80cm",
+              nextLevelKey: "breadth-46:width-80",
+            },
+          ],
+        },
+      },
+    },
+    l3: {
+      items: {
+        "breadth-40:width-50": {
+          parent: "breadth-40:width-50",
+          title: "Color",
           choices: [
             {
               key: "vanity-cabinet-hybrid-pebble-500mm",
@@ -418,10 +397,66 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             },
           ],
         },
-        "600": {
-          parent: "600",
-          nextLevelKey: "600-normal",
-          title: "Cabinet",
+        "breadth-40:width-60": {
+          parent: "breadth-40:width-60",
+          title: "Color",
+          choices: [
+            {
+              key: "vanity-hybrid-pebble-600mm",
+              productKey: "hybrid-pebble",
+              title: "Hybrid Pebble",
+              subtitle: vanityCabinetHybridDimensionsText["600"],
+              image: "images/vanity-cabinet/hybrid-pebble-600mm.webp",
+              // nextLevelKey: "600-hybrid",
+            },
+            {
+              key: "vanity-hybrid-pine-600mm",
+              productKey: "hybrid-pine",
+              title: "Hybrid Pine",
+              subtitle: vanityCabinetHybridDimensionsText["600"],
+              image: "images/vanity-cabinet/hybrid-pine-600mm.webp",
+              // nextLevelKey: "600-hybrid",
+            },
+            {
+              key: "vanity-hybrid-walnut-600mm",
+              productKey: "hybrid-walnut",
+              title: "Hybrid Walnut",
+              subtitle: vanityCabinetHybridDimensionsText["600"],
+              image: "images/vanity-cabinet/hybrid-walnut-600mm.webp",
+              // nextLevelKey: "600-hybrid",
+            },
+          ],
+        },
+        "breadth-40:width-80": {
+          parent: "breadth-40:width-80",
+          title: "Color",
+          choices: [
+            {
+              key: "vanity-hybrid-pebble-800mm",
+              productKey: "hybrid-pebble",
+              title: "Hybrid Pebble",
+              subtitle: vanityCabinetHybridDimensionsText["800"],
+              image: "images/vanity-cabinet/hybrid-pebble-800mm.webp",
+            },
+            {
+              key: "vanity-hybrid-pine-800mm",
+              productKey: "hybrid-pine",
+              title: "Hybrid Pine",
+              subtitle: vanityCabinetHybridDimensionsText["800"],
+              image: "images/vanity-cabinet/hybrid-pine-800mm.webp",
+            },
+            {
+              key: "vanity-hybrid-walnut-800mm",
+              productKey: "hybrid-walnut",
+              title: "Hybrid Walnut",
+              subtitle: vanityCabinetHybridDimensionsText["800"],
+              image: "images/vanity-cabinet/hybrid-walnut-800mm.webp",
+            },
+          ],
+        },
+        "breadth-46:width-60": {
+          parent: "breadth-46-width-60",
+          title: "Color",
           choices: [
             {
               key: "vanity-birch-600mm",
@@ -472,36 +507,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               subtitle: vanityCabinetDimensionsText["600"],
               image: "images/vanity-cabinet/oakwood-600mm.webp",
             },
-            {
-              key: "vanity-hybrid-pebble-600mm",
-              productKey: "hybrid-pebble",
-              title: "Hybrid Pebble",
-              subtitle: vanityCabinetHybridDimensionsText["600"],
-              image: "images/vanity-cabinet/hybrid-pebble-600mm.webp",
-              nextLevelKey: "600-hybrid",
-            },
-            {
-              key: "vanity-hybrid-pine-600mm",
-              productKey: "hybrid-pine",
-              title: "Hybrid Pine",
-              subtitle: vanityCabinetHybridDimensionsText["600"],
-              image: "images/vanity-cabinet/hybrid-pine-600mm.webp",
-              nextLevelKey: "600-hybrid",
-            },
-            {
-              key: "vanity-hybrid-walnut-600mm",
-              productKey: "hybrid-walnut",
-              title: "Hybrid Walnut",
-              subtitle: vanityCabinetHybridDimensionsText["600"],
-              image: "images/vanity-cabinet/hybrid-walnut-600mm.webp",
-              nextLevelKey: "600-hybrid",
-            },
           ],
         },
-        "800": {
-          nextLevelKey: "800-normal",
-          parent: "800",
-          title: "Cabinet",
+        "breadth-46:width-80": {
+          parent: "breadth-46-width-80",
+          title: "Color",
           choices: [
             {
               key: "vanity-birch-800mm",
@@ -552,38 +562,35 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               subtitle: vanityCabinetDimensionsText["800"],
               image: "images/vanity-cabinet/oakwood-800mm.webp",
             },
-            {
-              key: "vanity-hybrid-pebble-800mm",
-              productKey: "hybrid-pebble",
-              title: "Hybrid Pebble",
-              subtitle: vanityCabinetHybridDimensionsText["800"],
-              image: "images/vanity-cabinet/hybrid-pebble-800mm.webp",
-              nextLevelKey: "800-hybrid",
-            },
-            {
-              key: "vanity-hybrid-pine-800mm",
-              productKey: "hybrid-pine",
-              title: "Hybrid Pine",
-              subtitle: vanityCabinetHybridDimensionsText["800"],
-              image: "images/vanity-cabinet/hybrid-pine-800mm.webp",
-              nextLevelKey: "800-hybrid",
-            },
-            {
-              key: "vanity-hybrid-walnut-800mm",
-              productKey: "hybrid-walnut",
-              title: "Hybrid Walnut",
-              subtitle: vanityCabinetHybridDimensionsText["800"],
-              image: "images/vanity-cabinet/hybrid-walnut-800mm.webp",
-              nextLevelKey: "800-hybrid",
-            },
           ],
         },
       },
     },
-    l3: {
+    l4: {
+      items: [
+        {
+          title: "Select Top",
+          choices: [
+            {
+              key: "insert-basin",
+              title: "Insert Basin",
+              computeNextLevelKey(keys) {
+                const segments = keys[1].split(":"); // get width
+                return `insert-basin-${segments[1]}`;
+              },
+            },
+            {
+              key: "counter-top",
+              title: "Counter Top",
+            },
+          ],
+        },
+      ],
+    },
+    l5: {
       items: {
-        "500-hybrid": {
-          parent: "500",
+        "insert-basin-width-50": {
+          parent: "insert-basin-width-50",
           title: "Insert Basin",
           choices: [
             {
@@ -609,28 +616,8 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             },
           ],
         },
-        "600-normal": {
-          parent: "600",
-          title: "Counter Top",
-          choices: [
-            {
-              key: "counter-top-black-600mm",
-              productKey: "counter-top-black",
-              title: "Black Quartz Countertop",
-              subtitle: countertopDimensionsText["600"],
-              image: "images/counter-top/countertop-black.webp",
-            },
-            {
-              key: "counter-top-white-600mm",
-              productKey: "counter-top-white",
-              title: "White Quartz Countertop",
-              subtitle: countertopDimensionsText["600"],
-              image: "images/counter-top/countertop-white.webp",
-            },
-          ],
-        },
-        "600-hybrid": {
-          parent: "600-hybrid",
+        "insert-basin-width-60": {
+          parent: "insert-basin-width-60",
           title: "Insert Basin",
           choices: [
             {
@@ -656,28 +643,8 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             },
           ],
         },
-        "800-normal": {
-          parent: "800",
-          title: "Counter Top",
-          choices: [
-            {
-              key: "counter-top-black-800mm",
-              productKey: "counter-top-black",
-              title: "Black Quartz Countertop",
-              subtitle: countertopDimensionsText["800"],
-              image: "images/counter-top/countertop-black.webp",
-            },
-            {
-              key: "counter-top-white-800mm",
-              productKey: "counter-top-white",
-              title: "White Quartz Countertop",
-              subtitle: countertopDimensionsText["800"],
-              image: "images/counter-top/countertop-white.webp",
-            },
-          ],
-        },
-        "800-hybrid": {
-          parent: "800-hybrid",
+        "insert-basin-width-80": {
+          parent: "insert-basin-width-80",
           title: "Insert Basin",
           choices: [
             {
@@ -703,6 +670,127 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             },
           ],
         },
+        // "500-hybrid": {
+        //   parent: "500",
+        //   title: "Insert Basin",
+        //   choices: [
+        //     {
+        //       key: "insert-basin-ceramic-500mm",
+        //       productKey: "insert-basin-ceramic",
+        //       title: "White Ceramic Insert Basin",
+        //       subtitle: insertBasinDimensionsText["500"].ceramic,
+        //       image: "images/insert-basin/ceramic-helios.webp",
+        //     },
+        //     {
+        //       key: "insert-basin-glass-black-500mm",
+        //       productKey: "insert-basin-glass-black",
+        //       title: "Black Glass Insert Basin",
+        //       subtitle: insertBasinDimensionsText["500"].glass,
+        //       image: "images/insert-basin/glass-black.webp",
+        //     },
+        //     {
+        //       key: "insert-basin-glass-white-500mm",
+        //       productKey: "insert-basin-glass-white",
+        //       title: "White Glass Insert Basin",
+        //       subtitle: insertBasinDimensionsText["500"].glass,
+        //       image: "images/insert-basin/glass-white.webp",
+        //     },
+        //   ],
+        // },
+        // "600-normal": {
+        //   parent: "600",
+        //   title: "Counter Top",
+        //   choices: [
+        //     {
+        //       key: "counter-top-black-600mm",
+        //       productKey: "counter-top-black",
+        //       title: "Black Quartz Countertop",
+        //       subtitle: countertopDimensionsText["600"],
+        //       image: "images/counter-top/countertop-black.webp",
+        //     },
+        //     {
+        //       key: "counter-top-white-600mm",
+        //       productKey: "counter-top-white",
+        //       title: "White Quartz Countertop",
+        //       subtitle: countertopDimensionsText["600"],
+        //       image: "images/counter-top/countertop-white.webp",
+        //     },
+        //   ],
+        // },
+        // "600-hybrid": {
+        //   parent: "600-hybrid",
+        //   title: "Insert Basin",
+        //   choices: [
+        //     {
+        //       key: "insert-basin-ceramic-600mm",
+        //       productKey: "insert-basin-ceramic",
+        //       title: "White Ceramic Insert Basin",
+        //       subtitle: insertBasinDimensionsText["600"].ceramic,
+        //       image: "images/insert-basin/ceramic-helios.webp",
+        //     },
+        //     {
+        //       key: "insert-basin-glass-black-600mm",
+        //       productKey: "insert-basin-glass-black",
+        //       title: "Black Glass Insert Basin",
+        //       subtitle: insertBasinDimensionsText["600"].glass,
+        //       image: "images/insert-basin/glass-black.webp",
+        //     },
+        //     {
+        //       key: "insert-basin-glass-white-600mm",
+        //       productKey: "insert-basin-glass-white",
+        //       title: "White Glass Insert Basin",
+        //       subtitle: insertBasinDimensionsText["600"].glass,
+        //       image: "images/insert-basin/glass-white.webp",
+        //     },
+        //   ],
+        // },
+        // "800-normal": {
+        //   parent: "800",
+        //   title: "Counter Top",
+        //   choices: [
+        //     {
+        //       key: "counter-top-black-800mm",
+        //       productKey: "counter-top-black",
+        //       title: "Black Quartz Countertop",
+        //       subtitle: countertopDimensionsText["800"],
+        //       image: "images/counter-top/countertop-black.webp",
+        //     },
+        //     {
+        //       key: "counter-top-white-800mm",
+        //       productKey: "counter-top-white",
+        //       title: "White Quartz Countertop",
+        //       subtitle: countertopDimensionsText["800"],
+        //       image: "images/counter-top/countertop-white.webp",
+        //     },
+        //   ],
+        // },
+        // "800-hybrid": {
+        //   parent: "800-hybrid",
+        //   title: "Insert Basin",
+        //   choices: [
+        //     {
+        //       key: "insert-basin-ceramic-800mm",
+        //       productKey: "insert-basin-ceramic",
+        //       title: "White Ceramic Insert Basin",
+        //       subtitle: insertBasinDimensionsText["800"].ceramic,
+        //       image: "images/insert-basin/ceramic-helios.webp",
+        //     },
+        //     {
+        //       key: "insert-basin-glass-black-800mm",
+        //       productKey: "insert-basin-glass-black",
+        //       title: "Black Glass Insert Basin",
+        //       subtitle: insertBasinDimensionsText["800"].glass,
+        //       image: "images/insert-basin/glass-black.webp",
+        //     },
+        //     {
+        //       key: "insert-basin-glass-white-800mm",
+        //       productKey: "insert-basin-glass-white",
+        //       title: "White Glass Insert Basin",
+        //       subtitle: insertBasinDimensionsText["800"].glass,
+        //       image: "images/insert-basin/glass-white.webp",
+        //     },
+        //   ],
+        // },
       },
     },
   },
@@ -725,19 +813,45 @@ type PopUpInfo = {
   };
   l2: { items: Record<string, ProductRecord> };
   l3?: { items: Record<string, ProductRecord> };
+  l4?: DependentLevel | IndependentLevel;
+  l5?: DependentLevel | IndependentLevel;
+};
+
+type DependentLevel = {
+  items: Record<string, ProductRecord>;
+};
+
+function isDependentLevel(
+  level: IndependentLevel | DependentLevel,
+): level is DependentLevel {
+  return !Array.isArray(level.items);
+}
+
+type IndependentLevel = {
+  items: {
+    title: string;
+    choices: {
+      key: string;
+      title?: string;
+      image?: string;
+      nextLevelKey?: string;
+      computeNextLevelKey?: (keys: string[]) => string;
+    }[];
+  }[];
 };
 
 type ProductRecord = {
   parent: string;
   title: string;
-  nextLevelKey?: string; // to determine the next level (record-level)
   choices: ProductChoice[];
 };
 
 type ProductChoice = {
   key: string; // for React Component
-  productKey: string; // for constructing product
+  productKey?: string; // for constructing product
+
   nextLevelKey?: string; // to determine the next level (choice-level)
+  computeNextLevelKey?: (keys: string[]) => string;
   title?: string;
   subtitle?: string;
   image?: string;

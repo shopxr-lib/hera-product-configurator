@@ -2,7 +2,6 @@ import { useGLTF } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import useStore, { FurnitureType } from "../store/useStore";
-import { WALL_THICKNESS } from "./constants";
 
 interface Props {
   path: string;
@@ -18,7 +17,6 @@ const Basin: React.FC<Props> = ({ path, ...props }) => {
   const setFurnitureDimensions = useStore(
     (state) => state.setFurnitureDimensions,
   );
-  const selectedPackage = useStore((state) => state.package);
 
   const furnitureMap = useStore((state) => state.furnitureMap);
   const self = furnitureMap[FurnitureType.Basin];
@@ -36,14 +34,7 @@ const Basin: React.FC<Props> = ({ path, ...props }) => {
 
     setFurnitureDimensions(FurnitureType.Basin, [size.x, size.y, size.z]);
 
-    const derivedPosition: [number, number, number] = [
-      -roomDimension.depth / 2 -
-        WALL_THICKNESS / 2 +
-        size.x / 2 +
-        (cabinet?.key ? 0.05 : 0.036),
-      roomDimension.height / 3 + (cabinet?.key ? 0.07 : 0),
-      roomDimension.depth / 4,
-    ];
+    const derivedPosition: [number, number, number] = [0, 0, 0];
     setFurniturePosition(FurnitureType.Basin, derivedPosition);
   }, [
     model.scene,
@@ -51,7 +42,6 @@ const Basin: React.FC<Props> = ({ path, ...props }) => {
     setFurnitureDimensions,
     setFurniturePosition,
     cabinet?.key,
-    selectedPackage, // recalculate position when package changes
   ]);
 
   return (

@@ -6,7 +6,6 @@ import useStore, {
   TextureMap,
 } from "../store/useStore";
 import { useEffect, useRef } from "react";
-import { WALL_THICKNESS } from "./constants";
 
 type Props = {
   path: string;
@@ -58,15 +57,8 @@ const VanityCabinet = ({ path, textureMap, variant, ...props }: Props) => {
     const size = new THREE.Vector3();
     box.getSize(size);
 
-    const isHybrid = variant?.isHybrid ?? false;
     let position: [number, number, number] = [0, 0, 0];
-    if (isHybrid) {
-      position = [
-        -roomDimension.depth / 2 + size.x / 2 + WALL_THICKNESS / 2 - 0.005,
-        roomDimension.height / 4,
-        roomDimension.depth / 4,
-      ];
-    } else if (basinFurniture) {
+    if (basinFurniture) {
       position = [
         basinFurniture.position[0] + 0.01,
         basinFurniture.position[1] - size.y - 0.08,

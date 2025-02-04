@@ -32,11 +32,6 @@ const BasinTap: React.FC<Props> = ({ path: basePath, ...props }) => {
       return;
     }
 
-    // If the basin is not placed yet, do not change the position of the tap for smoother transition
-    if (basinFurniture.position.every((coord) => coord === 0)) {
-      return;
-    }
-
     const box = new THREE.Box3().setFromObject(ref.current);
     const size = new THREE.Vector3();
     box.getSize(size);
