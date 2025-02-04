@@ -1,0 +1,35 @@
+@config "../tailwind.config.js";
+@import "tailwindcss";
+
+html,
+body {
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@theme {
+  --color-brand: #a4dbd9;
+  --color-brand-50: #e0f7f6;
+  --color-brand-100: #c1efed;
+  --color-brand-200: #a2e7e4;
+  --color-brand-300: #83dfdb;
+  --color-brand-400: #64d7d2;
+  --color-brand-500: #a4dbd9; /* DEFAULT */
+  --color-brand-600: #45cfc9;
+  --color-brand-700: #36b7b1;
+  --color-brand-800: #279f99;
+  --color-brand-900: #188781;
+}
