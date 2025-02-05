@@ -203,6 +203,7 @@ const CustomizePopUp: React.FC = () => {
         {step >= 5 && popUpInfo.l6 && renderLevel(popUpInfo.l6, 6)}
         {step >= 6 && popUpInfo.l7 && renderLevel(popUpInfo.l7, 7)}
         {step >= 7 && popUpInfo.l8 && renderLevel(popUpInfo.l8, 8)}
+        {step >= 8 && popUpInfo.l9 && renderLevel(popUpInfo.l9, 9)}
 
         {step >= popUpInfo.maxStep - 1 && (
           <Button
@@ -1181,6 +1182,45 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         },
       ],
     },
+    l9: {
+      items: [
+        {
+          title: "Handle",
+          choices: [
+            {
+              key: "handle-nil",
+              title: "No handle",
+              image: "images/nil-selection.webp",
+            },
+            {
+              key: "handle-chrome",
+              title: "Chrome",
+              image: "images/handle/vanity-cabinet-handle-chrome.webp",
+            },
+            {
+              key: "handle-gold",
+              title: "Gold",
+              image: "images/handle/vanity-cabinet-handle-gold.webp",
+            },
+            {
+              key: "handle-gun-metal",
+              title: "Gun Metal",
+              image: "images/handle/vanity-cabinet-handle-gun-metal.webp",
+            },
+            {
+              key: "handle-matt-black",
+              title: "Matt Black",
+              image: "images/handle/vanity-cabinet-handle-matt-black.webp",
+            },
+            {
+              key: "handle-rose-gold",
+              title: "Rose Gold",
+              image: "images/handle/vanity-cabinet-handle-rose-gold.webp",
+            },
+          ],
+        },
+      ],
+    },
   },
 };
 
@@ -1206,6 +1246,7 @@ type PopUpInfo = {
   l6?: Level;
   l7?: Level;
   l8?: Level;
+  l9?: Level;
 };
 
 type Level = IndependentLevel | DependentLevel;
