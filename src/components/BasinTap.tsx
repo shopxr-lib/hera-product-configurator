@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 
 import * as THREE from "three";
@@ -24,7 +24,7 @@ const BasinTap: React.FC<Props> = ({ path: basePath, ...props }) => {
     basinFurniture = furnitureMap[FurnitureType.InsertBasin];
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!ref.current) {
       return;
     }
@@ -39,12 +39,9 @@ const BasinTap: React.FC<Props> = ({ path: basePath, ...props }) => {
     let position: [number, number, number] = [0, 0, 0];
     if (basinFurniture.type === FurnitureType.Basin) {
       position = [
-        basinFurniture.position[0] -
-          basinFurniture.dimensions[0] / 2 +
-          size.x / 2 -
-          0.04,
-        basinFurniture.position[1] + basinFurniture.dimensions[1],
-        basinFurniture.position[2],
+        basinFurniture.position[0],
+        basinFurniture.position[1] + basinFurniture.dimensions[1] + 0.03,
+        basinFurniture.position[2] - basinFurniture.dimensions[2] / 4 - 0.03,
       ];
     } else {
       position = [

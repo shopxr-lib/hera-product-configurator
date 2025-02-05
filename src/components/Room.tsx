@@ -16,16 +16,13 @@ const Room = () => {
           case FurnitureType.Basin:
             return (
               <Suspense key={furniture.key}>
-                <Basin path={furniture.path} />
+                <Basin path={furniture.path} rotation={[0, -Math.PI / 2, 0]} />
               </Suspense>
             );
           case FurnitureType.BasinTap:
             return (
               <Suspense key={furniture.key}>
-                <BasinTap
-                  path={furniture.path}
-                  rotation={[0, Math.PI / 2, 0]}
-                />
+                <BasinTap path={furniture.path} />
               </Suspense>
             );
           case FurnitureType.BasinCounterTop:
@@ -33,7 +30,6 @@ const Room = () => {
               <Suspense key={furniture.key}>
                 <BasinCounterTop
                   path={furniture.path}
-                  rotation={[0, Math.PI / 2, 0]}
                   textureMap={furniture.textureMap}
                 />
               </Suspense>
@@ -44,7 +40,6 @@ const Room = () => {
                 <VanityCabinet
                   path={furniture.path}
                   textureMap={furniture.textureMap}
-                  rotation={[0, Math.PI / 2, 0]}
                   variant={furniture.variant}
                 />
               </Suspense>
@@ -52,10 +47,7 @@ const Room = () => {
           case FurnitureType.InsertBasin:
             return (
               <Suspense key={furniture.key}>
-                <InsertBasin
-                  path={furniture.path}
-                  rotation={[0, Math.PI / 2, 0]}
-                />
+                <InsertBasin path={furniture.path} />
               </Suspense>
             );
           default:
