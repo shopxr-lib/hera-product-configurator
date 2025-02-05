@@ -68,6 +68,9 @@ const CustomizePopUp: React.FC = () => {
               const choiceKey = choice.productKey ?? choice.key;
               const selected = customizeSelected[level - 1] === choiceKey;
 
+              const currentRecord =
+                levelStruct.items[customizeSelectedLevelKeys[level - 2]];
+
               return (
                 <button
                   key={choice.key}
@@ -81,12 +84,21 @@ const CustomizePopUp: React.FC = () => {
                   onClick={() => {
                     addCustomizeSelected(choiceKey, level - 1);
 
-                    const nextKey =
+                    let nextKey =
                       choice.computeNextLevelKey?.(
                         customizeSelectedLevelKeys,
-                      ) ??
-                      choice.nextLevelKey ??
-                      choice.key;
+                      ) ?? choice.nextLevelKey;
+
+                    if (!nextKey) {
+                      nextKey =
+                        currentRecord.computeNextLevelKey?.(
+                          customizeSelectedLevelKeys,
+                        ) ?? currentRecord.nextLevelKey;
+                    }
+
+                    if (!nextKey) {
+                      nextKey = choiceKey;
+                    }
 
                     addCustomizeSelectedLevelKey(nextKey, level - 1);
                     setStep(Math.max(step, level));
@@ -845,6 +857,8 @@ type IndependentLevel = {
 type ProductRecord = {
   parent: string;
   title: string;
+  nextLevelKey?: string; // to determine the next level (record-level)
+  computeNextLevelKey?: (keys: string[]) => string; // (prioritized) to determine the next level (record-level)
   choices: ProductChoice[];
 };
 
@@ -853,7 +867,7 @@ type ProductChoice = {
   productKey?: string; // for constructing product
 
   nextLevelKey?: string; // to determine the next level (choice-level)
-  computeNextLevelKey?: (keys: string[]) => string;
+  computeNextLevelKey?: (keys: string[]) => string; // (prioritized) to determine the next level (choice-level)
   title?: string;
   subtitle?: string;
   image?: string;
