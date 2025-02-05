@@ -59,6 +59,57 @@ type ModalType = "shoppingCart" | "customize";
 
 type PackageType = "default" | "enhanced" | "premium" | "luxury";
 
+export type VanityCabinetChoice =
+  | {
+      type: "width";
+      value: number;
+    }
+  | {
+      type: "breadth";
+      value: number;
+    }
+  | {
+      type: "vanity-color";
+      value: string;
+    }
+  | {
+      type: "top";
+      value: "insert-basin" | "counter-top";
+    }
+  | {
+      type: "insert-basin";
+      value: string;
+    }
+  | { type: "counter-top"; value: string }
+  | {
+      type: "basin";
+      value: string;
+    }
+  | {
+      type: "overflow-ring";
+      value: string;
+    }
+  | {
+      type: "popup";
+      value: string;
+    }
+  | {
+      type: "tap";
+      value: string;
+    }
+  | {
+      type: "handle";
+      value: string;
+    }
+  | {
+      type: "stand";
+      value: "wall-mount" | "with-stand";
+    };
+
+export type ChoiceType = VanityCabinetChoice["type"];
+export type Choice = VanityCabinetChoice;
+export type ChoiceMap = Record<ChoiceType, Choice>;
+
 type FurnitureMap = Partial<Record<FurnitureType, Omit<Furniture, "price">>>;
 
 type StoreState = {
@@ -92,6 +143,9 @@ type StoreState = {
   clearCustomizeSelected: () => void;
   addCustomizeSelected: (key: string, level: number) => void;
   commitCustomizeSelected: () => void;
+
+  choiceMap: ChoiceMap;
+  addChoice: (choice: Choice) => void;
 };
 
 export const allFloorsTextures: TextureObject[] = [
@@ -969,6 +1023,23 @@ const useStore = create(
           break;
         }
       }
+    },
+
+    choiceMap: {} as ChoiceMap,
+    addChoice: (choice) => {
+      set(
+        (state) => {
+          return {
+            ...state,
+            choiceMap: {
+              ...state.choiceMap,
+              [choice.type]: choice,
+            },
+          };
+        },
+        undefined,
+        "addChoice",
+      );
     },
   })),
 );

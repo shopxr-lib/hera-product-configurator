@@ -3,7 +3,7 @@ import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import Canvas from "./components/Canvas";
 import Customize from "./components/Customize";
-import CustomizePopUp from "./components/CustomizePopup";
+import CustomizePopUp from "./components/CustomizePopup2";
 
 import { MantineProvider } from "@mantine/core";
 import ShoppingCartFloating from "./components/ShoppingCartFloating";

@@ -1,0 +1,968 @@
+import React from "react";
+import clsx from "clsx";
+import useStore, { ChoiceMap, ChoiceType } from "../store/useStore";
+import { Modal, Text, Title } from "@mantine/core";
+
+const CustomizePopUp: React.FC = () => {
+  const customizePopUpKey = useStore((state) => state.customizePopUpKey);
+  const opened = useStore((state) => state.modals.customize);
+  const setModal = useStore((state) => state.setModal);
+
+  const choiceMap = useStore((state) => state.choiceMap);
+  const addChoice = useStore((state) => state.addChoice);
+
+  const popUpInfo = PopUpInfos[customizePopUpKey];
+  if (!popUpInfo) {
+    return null;
+  }
+
+  const handleClose = () => {
+    setModal("customize", false);
+  };
+
+  const renderChoice = (section: Section, choice: SectionChoice) => {
+    const selected = choiceMap[section.type]?.value === choice.value;
+
+    return (
+      <button
+        key={choice.value}
+        className={clsx(
+          "flex h-fit min-h-min w-full flex-col items-center justify-between rounded-md border-4 p-2",
+          {
+            "border-brand": selected,
+            "border-transparent hover:border-gray-300": !selected,
+          },
+        )}
+        onClick={() => {
+          addChoice({
+            type: section.type,
+            value: choice.value,
+          });
+        }}
+      >
+        {choice.image ? (
+          <div className="relative w-full pb-[100%]">
+            <img
+              className="absolute top-0 left-0 h-full w-full object-cover"
+              src={choice.image}
+              alt={choice.title}
+            />
+          </div>
+        ) : (
+          choice.title
+        )}
+        {choice.title && choice.image && <Text size="sm">{choice.title}</Text>}
+        {choice.subtitle && (
+          <Text size="xs" c="dimmed">
+            {choice.subtitle}
+          </Text>
+        )}
+      </button>
+    );
+  };
+
+  return (
+    <Modal
+      opened={opened}
+      onClose={handleClose}
+      title={<p className="text-3xl font-bold">{popUpInfo.title}</p>}
+      centered
+      classNames={{
+        content: "sm:left-4 sm:absolute sm:w-[600px]",
+      }}
+    >
+      <div className="flex flex-col gap-8">
+        <Text>{popUpInfo.subtitle}</Text>
+        {popUpInfo.sections
+          ?.filter((section) => !section.hideIf?.(choiceMap))
+          ?.map((section) => {
+            return (
+              <div className="flex flex-col gap-4" key={section.title}>
+                <Title order={4}>{section.title}</Title>
+                <div className="grid grid-cols-3 items-center justify-center gap-4">
+                  {section.choices
+                    ?.filter((choice) => !choice.hideIf?.(choiceMap))
+                    ?.map((choice) => renderChoice(section, choice))}
+
+                  {section.groupChoices
+                    ?.filter((group) => !group.hideIf?.(choiceMap))
+                    ?.map((group) => {
+                      return group.choices.map((choice) =>
+                        renderChoice(section, choice),
+                      );
+                    })}
+                </div>
+              </div>
+            );
+          })}
+      </div>
+    </Modal>
+  );
+};
+
+const vanityCabinetDimensionsText = {
+  "600": "W:60 x H:45 x D:46 cm",
+  "800": "W:80 x H:45 x D:46 cm",
+};
+
+const vanityCabinetHybridDimensionsText = {
+  "500": "W:50 x H:45 x D:40 cm",
+  "600": "W:60 x H:45 x D:40 cm",
+  "800": "W:80 x H:45 x D:40 cm",
+};
+
+const countertopDimensionsText = {
+  "600": "W:60 x H:1 x D:46 cm",
+  "800": "W:80 x H:1 x D:46 cm",
+};
+
+const insertBasinDimensionsText = {
+  "500": {
+    ceramic: "W:51 x H:16 x D:40 cm",
+    glass: "W:51 x H:15 x D:40 cm",
+  },
+  "600": {
+    ceramic: "W:60 x H:16 x D:40 cm",
+    glass: "W:60 x H:15 x D:40 cm",
+  },
+  "800": {
+    ceramic: "W:80 x H:16 x D:40 cm",
+    glass: "W:80 x H:15 x D:40 cm",
+  },
+};
+
+const basinDimensionsText = {
+  rectangular: "W:46 x H:13 x D:32 cm",
+  round: "W:36 x H:12 x D:36 cm",
+};
+
+const PopUpInfos: Record<string, PopUpInfo> = {
+  vanitycabinet: {
+    title: "Vanity Cabinet Set",
+    subtitle:
+      "Mix & Match your very own vanity cabinet set & add it into the scene.",
+    buttonText: "Add Furniture",
+    sections: [
+      {
+        title: "Breadth",
+        type: "breadth",
+        choices: [
+          {
+            title: "40cm",
+            value: 40,
+          },
+          {
+            title: "46cm",
+            value: 46,
+          },
+        ],
+      },
+      {
+        title: "Width",
+        type: "width",
+        hideIf: (choiceMap) => choiceMap.breadth === undefined,
+        choices: [
+          {
+            title: "50cm",
+            value: 50,
+            hideIf: (choiceMap) => choiceMap.breadth?.value === 46,
+          },
+          {
+            title: "60cm",
+            value: 60,
+          },
+          {
+            title: "80cm",
+            value: 80,
+          },
+        ],
+      },
+      {
+        title: "Colors",
+        type: "vanity-color",
+        hideIf: (choiceMap) =>
+          choiceMap.breadth === undefined || choiceMap.width === undefined,
+        groupChoices: [
+          {
+            name: "Breadth 40cm, Width 50cm",
+            hideIf: (choiceMap) =>
+              !(choiceMap.width?.value == 50 && choiceMap.breadth?.value == 40),
+            choices: [
+              {
+                value: "vanity-cabinet-hybrid-pebble-500mm",
+                title: "Hybrid Pebble",
+                subtitle: vanityCabinetHybridDimensionsText["500"],
+                image: "images/vanity-cabinet/hybrid-pebble-500mm.webp",
+              },
+              {
+                value: "vanity-cabinet-hybrid-pine-500mm",
+                title: "Hybrid Pine",
+                subtitle: vanityCabinetHybridDimensionsText["500"],
+                image: "images/vanity-cabinet/hybrid-pine-500mm.webp",
+              },
+              {
+                value: "vanity-cabinet-hybrid-walnut-500mm",
+                title: "Hybrid Walnut",
+                subtitle: vanityCabinetHybridDimensionsText["500"],
+                image: "images/vanity-cabinet/hybrid-walnut-500mm.webp",
+              },
+            ],
+          },
+          {
+            name: "Breadth 40cm, Width 60cm",
+            hideIf: (choiceMap) =>
+              !(choiceMap.width?.value == 60 && choiceMap.breadth?.value == 40),
+            choices: [
+              {
+                value: "vanity-hybrid-pebble-600mm",
+                title: "Hybrid Pebble",
+                subtitle: vanityCabinetHybridDimensionsText["600"],
+                image: "images/vanity-cabinet/hybrid-pebble-600mm.webp",
+              },
+              {
+                value: "vanity-hybrid-pine-600mm",
+                title: "Hybrid Pine",
+                subtitle: vanityCabinetHybridDimensionsText["600"],
+                image: "images/vanity-cabinet/hybrid-pine-600mm.webp",
+              },
+              {
+                value: "vanity-hybrid-walnut-600mm",
+                title: "Hybrid Walnut",
+                subtitle: vanityCabinetHybridDimensionsText["600"],
+                image: "images/vanity-cabinet/hybrid-walnut-600mm.webp",
+              },
+            ],
+          },
+          {
+            name: "Breadth 40cm, Width 80cm",
+            hideIf: (choiceMap) =>
+              !(choiceMap.width?.value == 80 && choiceMap.breadth?.value == 40),
+            choices: [
+              {
+                value: "vanity-hybrid-pebble-800mm",
+                title: "Hybrid Pebble",
+                subtitle: vanityCabinetHybridDimensionsText["800"],
+                image: "images/vanity-cabinet/hybrid-pebble-800mm.webp",
+              },
+              {
+                value: "vanity-hybrid-pine-800mm",
+                title: "Hybrid Pine",
+                subtitle: vanityCabinetHybridDimensionsText["800"],
+                image: "images/vanity-cabinet/hybrid-pine-800mm.webp",
+              },
+              {
+                value: "vanity-hybrid-walnut-800mm",
+                title: "Hybrid Walnut",
+                subtitle: vanityCabinetHybridDimensionsText["800"],
+                image: "images/vanity-cabinet/hybrid-walnut-800mm.webp",
+              },
+            ],
+          },
+          {
+            name: "Breadth 46cm, Width 60cm",
+            hideIf: (choiceMap) =>
+              !(choiceMap.width?.value == 60 && choiceMap.breadth?.value == 46),
+            choices: [
+              {
+                value: "vanity-birch-600mm",
+                title: "Birch",
+                subtitle: vanityCabinetDimensionsText["600"],
+                image: "images/vanity-cabinet/birch-600mm.webp",
+              },
+              {
+                value: "vanity-blanco-600mm",
+                title: "Blanco",
+                subtitle: vanityCabinetDimensionsText["600"],
+                image: "images/vanity-cabinet/blanco-600mm.webp",
+              },
+              {
+                value: "vanity-brownstone-600mm",
+                title: "Brownstone",
+                subtitle: vanityCabinetDimensionsText["600"],
+                image: "images/vanity-cabinet/brownstone-600mm.webp",
+              },
+              {
+                value: "vanity-charcoal-ash-600mm",
+                title: "Charcoal Ash",
+                subtitle: vanityCabinetDimensionsText["600"],
+                image: "images/vanity-cabinet/charcoal-ash-600mm.webp",
+              },
+              {
+                value: "vanity-graphite-600mm",
+                title: "Graphite",
+                subtitle: vanityCabinetDimensionsText["600"],
+                image: "images/vanity-cabinet/graphite-600mm.webp",
+              },
+              {
+                value: "vanity-matt-black-600mm",
+                title: "Matt Black",
+                subtitle: vanityCabinetDimensionsText["600"],
+                image: "images/vanity-cabinet/matt-black-600mm.webp",
+              },
+              {
+                value: "vanity-oakwood-600mm",
+                title: "Oakwood",
+                subtitle: vanityCabinetDimensionsText["600"],
+                image: "images/vanity-cabinet/oakwood-600mm.webp",
+              },
+            ],
+          },
+          {
+            name: "Breadth 46cm, Width 80cm",
+            hideIf: (choiceMap) =>
+              !(choiceMap.width?.value == 80 && choiceMap.breadth?.value == 46),
+            choices: [
+              {
+                value: "vanity-birch-800mm",
+                title: "Birch",
+                subtitle: vanityCabinetDimensionsText["800"],
+                image: "images/vanity-cabinet/birch-800mm.webp",
+              },
+              {
+                value: "vanity-blanco-800mm",
+                title: "Blanco",
+                subtitle: vanityCabinetDimensionsText["800"],
+                image: "images/vanity-cabinet/blanco-800mm.webp",
+              },
+              {
+                value: "vanity-brownstone-800mm",
+                title: "Brownstone",
+                subtitle: vanityCabinetDimensionsText["800"],
+                image: "images/vanity-cabinet/brownstone-800mm.webp",
+              },
+              {
+                value: "vanity-charcoal-ash-800mm",
+                title: "Charcoal",
+                subtitle: vanityCabinetDimensionsText["800"],
+                image: "images/vanity-cabinet/charcoal-ash-800mm.webp",
+              },
+              {
+                value: "vanity-graphite-800mm",
+                title: "Graphite",
+                subtitle: vanityCabinetDimensionsText["800"],
+                image: "images/vanity-cabinet/graphite-800mm.webp",
+              },
+              {
+                value: "vanity-matt-black-800mm",
+                title: "Matt Black",
+                subtitle: vanityCabinetDimensionsText["800"],
+                image: "images/vanity-cabinet/matt-black-800mm.webp",
+              },
+              {
+                value: "vanity-oakwood-800mm",
+                title: "Oakwood",
+                subtitle: vanityCabinetDimensionsText["800"],
+                image: "images/vanity-cabinet/oakwood-800mm.webp",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: "Top",
+        type: "top",
+        hideIf: (choiceMap) =>
+          choiceMap.breadth === undefined || choiceMap.width === undefined,
+        choices: [
+          {
+            title: "Insert Basin",
+            value: "insert-basin",
+          },
+          {
+            hideIf: (choiceMap) => choiceMap.breadth?.value === 40,
+            title: "Countertop",
+            value: "counter-top",
+          },
+        ],
+      },
+      {
+        title: "Insert Basin",
+        type: "insert-basin",
+        hideIf: (choiceMap) => choiceMap.top?.value !== "insert-basin",
+        groupChoices: [
+          {
+            name: "Insert Basin - 50 cm",
+            hideIf: (choiceMap) => choiceMap.width?.value !== 50,
+            choices: [
+              {
+                value: "insert-basin-ceramic-500mm",
+                title: "White Ceramic",
+                subtitle: insertBasinDimensionsText["500"].ceramic,
+                image: "images/insert-basin/ceramic-helios.webp",
+              },
+              {
+                value: "insert-basin-glass-black-500mm",
+                title: "Black Glass",
+                subtitle: insertBasinDimensionsText["500"].glass,
+                image: "images/insert-basin/glass-black.webp",
+              },
+              {
+                value: "insert-basin-glass-white-500mm",
+                title: "White Glass",
+                subtitle: insertBasinDimensionsText["500"].glass,
+                image: "images/insert-basin/glass-white.webp",
+              },
+            ],
+          },
+          {
+            name: "Insert Basin - 60 cm",
+            hideIf: (choiceMap) => choiceMap.width?.value !== 60,
+            choices: [
+              {
+                value: "insert-basin-ceramic-600mm",
+                title: "White Ceramic",
+                subtitle: insertBasinDimensionsText["600"].ceramic,
+                image: "images/insert-basin/ceramic-helios.webp",
+              },
+              {
+                value: "insert-basin-glass-black-600mm",
+                title: "Black Glass",
+                subtitle: insertBasinDimensionsText["600"].glass,
+                image: "images/insert-basin/glass-black.webp",
+              },
+              {
+                value: "insert-basin-glass-white-600mm",
+                title: "White Glass",
+                subtitle: insertBasinDimensionsText["600"].glass,
+                image: "images/insert-basin/glass-white.webp",
+              },
+            ],
+          },
+          {
+            name: "Insert Basin - 80 cm",
+            hideIf: (choiceMap) => choiceMap.width?.value !== 80,
+            choices: [
+              {
+                value: "insert-basin-ceramic-800mm",
+                title: "White Ceramic",
+                subtitle: insertBasinDimensionsText["800"].ceramic,
+                image: "images/insert-basin/ceramic-helios.webp",
+              },
+              {
+                value: "insert-basin-glass-black-800mm",
+                title: "Black Glass",
+                subtitle: insertBasinDimensionsText["800"].glass,
+                image: "images/insert-basin/glass-black.webp",
+              },
+              {
+                value: "insert-basin-glass-white-800mm",
+                title: "White Glass",
+                subtitle: insertBasinDimensionsText["800"].glass,
+                image: "images/insert-basin/glass-white.webp",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: "Counter Top",
+        type: "counter-top",
+        hideIf: (choiceMap) => choiceMap.top?.value !== "counter-top",
+        groupChoices: [
+          {
+            name: "Counter Top - 60 cm",
+            hideIf: (choiceMap) => choiceMap.width?.value !== 60,
+            choices: [
+              {
+                value: "counter-top-birch-600mm",
+                title: "Birch",
+                subtitle: countertopDimensionsText["600"],
+                image: "images/counter-top/countertop-birch.webp",
+              },
+              {
+                value: "counter-top-brownstone-600mm",
+                title: "Brownstone",
+                subtitle: countertopDimensionsText["600"],
+                image: "images/counter-top/countertop-brownstone.webp",
+              },
+              {
+                value: "counter-top-charcoal-ash-600mm",
+                title: "Charcoal Ash",
+                subtitle: countertopDimensionsText["600"],
+                image: "images/counter-top/countertop-charcoal-ash.webp",
+              },
+              {
+                value: "counter-top-oakwood-600mm",
+                title: "Oakwood",
+                subtitle: countertopDimensionsText["600"],
+                image: "images/counter-top/countertop-oakwood.webp",
+              },
+              {
+                value: "counter-top-black-600mm",
+                title: "Black Quartz",
+                subtitle: countertopDimensionsText["600"],
+                image: "images/counter-top/countertop-black.webp",
+              },
+              {
+                value: "counter-top-white-600mm",
+                title: "White Quartz",
+                subtitle: countertopDimensionsText["600"],
+                image: "images/counter-top/countertop-white.webp",
+              },
+            ],
+          },
+          {
+            name: "Counter Top - 80 cm",
+            hideIf: (choiceMap) => choiceMap.width?.value !== 80,
+            choices: [
+              {
+                value: "counter-top-birch-800mm",
+                title: "Birch",
+                subtitle: countertopDimensionsText["800"],
+                image: "images/counter-top/countertop-birch.webp",
+              },
+              {
+                value: "counter-top-brownstone-800mm",
+                title: "Brownstone",
+                subtitle: countertopDimensionsText["800"],
+                image: "images/counter-top/countertop-brownstone.webp",
+              },
+              {
+                value: "counter-top-charcoal-ash-800mm",
+                title: "Charcoal Ash",
+                subtitle: countertopDimensionsText["800"],
+                image: "images/counter-top/countertop-charcoal-ash.webp",
+              },
+              {
+                value: "counter-top-oakwood-800mm",
+                title: "Oakwood",
+                subtitle: countertopDimensionsText["800"],
+                image: "images/counter-top/countertop-oakwood.webp",
+              },
+              {
+                value: "counter-top-black-800mm",
+                title: "Black Quartz",
+                subtitle: countertopDimensionsText["800"],
+                image: "images/counter-top/countertop-black.webp",
+              },
+              {
+                value: "counter-top-white-800mm",
+                title: "White Quartz",
+                subtitle: countertopDimensionsText["800"],
+                image: "images/counter-top/countertop-white.webp",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: "Overflow Ring",
+        type: "overflow-ring",
+        hideIf: (choiceMap) => !(choiceMap.top?.value === "insert-basin"),
+        choices: [
+          {
+            value: "basin-overlow-ring-chrome",
+            title: "Chrome",
+            image: "images/basin-overflow-ring/basin-overflow-ring-chrome.webp",
+          },
+          {
+            value: "basin-overlow-ring-gold",
+            title: "Gold",
+            image: "images/basin-overflow-ring/basin-overflow-ring-gold.webp",
+          },
+          {
+            value: "basin-overflow-ring-gun-metal",
+            title: "Gun Metal",
+            image:
+              "images/basin-overflow-ring/basin-overflow-ring-gun-metal.webp",
+          },
+          {
+            value: "basin-overflow-ring-matt-black",
+            title: "Matt Black",
+            image:
+              "images/basin-overflow-ring/basin-overflow-ring-matt-black.webp",
+          },
+          {
+            value: "basin-overflow-ring-rose-gold",
+            title: "Rose Gold",
+            image:
+              "images/basin-overflow-ring/basin-overflow-ring-rose-gold.webp",
+          },
+        ],
+      },
+      {
+        title: "Pop-Up",
+        type: "popup",
+        hideIf: (choiceMap) => !(choiceMap.top?.value === "insert-basin"),
+        choices: [
+          {
+            value: "popup-gold",
+            title: "Gold",
+            image: "images/popup/popup-gold.webp",
+          },
+          {
+            value: "popup-gun-metal",
+            title: "Gun Metal",
+            image: "images/popup/popup-gun-metal.webp",
+          },
+          {
+            value: "popup-matt-black",
+            title: "Matt Black",
+            image: "images/popup/popup-matt-black.webp",
+          },
+          {
+            value: "popup-rose-gold",
+            title: "Rose Gold",
+            image: "images/popup/popup-rose-gold.webp",
+          },
+        ],
+      },
+      {
+        title: "Basin",
+        type: "basin",
+        hideIf: (choiceMap) => choiceMap.top?.value !== "counter-top",
+        choices: [
+          {
+            value: "basin-rectangular-ceramic-blush",
+            title: "Blush Rectangular Ceramic",
+            subtitle: basinDimensionsText.rectangular,
+            image: "images/basin/hera-rectangular-ceramic-basin-blush.webp",
+          },
+          {
+            value: "basin-rectangular-ceramic-eclair",
+            title: "Eclair Rectangular Ceramic",
+            subtitle: basinDimensionsText.rectangular,
+            image: "images/basin/hera-rectangular-ceramic-basin-eclair.webp",
+          },
+          {
+            value: "basin-rectangular-ceramic-matt-black",
+            title: "Matt Black Rectangular Ceramic",
+            subtitle: basinDimensionsText.rectangular,
+            image:
+              "images/basin/hera-rectangular-ceramic-basin-matt-black.webp",
+          },
+          {
+            value: "basin-rectangular-ceramic-matt-white",
+            title: "Matt White Rectangular Ceramic",
+            subtitle: basinDimensionsText.rectangular,
+            image:
+              "images/basin/hera-rectangular-ceramic-basin-matt-white.webp",
+          },
+          {
+            value: "basin-rectangular-ceramic-mocha",
+            title: "Mocha Rectangular Ceramic",
+            subtitle: basinDimensionsText.rectangular,
+            image: "images/basin/hera-rectangular-ceramic-basin-mocha.webp",
+          },
+          {
+            value: "basin-rectangular-ceramic-moss",
+            title: "Moss Rectangular Ceramic",
+            subtitle: basinDimensionsText.rectangular,
+            image: "images/basin/hera-rectangular-ceramic-basin-moss.webp",
+          },
+          {
+            value: "basin-rectangular-ceramic-slate-grey",
+            title: "Slate Grey Rectangular Ceramic",
+            subtitle: basinDimensionsText.rectangular,
+            image:
+              "images/basin/hera-rectangular-ceramic-basin-slate-grey.webp",
+          },
+          {
+            value: "basin-rectangular-ceramic-storm",
+            title: "Storm Rectangular Ceramic",
+            subtitle: basinDimensionsText.rectangular,
+            image: "images/basin/hera-rectangular-ceramic-basin-storm.webp",
+          },
+          {
+            value: "basin-rectangular-ceramic-teal",
+            title: "Teal Rectangular Ceramic",
+            subtitle: basinDimensionsText.rectangular,
+            image: "images/basin/hera-rectangular-ceramic-basin-teal.webp",
+          },
+          {
+            value: "basin-round-ceramic-blush",
+            title: "Blush Round Ceramic",
+            subtitle: basinDimensionsText.round,
+            image: "images/basin/hera-round-ceramic-basin-blush.webp",
+          },
+          {
+            value: "basin-round-matt-black",
+            title: "Matt Black Round Ceramic",
+            subtitle: basinDimensionsText.round,
+            image: "images/basin/hera-round-ceramic-basin-matt-black.webp",
+          },
+          {
+            value: "basin-round-matt-white",
+            title: "Matt White Round Ceramic",
+            subtitle: basinDimensionsText.round,
+            image: "images/basin/hera-round-ceramic-basin-matt-white.webp",
+          },
+          {
+            value: "basin-round-mint",
+            title: "Mint Round Ceramic",
+            subtitle: basinDimensionsText.round,
+            image: "images/basin/hera-round-ceramic-basin-mint.webp",
+          },
+          {
+            value: "basin-round-mocha",
+            title: "Mocha Round Ceramic",
+            subtitle: basinDimensionsText.round,
+            image: "images/basin/hera-round-ceramic-basin-mocha.webp",
+          },
+          {
+            value: "basin-round-slate-grey",
+            title: "Slate Grey Round Ceramic",
+            subtitle: basinDimensionsText.round,
+            image: "images/basin/hera-round-ceramic-basin-slate-grey.webp",
+          },
+          {
+            value: "basin-round-stone-grey",
+            title: "Stone Grey Round Ceramic",
+            subtitle: basinDimensionsText.round,
+            image: "images/basin/hera-round-ceramic-basin-stone-grey.webp",
+          },
+          {
+            value: "basin-round-tangerine",
+            title: "Tangerine Round Ceramic",
+            subtitle: basinDimensionsText.round,
+            image: "images/basin/hera-round-ceramic-basin-tangerine.webp",
+          },
+        ],
+      },
+      {
+        title: "Tap",
+        type: "tap",
+        hideIf: (choiceMap) =>
+          choiceMap.basin === undefined &&
+          choiceMap["insert-basin"] === undefined,
+        choices: [
+          {
+            title: "Chrome 8101",
+            value: "tap-chrome-8101",
+            image: "images/tap/tap-chrome-8101-small.webp",
+          },
+          {
+            title: "Chrome 8102",
+            value: "tap-chrome-8102",
+            image: "images/tap/tap-chrome-8102-large.webp",
+          },
+          {
+            title: "Chrome 8201",
+            value: "tap-chrome-8201",
+            image: "images/tap/tap-chrome-8201-small.webp",
+          },
+          {
+            title: "Chrome 8202",
+            value: "tap-chrome-8202",
+            image: "images/tap/tap-chrome-8202-large.webp",
+          },
+          {
+            title: "Chrome 8301",
+            value: "tap-chrome-8301",
+            image: "images/tap/tap-chrome-8301-small.webp",
+          },
+          {
+            title: "Chrome 8302",
+            value: "tap-chrome-8302",
+            image: "images/tap/tap-chrome-8302-large.webp",
+          },
+          {
+            title: "Gun Metal 8101",
+            value: "tap-gun-metal-8101",
+            image: "images/tap/tap-gun-metal-8101-small.webp",
+          },
+          {
+            title: "Gun Metal 8102",
+            value: "tap-gun-metal-8102",
+            image: "images/tap/tap-gun-metal-8102-large.webp",
+          },
+          {
+            title: "Gun Metal 8201",
+            value: "tap-gun-metal-8201",
+            image: "images/tap/tap-gun-metal-8201-small.webp",
+          },
+          {
+            title: "Gun Metal 8202",
+            value: "tap-gun-metal-8202",
+            image: "images/tap/tap-gun-metal-8202-large.webp",
+          },
+          {
+            title: "Gun Metal 8301",
+            value: "tap-gun-metal-8301",
+            image: "images/tap/tap-gun-metal-8301-small.webp",
+          },
+          {
+            title: "Gun Metal 8302",
+            value: "tap-gun-metal-8302",
+            image: "images/tap/tap-gun-metal-8302-large.webp",
+          },
+          {
+            title: "Matt Black 8101",
+            value: "tap-matt-black-8101",
+            image: "images/tap/tap-matt-black-8101-small.webp",
+          },
+          {
+            title: "Matt Black 8102",
+            value: "tap-matt-black-8102",
+            image: "images/tap/tap-matt-black-8102-large.webp",
+          },
+          {
+            title: "Matt Black 8201",
+            value: "tap-matt-black-8201",
+            image: "images/tap/tap-matt-black-8201-small.webp",
+          },
+          {
+            title: "Matt Black 8202",
+            value: "tap-matt-black-8202",
+            image: "images/tap/tap-matt-black-8202-large.webp",
+          },
+          {
+            title: "Matt Black 8301",
+            value: "tap-matt-black-8301",
+            image: "images/tap/tap-matt-black-8301-small.webp",
+          },
+          {
+            title: "Matt Black 8302",
+            value: "tap-matt-black-8302",
+            image: "images/tap/tap-matt-black-8302-large.webp",
+          },
+          {
+            title: "Matt Gold 8101",
+            value: "tap-matt-gold-8101",
+            image: "images/tap/tap-matt-gold-8101-small.webp",
+          },
+          {
+            title: "Matt Gold 8102",
+            value: "tap-matt-gold-8102",
+            image: "images/tap/tap-matt-gold-8102-large.webp",
+          },
+          {
+            title: "Matt Gold 8201",
+            value: "tap-matt-gold-8201",
+            image: "images/tap/tap-matt-gold-8201-small.webp",
+          },
+          {
+            title: "Matt Gold 8202",
+            value: "tap-matt-gold-8202",
+            image: "images/tap/tap-matt-gold-8202-large.webp",
+          },
+          {
+            title: "Matt Gold 8301",
+            value: "tap-matt-gold-8301",
+            image: "images/tap/tap-matt-gold-8301-small.webp",
+          },
+          {
+            title: "Matt Gold 8302",
+            value: "tap-matt-gold-8302",
+            image: "images/tap/tap-matt-gold-8302-large.webp",
+          },
+          {
+            title: "Rose Gold 8101",
+            value: "tap-rose-gold-8101",
+            image: "images/tap/tap-rose-gold-8101-small.webp",
+          },
+          {
+            title: "Rose Gold 8102",
+            value: "tap-rose-gold-8102",
+            image: "images/tap/tap-rose-gold-8102-large.webp",
+          },
+          {
+            title: "Rose Gold 8201",
+            value: "tap-rose-gold-8201",
+            image: "images/tap/tap-rose-gold-8201-small.webp",
+          },
+          {
+            title: "Rose Gold 8202",
+            value: "tap-rose-gold-8202",
+            image: "images/tap/tap-rose-gold-8202-large.webp",
+          },
+          {
+            title: "Rose Gold 8301",
+            value: "tap-rose-gold-8301",
+            image: "images/tap/tap-rose-gold-8301-small.webp",
+          },
+          {
+            title: "Rose Gold 8302",
+            value: "tap-rose-gold-8302",
+            image: "images/tap/tap-rose-gold-8302-large.webp",
+          },
+        ],
+      },
+      {
+        title: "Handle",
+        hideIf: (choiceMap) => choiceMap.tap === undefined,
+        type: "handle",
+        choices: [
+          {
+            value: "handle-nil",
+            title: "No handle",
+            image: "images/nil-selection.webp",
+          },
+          {
+            value: "handle-chrome",
+            title: "Chrome",
+            image: "images/handle/vanity-cabinet-handle-chrome.webp",
+          },
+          {
+            value: "handle-gold",
+            title: "Gold",
+            image: "images/handle/vanity-cabinet-handle-gold.webp",
+          },
+          {
+            value: "handle-gun-metal",
+            title: "Gun Metal",
+            image: "images/handle/vanity-cabinet-handle-gun-metal.webp",
+          },
+          {
+            value: "handle-matt-black",
+            title: "Matt Black",
+            image: "images/handle/vanity-cabinet-handle-matt-black.webp",
+          },
+          {
+            value: "handle-rose-gold",
+            title: "Rose Gold",
+            image: "images/handle/vanity-cabinet-handle-rose-gold.webp",
+          },
+        ],
+      },
+      {
+        title: "Stand",
+        type: "stand",
+        hideIf: (choiceMap) => choiceMap.handle === undefined,
+        choices: [
+          {
+            title: "With Stand",
+            value: "with-stand",
+          },
+          {
+            title: "Wall Mounted",
+            value: "wall-mounted",
+          },
+        ],
+      },
+    ],
+  },
+};
+
+type PopUpInfo = {
+  title: string;
+  subtitle: string;
+  buttonText: string;
+  sections: Section[];
+};
+
+type Section = {
+  title: string;
+  subtitle?: string;
+  type: ChoiceType;
+  choices?: SectionChoice[];
+  groupChoices?: ChoiceGroup[];
+  hideIf?: (choiceMap: ChoiceMap) => boolean;
+};
+
+type ChoiceGroup = {
+  name?: string;
+  hideIf?: (choiceMap: ChoiceMap) => boolean;
+  choices: SectionChoice[];
+};
+
+type SectionChoice = {
+  //eslint-disable-next-line
+  value: any;
+  title: string;
+  subtitle?: string;
+  image?: string;
+  hideIf?: (choiceMap: ChoiceMap) => boolean;
+};
+
+export default CustomizePopUp;
