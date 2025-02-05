@@ -55,11 +55,7 @@ const CustomizePopUp: React.FC = () => {
           </Title>
           <div
             className={cn(
-              "items-center justify-items-center gap-4",
-              levelStruct.items[customizeSelectedLevelKeys[level - 2]].choices
-                .length <= 2
-                ? "flex"
-                : "grid grid-cols-3",
+              "grid grid-cols-3 items-center justify-items-center gap-4",
             )}
           >
             {levelStruct.items[
@@ -134,7 +130,7 @@ const CustomizePopUp: React.FC = () => {
     return levelStruct.items.map((item) => (
       <div key={item.title} className="flex flex-col gap-4">
         <Title order={3}>{item.title}</Title>
-        <div className="flex gap-4">
+        <div className="grid grid-cols-3 items-center gap-4">
           {item.choices.map((choice) => {
             if (choice.hideIf?.(customizeSelectedLevelKeys)) {
               return null;
@@ -176,6 +172,9 @@ const CustomizePopUp: React.FC = () => {
                 ) : (
                   choice.title
                 )}
+                {choice.title && choice.image && (
+                  <Text size="sm">{choice.title}</Text>
+                )}
               </button>
             );
           })}
@@ -203,6 +202,7 @@ const CustomizePopUp: React.FC = () => {
         {step >= 4 && popUpInfo.l5 && renderLevel(popUpInfo.l5, 5)}
         {step >= 5 && popUpInfo.l6 && renderLevel(popUpInfo.l6, 6)}
         {step >= 6 && popUpInfo.l7 && renderLevel(popUpInfo.l7, 7)}
+        {step >= 7 && popUpInfo.l8 && renderLevel(popUpInfo.l8, 8)}
 
         {step >= popUpInfo.maxStep - 1 && (
           <Button
@@ -1022,6 +1022,165 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         },
       },
     },
+    l8: {
+      items: [
+        {
+          title: "Select Tap",
+          choices: [
+            {
+              title: "Chrome 8101",
+              key: "tap-chrome-8101",
+              image: "images/tap/tap-chrome-8101-small.webp",
+            },
+            {
+              title: "Chrome 8102",
+              key: "tap-chrome-8102",
+              image: "images/tap/tap-chrome-8102-large.webp",
+            },
+            {
+              title: "Chrome 8201",
+              key: "tap-chrome-8201",
+              image: "images/tap/tap-chrome-8201-small.webp",
+            },
+            {
+              title: "Chrome 8202",
+              key: "tap-chrome-8202",
+              image: "images/tap/tap-chrome-8202-large.webp",
+            },
+            {
+              title: "Chrome 8301",
+              key: "tap-chrome-8301",
+              image: "images/tap/tap-chrome-8301-small.webp",
+            },
+            {
+              title: "Chrome 8302",
+              key: "tap-chrome-8302",
+              image: "images/tap/tap-chrome-8302-large.webp",
+            },
+            {
+              title: "Gun Metal 8101",
+              key: "tap-gun-metal-8101",
+              image: "images/tap/tap-gun-metal-8101-small.webp",
+            },
+            {
+              title: "Gun Metal 8102",
+              key: "tap-gun-metal-8102",
+              image: "images/tap/tap-gun-metal-8102-large.webp",
+            },
+            {
+              title: "Gun Metal 8201",
+              key: "tap-gun-metal-8201",
+              image: "images/tap/tap-gun-metal-8201-small.webp",
+            },
+            {
+              title: "Gun Metal 8202",
+              key: "tap-gun-metal-8202",
+              image: "images/tap/tap-gun-metal-8202-large.webp",
+            },
+            {
+              title: "Gun Metal 8301",
+              key: "tap-gun-metal-8301",
+              image: "images/tap/tap-gun-metal-8301-small.webp",
+            },
+            {
+              title: "Gun Metal 8302",
+              key: "tap-gun-metal-8302",
+              image: "images/tap/tap-gun-metal-8302-large.webp",
+            },
+            {
+              title: "Matt Black 8101",
+              key: "tap-matt-black-8101",
+              image: "images/tap/tap-matt-black-8101-small.webp",
+            },
+            {
+              title: "Matt Black 8102",
+              key: "tap-matt-black-8102",
+              image: "images/tap/tap-matt-black-8102-large.webp",
+            },
+            {
+              title: "Matt Black 8201",
+              key: "tap-matt-black-8201",
+              image: "images/tap/tap-matt-black-8201-small.webp",
+            },
+            {
+              title: "Matt Black 8202",
+              key: "tap-matt-black-8202",
+              image: "images/tap/tap-matt-black-8202-large.webp",
+            },
+            {
+              title: "Matt Black 8301",
+              key: "tap-matt-black-8301",
+              image: "images/tap/tap-matt-black-8301-small.webp",
+            },
+            {
+              title: "Matt Black 8302",
+              key: "tap-matt-black-8302",
+              image: "images/tap/tap-matt-black-8302-large.webp",
+            },
+            {
+              title: "Matt Gold 8101",
+              key: "tap-matt-gold-8101",
+              image: "images/tap/tap-matt-gold-8101-small.webp",
+            },
+            {
+              title: "Matt Gold 8102",
+              key: "tap-matt-gold-8102",
+              image: "images/tap/tap-matt-gold-8102-large.webp",
+            },
+            {
+              title: "Matt Gold 8201",
+              key: "tap-matt-gold-8201",
+              image: "images/tap/tap-matt-gold-8201-small.webp",
+            },
+            {
+              title: "Matt Gold 8202",
+              key: "tap-matt-gold-8202",
+              image: "images/tap/tap-matt-gold-8202-large.webp",
+            },
+            {
+              title: "Matt Gold 8301",
+              key: "tap-matt-gold-8301",
+              image: "images/tap/tap-matt-gold-8301-small.webp",
+            },
+            {
+              title: "Matt Gold 8302",
+              key: "tap-matt-gold-8302",
+              image: "images/tap/tap-matt-gold-8302-large.webp",
+            },
+            {
+              title: "Rose Gold 8101",
+              key: "tap-rose-gold-8101",
+              image: "images/tap/tap-rose-gold-8101-small.webp",
+            },
+            {
+              title: "Rose Gold 8102",
+              key: "tap-rose-gold-8102",
+              image: "images/tap/tap-rose-gold-8102-large.webp",
+            },
+            {
+              title: "Rose Gold 8201",
+              key: "tap-rose-gold-8201",
+              image: "images/tap/tap-rose-gold-8201-small.webp",
+            },
+            {
+              title: "Rose Gold 8202",
+              key: "tap-rose-gold-8202",
+              image: "images/tap/tap-rose-gold-8202-large.webp",
+            },
+            {
+              title: "Rose Gold 8301",
+              key: "tap-rose-gold-8301",
+              image: "images/tap/tap-rose-gold-8301-small.webp",
+            },
+            {
+              title: "Rose Gold 8302",
+              key: "tap-rose-gold-8302",
+              image: "images/tap/tap-rose-gold-8302-large.webp",
+            },
+          ],
+        },
+      ],
+    },
   },
 };
 
@@ -1046,6 +1205,7 @@ type PopUpInfo = {
   l5?: Level;
   l6?: Level;
   l7?: Level;
+  l8?: Level;
 };
 
 type Level = IndependentLevel | DependentLevel;
