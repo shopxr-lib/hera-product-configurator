@@ -204,6 +204,7 @@ const CustomizePopUp: React.FC = () => {
         {step >= 6 && popUpInfo.l7 && renderLevel(popUpInfo.l7, 7)}
         {step >= 7 && popUpInfo.l8 && renderLevel(popUpInfo.l8, 8)}
         {step >= 8 && popUpInfo.l9 && renderLevel(popUpInfo.l9, 9)}
+        {step >= 9 && popUpInfo.l10 && renderLevel(popUpInfo.l10, 10)}
 
         {step >= popUpInfo.maxStep - 1 && (
           <Button
@@ -1221,6 +1222,23 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         },
       ],
     },
+    l10: {
+      items: [
+        {
+          title: "Stand",
+          choices: [
+            {
+              title: "With Stand",
+              key: "stand",
+            },
+            {
+              title: "Wall Mounted",
+              key: "no-stand",
+            },
+          ],
+        },
+      ],
+    },
   },
 };
 
@@ -1247,6 +1265,7 @@ type PopUpInfo = {
   l7?: Level;
   l8?: Level;
   l9?: Level;
+  l10?: Level;
 };
 
 type Level = IndependentLevel | DependentLevel;
