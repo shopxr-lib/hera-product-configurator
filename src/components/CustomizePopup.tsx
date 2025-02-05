@@ -202,6 +202,7 @@ const CustomizePopUp: React.FC = () => {
         {step >= 3 && popUpInfo.l4 && renderLevel(popUpInfo.l4, 4)}
         {step >= 4 && popUpInfo.l5 && renderLevel(popUpInfo.l5, 5)}
         {step >= 5 && popUpInfo.l6 && renderLevel(popUpInfo.l6, 6)}
+        {step >= 6 && popUpInfo.l7 && renderLevel(popUpInfo.l7, 7)}
 
         {step >= popUpInfo.maxStep - 1 && (
           <Button
@@ -819,6 +820,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         "basin-overflow-ring": {
           title: "Basin Overflow Ring",
           parent: "basin-overflow-ring",
+          nextLevelKey: "popup",
           choices: [
             {
               key: "basin-overlow-ring-chrome",
@@ -986,6 +988,40 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         },
       },
     },
+    l7: {
+      items: {
+        popup: {
+          title: "Pop-Up",
+          parent: "popup",
+          choices: [
+            {
+              key: "popup-gold",
+              productKey: "popup-gold",
+              title: "Gold",
+              image: "images/popup/popup-gold.webp",
+            },
+            {
+              key: "popup-gun-metal",
+              productKey: "popup-gun-metal",
+              title: "Gun Metal",
+              image: "images/popup/popup-gun-metal.webp",
+            },
+            {
+              key: "popup-matt-black",
+              productKey: "popup-matt-black",
+              title: "Matt Black",
+              image: "images/popup/popup-matt-black.webp",
+            },
+            {
+              key: "popup-rose-gold",
+              productKey: "popup-rose-gold",
+              title: "Rose Gold",
+              image: "images/popup/popup-rose-gold.webp",
+            },
+          ],
+        },
+      },
+    },
   },
 };
 
@@ -1009,6 +1045,7 @@ type PopUpInfo = {
   l4?: Level;
   l5?: Level;
   l6?: Level;
+  l7?: Level;
 };
 
 type Level = IndependentLevel | DependentLevel;
