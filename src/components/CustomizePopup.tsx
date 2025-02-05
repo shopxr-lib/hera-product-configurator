@@ -201,6 +201,7 @@ const CustomizePopUp: React.FC = () => {
         {step >= 2 && popUpInfo.l3 && renderLevel(popUpInfo.l3, 3)}
         {step >= 3 && popUpInfo.l4 && renderLevel(popUpInfo.l4, 4)}
         {step >= 4 && popUpInfo.l5 && renderLevel(popUpInfo.l5, 5)}
+        {step >= 5 && popUpInfo.l6 && renderLevel(popUpInfo.l6, 6)}
 
         {step >= popUpInfo.maxStep - 1 && (
           <Button
@@ -252,6 +253,11 @@ const insertBasinDimensionsText = {
     ceramic: "W:80 x H:16 x D:40 cm",
     glass: "W:80 x H:15 x D:40 cm",
   },
+};
+
+const basinDimensionsText = {
+  rectangular: "W:46 x H:13 x D:32 cm",
+  round: "W:36 x H:12 x D:36 cm",
 };
 
 const PopUpInfos: Record<string, PopUpInfo> = {
@@ -334,7 +340,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
     subtitle:
       "Mix & Match your very own vanity cabinet set & add it into the scene.",
     buttonText: "Add Furniture",
-    maxStep: 4,
+    maxStep: 10,
     l1: {
       items: [
         {
@@ -627,6 +633,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         "insert-basin-width-50": {
           parent: "insert-basin-width-50",
           title: "Insert Basin",
+          nextLevelKey: "basin-overflow-ring",
           choices: [
             {
               key: "insert-basin-ceramic-500mm",
@@ -654,6 +661,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         "insert-basin-width-60": {
           parent: "insert-basin-width-60",
           title: "Insert Basin",
+          nextLevelKey: "basin-overflow-ring",
           choices: [
             {
               key: "insert-basin-ceramic-600mm",
@@ -681,6 +689,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         "insert-basin-width-80": {
           parent: "insert-basin-width-80",
           title: "Insert Basin",
+          nextLevelKey: "basin-overflow-ring",
           choices: [
             {
               key: "insert-basin-ceramic-800mm",
@@ -708,6 +717,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         "counter-top-width-60": {
           title: "Counter Top",
           parent: "counter-top-width-60",
+          nextLevelKey: "basin",
           choices: [
             {
               key: "counter-top-birch-600mm",
@@ -756,6 +766,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         "counter-top-width-80": {
           parent: "800",
           title: "Counter Top",
+          nextLevelKey: "basin",
           choices: [
             {
               key: "counter-top-birch-800mm",
@@ -798,6 +809,178 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               title: "White Quartz",
               subtitle: countertopDimensionsText["800"],
               image: "images/counter-top/countertop-white.webp",
+            },
+          ],
+        },
+      },
+    },
+    l6: {
+      items: {
+        "basin-overflow-ring": {
+          title: "Basin Overflow Ring",
+          parent: "basin-overflow-ring",
+          choices: [
+            {
+              key: "basin-overlow-ring-chrome",
+              productKey: "basin-overflow-ring-chrome",
+              title: "Chrome",
+              image:
+                "images/basin-overflow-ring/basin-overflow-ring-chrome.webp",
+            },
+            {
+              key: "basin-overlow-ring-gold",
+              productKey: "basin-overflow-ring-gold",
+              title: "Gold",
+              image: "images/basin-overflow-ring/basin-overflow-ring-gold.webp",
+            },
+            {
+              key: "basin-overflow-ring-gun-metal",
+              productKey: "basin-overflow-ring-gun-metal",
+              title: "Gun Metal",
+              image:
+                "images/basin-overflow-ring/basin-overflow-ring-gun-metal.webp",
+            },
+            {
+              key: "basin-overflow-ring-matt-black",
+              productKey: "basin-overflow-ring-matt-black",
+              title: "Matt Black",
+              image:
+                "images/basin-overflow-ring/basin-overflow-ring-matt-black.webp",
+            },
+            {
+              key: "basin-overflow-ring-rose-gold",
+              productKey: "basin-overflow-ring-rose-gold",
+              title: "Rose Gold",
+              image:
+                "images/basin-overflow-ring/basin-overflow-ring-rose-gold.webp",
+            },
+          ],
+        },
+        basin: {
+          parent: "basin",
+          title: "Basin Options",
+          choices: [
+            {
+              key: "basin-rectangular-ceramic-blush",
+              productKey: "basin-rectangular-ceramic-blush",
+              title: "Blush Rectangular Ceramic",
+              subtitle: basinDimensionsText.rectangular,
+              image: "images/basin/hera-rectangular-ceramic-basin-blush.webp",
+            },
+            {
+              key: "basin-rectangular-ceramic-eclair",
+              productKey: "basin-rectangular-ceramic-eclair",
+              title: "Eclair Rectangular Ceramic",
+              subtitle: basinDimensionsText.rectangular,
+              image: "images/basin/hera-rectangular-ceramic-basin-eclair.webp",
+            },
+            {
+              key: "basin-rectangular-ceramic-matt-black",
+              productKey: "basin-rectangular-ceramic-matt-black",
+              title: "Matt Black Rectangular Ceramic",
+              subtitle: basinDimensionsText.rectangular,
+              image:
+                "images/basin/hera-rectangular-ceramic-basin-matt-black.webp",
+            },
+            {
+              key: "basin-rectangular-ceramic-matt-white",
+              productKey: "basin-rectangular-ceramic-matt-white",
+              title: "Matt White Rectangular Ceramic",
+              subtitle: basinDimensionsText.rectangular,
+              image:
+                "images/basin/hera-rectangular-ceramic-basin-matt-white.webp",
+            },
+            {
+              key: "basin-rectangular-ceramic-mocha",
+              productKey: "basin-rectangular-ceramic-mocha",
+              title: "Mocha Rectangular Ceramic",
+              subtitle: basinDimensionsText.rectangular,
+              image: "images/basin/hera-rectangular-ceramic-basin-mocha.webp",
+            },
+            {
+              key: "basin-rectangular-ceramic-moss",
+              productKey: "basin-rectangular-ceramic-moss",
+              title: "Moss Rectangular Ceramic",
+              subtitle: basinDimensionsText.rectangular,
+              image: "images/basin/hera-rectangular-ceramic-basin-moss.webp",
+            },
+            {
+              key: "basin-rectangular-ceramic-slate-grey",
+              productKey: "basin-rectangular-ceramic-slate-grey",
+              title: "Slate Grey Rectangular Ceramic",
+              subtitle: basinDimensionsText.rectangular,
+              image:
+                "images/basin/hera-rectangular-ceramic-basin-slate-grey.webp",
+            },
+            {
+              key: "basin-rectangular-ceramic-storm",
+              productKey: "basin-rectangular-ceramic-storm",
+              title: "Storm Rectangular Ceramic",
+              subtitle: basinDimensionsText.rectangular,
+              image: "images/basin/hera-rectangular-ceramic-basin-storm.webp",
+            },
+            {
+              key: "basin-rectangular-ceramic-teal",
+              productKey: "basin-rectangular-ceramic-teal",
+              title: "Teal Rectangular Ceramic",
+              subtitle: basinDimensionsText.rectangular,
+              image: "images/basin/hera-rectangular-ceramic-basin-teal.webp",
+            },
+            {
+              key: "basin-round-ceramic-blush",
+              productKey: "basin-round-ceramic-blush",
+              title: "Blush Round Ceramic",
+              subtitle: basinDimensionsText.round,
+              image: "images/basin/hera-round-ceramic-basin-blush.webp",
+            },
+            {
+              key: "basin-round-matt-black",
+              productKey: "basin-round-matt-black",
+              title: "Matt Black Round Ceramic",
+              subtitle: basinDimensionsText.round,
+              image: "images/basin/hera-round-ceramic-basin-matt-black.webp",
+            },
+            {
+              key: "basin-round-matt-white",
+              productKey: "basin-round-matt-white",
+              title: "Matt White Round Ceramic",
+              subtitle: basinDimensionsText.round,
+              image: "images/basin/hera-round-ceramic-basin-matt-white.webp",
+            },
+            {
+              key: "basin-round-mint",
+              productKey: "basin-round-mint",
+              title: "Mint Round Ceramic",
+              subtitle: basinDimensionsText.round,
+              image: "images/basin/hera-round-ceramic-basin-mint.webp",
+            },
+            {
+              key: "basin-round-mocha",
+              productKey: "basin-round-mocha",
+              title: "Mocha Round Ceramic",
+              subtitle: basinDimensionsText.round,
+              image: "images/basin/hera-round-ceramic-basin-mocha.webp",
+            },
+            {
+              key: "basin-round-slate-grey",
+              productKey: "basin-round-slate-grey",
+              title: "Slate Grey Round Ceramic",
+              subtitle: basinDimensionsText.round,
+              image: "images/basin/hera-round-ceramic-basin-slate-grey.webp",
+            },
+            {
+              key: "basin-round-stone-grey",
+              productKey: "basin-round-stone-grey",
+              title: "Stone Grey Round Ceramic",
+              subtitle: basinDimensionsText.round,
+              image: "images/basin/hera-round-ceramic-basin-stone-grey.webp",
+            },
+            {
+              key: "basin-round-tangerine",
+              productKey: "basin-round-tangerine",
+              title: "Tangerine Round Ceramic",
+              subtitle: basinDimensionsText.round,
+              image: "images/basin/hera-round-ceramic-basin-tangerine.webp",
             },
           ],
         },
