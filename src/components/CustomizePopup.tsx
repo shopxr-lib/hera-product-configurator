@@ -3,6 +3,7 @@ import clsx from "clsx";
 import useStore from "../store/useStore";
 import { Button, Modal, Text, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { cn } from "../lib/utils";
 
 const CustomizePopUp: React.FC = () => {
   const customizePopUpKey = useStore((state) => state.customizePopUpKey);
@@ -52,7 +53,15 @@ const CustomizePopUp: React.FC = () => {
           <Title order={3}>
             {levelStruct.items[customizeSelectedLevelKeys[level - 2]].title}
           </Title>
-          <div className="grid grid-cols-3 items-center justify-items-center gap-4">
+          <div
+            className={cn(
+              "items-center justify-items-center gap-4",
+              levelStruct.items[customizeSelectedLevelKeys[level - 2]].choices
+                .length <= 2
+                ? "flex"
+                : "grid grid-cols-3",
+            )}
+          >
             {levelStruct.items[
               customizeSelectedLevelKeys[level - 2]
             ].choices.map((choice) => {
@@ -115,6 +124,10 @@ const CustomizePopUp: React.FC = () => {
         <Title order={3}>{item.title}</Title>
         <div className="flex gap-4">
           {item.choices.map((choice) => {
+            if (choice.hideIf?.(customizeSelectedLevelKeys)) {
+              return null;
+            }
+
             const selected = customizeSelected[level - 1] === choice.key;
             return (
               <button
@@ -210,8 +223,8 @@ const vanityCabinetHybridDimensionsText = {
 };
 
 const countertopDimensionsText = {
-  "600": "W:615 x H:10 x D:465 mm",
-  "800": "W:815 x H:10 x D:465 mm",
+  "600": "W:60 x H:1 x D:46 cm",
+  "800": "W:80 x H:1 x D:46 cm",
 };
 
 const insertBasinDimensionsText = {
@@ -582,6 +595,16 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             {
               key: "counter-top",
               title: "Counter Top",
+              computeNextLevelKey(keys) {
+                const segments = keys[1].split(":"); // get width
+                return `counter-top-${segments[1]}`;
+              },
+              hideIf(keys) {
+                if (keys.length < 1) {
+                  return true;
+                }
+                return !keys[0].includes("breadth-46");
+              },
             },
           ],
         },
@@ -596,21 +619,21 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             {
               key: "insert-basin-ceramic-500mm",
               productKey: "insert-basin-ceramic",
-              title: "White Ceramic Insert Basin",
+              title: "White Ceramic",
               subtitle: insertBasinDimensionsText["500"].ceramic,
               image: "images/insert-basin/ceramic-helios.webp",
             },
             {
               key: "insert-basin-glass-black-500mm",
               productKey: "insert-basin-glass-black",
-              title: "Black Glass Insert Basin",
+              title: "Black Glass",
               subtitle: insertBasinDimensionsText["500"].glass,
               image: "images/insert-basin/glass-black.webp",
             },
             {
               key: "insert-basin-glass-white-500mm",
               productKey: "insert-basin-glass-white",
-              title: "White Glass Insert Basin",
+              title: "White Glass",
               subtitle: insertBasinDimensionsText["500"].glass,
               image: "images/insert-basin/glass-white.webp",
             },
@@ -623,21 +646,21 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             {
               key: "insert-basin-ceramic-600mm",
               productKey: "insert-basin-ceramic",
-              title: "White Ceramic Insert Basin",
+              title: "White Ceramic",
               subtitle: insertBasinDimensionsText["600"].ceramic,
               image: "images/insert-basin/ceramic-helios.webp",
             },
             {
               key: "insert-basin-glass-black-600mm",
               productKey: "insert-basin-glass-black",
-              title: "Black Glass Insert Basin",
+              title: "Black Glass",
               subtitle: insertBasinDimensionsText["600"].glass,
               image: "images/insert-basin/glass-black.webp",
             },
             {
               key: "insert-basin-glass-white-600mm",
               productKey: "insert-basin-glass-white",
-              title: "White Glass Insert Basin",
+              title: "White Glass",
               subtitle: insertBasinDimensionsText["600"].glass,
               image: "images/insert-basin/glass-white.webp",
             },
@@ -650,147 +673,122 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             {
               key: "insert-basin-ceramic-800mm",
               productKey: "insert-basin-ceramic",
-              title: "White Ceramic Insert Basin",
+              title: "White Ceramic",
               subtitle: insertBasinDimensionsText["800"].ceramic,
               image: "images/insert-basin/ceramic-helios.webp",
             },
             {
               key: "insert-basin-glass-black-800mm",
               productKey: "insert-basin-glass-black",
-              title: "Black Glass Insert Basin",
+              title: "Black Glass",
               subtitle: insertBasinDimensionsText["800"].glass,
               image: "images/insert-basin/glass-black.webp",
             },
             {
               key: "insert-basin-glass-white-800mm",
               productKey: "insert-basin-glass-white",
-              title: "White Glass Insert Basin",
+              title: "White Glass",
               subtitle: insertBasinDimensionsText["800"].glass,
               image: "images/insert-basin/glass-white.webp",
             },
           ],
         },
-        // "500-hybrid": {
-        //   parent: "500",
-        //   title: "Insert Basin",
-        //   choices: [
-        //     {
-        //       key: "insert-basin-ceramic-500mm",
-        //       productKey: "insert-basin-ceramic",
-        //       title: "White Ceramic Insert Basin",
-        //       subtitle: insertBasinDimensionsText["500"].ceramic,
-        //       image: "images/insert-basin/ceramic-helios.webp",
-        //     },
-        //     {
-        //       key: "insert-basin-glass-black-500mm",
-        //       productKey: "insert-basin-glass-black",
-        //       title: "Black Glass Insert Basin",
-        //       subtitle: insertBasinDimensionsText["500"].glass,
-        //       image: "images/insert-basin/glass-black.webp",
-        //     },
-        //     {
-        //       key: "insert-basin-glass-white-500mm",
-        //       productKey: "insert-basin-glass-white",
-        //       title: "White Glass Insert Basin",
-        //       subtitle: insertBasinDimensionsText["500"].glass,
-        //       image: "images/insert-basin/glass-white.webp",
-        //     },
-        //   ],
-        // },
-        // "600-normal": {
-        //   parent: "600",
-        //   title: "Counter Top",
-        //   choices: [
-        //     {
-        //       key: "counter-top-black-600mm",
-        //       productKey: "counter-top-black",
-        //       title: "Black Quartz Countertop",
-        //       subtitle: countertopDimensionsText["600"],
-        //       image: "images/counter-top/countertop-black.webp",
-        //     },
-        //     {
-        //       key: "counter-top-white-600mm",
-        //       productKey: "counter-top-white",
-        //       title: "White Quartz Countertop",
-        //       subtitle: countertopDimensionsText["600"],
-        //       image: "images/counter-top/countertop-white.webp",
-        //     },
-        //   ],
-        // },
-        // "600-hybrid": {
-        //   parent: "600-hybrid",
-        //   title: "Insert Basin",
-        //   choices: [
-        //     {
-        //       key: "insert-basin-ceramic-600mm",
-        //       productKey: "insert-basin-ceramic",
-        //       title: "White Ceramic Insert Basin",
-        //       subtitle: insertBasinDimensionsText["600"].ceramic,
-        //       image: "images/insert-basin/ceramic-helios.webp",
-        //     },
-        //     {
-        //       key: "insert-basin-glass-black-600mm",
-        //       productKey: "insert-basin-glass-black",
-        //       title: "Black Glass Insert Basin",
-        //       subtitle: insertBasinDimensionsText["600"].glass,
-        //       image: "images/insert-basin/glass-black.webp",
-        //     },
-        //     {
-        //       key: "insert-basin-glass-white-600mm",
-        //       productKey: "insert-basin-glass-white",
-        //       title: "White Glass Insert Basin",
-        //       subtitle: insertBasinDimensionsText["600"].glass,
-        //       image: "images/insert-basin/glass-white.webp",
-        //     },
-        //   ],
-        // },
-        // "800-normal": {
-        //   parent: "800",
-        //   title: "Counter Top",
-        //   choices: [
-        //     {
-        //       key: "counter-top-black-800mm",
-        //       productKey: "counter-top-black",
-        //       title: "Black Quartz Countertop",
-        //       subtitle: countertopDimensionsText["800"],
-        //       image: "images/counter-top/countertop-black.webp",
-        //     },
-        //     {
-        //       key: "counter-top-white-800mm",
-        //       productKey: "counter-top-white",
-        //       title: "White Quartz Countertop",
-        //       subtitle: countertopDimensionsText["800"],
-        //       image: "images/counter-top/countertop-white.webp",
-        //     },
-        //   ],
-        // },
-        // "800-hybrid": {
-        //   parent: "800-hybrid",
-        //   title: "Insert Basin",
-        //   choices: [
-        //     {
-        //       key: "insert-basin-ceramic-800mm",
-        //       productKey: "insert-basin-ceramic",
-        //       title: "White Ceramic Insert Basin",
-        //       subtitle: insertBasinDimensionsText["800"].ceramic,
-        //       image: "images/insert-basin/ceramic-helios.webp",
-        //     },
-        //     {
-        //       key: "insert-basin-glass-black-800mm",
-        //       productKey: "insert-basin-glass-black",
-        //       title: "Black Glass Insert Basin",
-        //       subtitle: insertBasinDimensionsText["800"].glass,
-        //       image: "images/insert-basin/glass-black.webp",
-        //     },
-        //     {
-        //       key: "insert-basin-glass-white-800mm",
-        //       productKey: "insert-basin-glass-white",
-        //       title: "White Glass Insert Basin",
-        //       subtitle: insertBasinDimensionsText["800"].glass,
-        //       image: "images/insert-basin/glass-white.webp",
-        //     },
-        //   ],
-        // },
+        "counter-top-width-60": {
+          title: "Counter Top",
+          parent: "counter-top-width-60",
+          choices: [
+            {
+              key: "counter-top-birch-600mm",
+              productKey: "counter-top-birch",
+              title: "Birch",
+              subtitle: countertopDimensionsText["600"],
+              image: "images/counter-top/countertop-birch.webp",
+            },
+            {
+              key: "counter-top-brownstone-600mm",
+              productKey: "counter-top-brownstone",
+              title: "Brownstone",
+              subtitle: countertopDimensionsText["600"],
+              image: "images/counter-top/countertop-brownstone.webp",
+            },
+            {
+              key: "counter-top-charcoal-ash-600mm",
+              productKey: "counter-top-charcoal-ash",
+              title: "Charcoal Ash",
+              subtitle: countertopDimensionsText["600"],
+              image: "images/counter-top/countertop-charcoal-ash.webp",
+            },
+            {
+              key: "counter-top-oakwood-600mm",
+              productKey: "counter-top-oakwood",
+              title: "Oakwood",
+              subtitle: countertopDimensionsText["600"],
+              image: "images/counter-top/countertop-oakwood.webp",
+            },
+            {
+              key: "counter-top-black-600mm",
+              productKey: "counter-top-black",
+              title: "Black Quartz",
+              subtitle: countertopDimensionsText["600"],
+              image: "images/counter-top/countertop-black.webp",
+            },
+            {
+              key: "counter-top-white-600mm",
+              productKey: "counter-top-white",
+              title: "White Quartz",
+              subtitle: countertopDimensionsText["600"],
+              image: "images/counter-top/countertop-white.webp",
+            },
+          ],
+        },
+        "counter-top-width-80": {
+          parent: "800",
+          title: "Counter Top",
+          choices: [
+            {
+              key: "counter-top-birch-800mm",
+              productKey: "counter-top-birch",
+              title: "Birch",
+              subtitle: countertopDimensionsText["800"],
+              image: "images/counter-top/countertop-birch.webp",
+            },
+            {
+              key: "counter-top-brownstone-800mm",
+              productKey: "counter-top-brownstone",
+              title: "Brownstone",
+              subtitle: countertopDimensionsText["800"],
+              image: "images/counter-top/countertop-brownstone.webp",
+            },
+            {
+              key: "counter-top-charcoal-ash-800mm",
+              productKey: "counter-top-charcoal-ash",
+              title: "Charcoal Ash",
+              subtitle: countertopDimensionsText["800"],
+              image: "images/counter-top/countertop-charcoal-ash.webp",
+            },
+            {
+              key: "counter-top-oakwood-800mm",
+              productKey: "counter-top-oakwood",
+              title: "Oakwood",
+              subtitle: countertopDimensionsText["800"],
+              image: "images/counter-top/countertop-oakwood.webp",
+            },
+            {
+              key: "counter-top-black-800mm",
+              productKey: "counter-top-black",
+              title: "Black Quartz",
+              subtitle: countertopDimensionsText["800"],
+              image: "images/counter-top/countertop-black.webp",
+            },
+            {
+              key: "counter-top-white-800mm",
+              productKey: "counter-top-white",
+              title: "White Quartz",
+              subtitle: countertopDimensionsText["800"],
+              image: "images/counter-top/countertop-white.webp",
+            },
+          ],
+        },
       },
     },
   },
@@ -811,11 +809,14 @@ type PopUpInfo = {
       }[];
     }[];
   };
-  l2: { items: Record<string, ProductRecord> };
-  l3?: { items: Record<string, ProductRecord> };
-  l4?: DependentLevel | IndependentLevel;
-  l5?: DependentLevel | IndependentLevel;
+  l2: Level;
+  l3?: Level;
+  l4?: Level;
+  l5?: Level;
+  l6?: Level;
 };
+
+type Level = IndependentLevel | DependentLevel;
 
 type DependentLevel = {
   items: Record<string, ProductRecord>;
@@ -834,6 +835,7 @@ type IndependentLevel = {
       key: string;
       title?: string;
       image?: string;
+      hideIf?: (keys: string[]) => boolean;
       nextLevelKey?: string;
       computeNextLevelKey?: (keys: string[]) => string;
     }[];

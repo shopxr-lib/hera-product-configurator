@@ -1,4 +1,6 @@
 export const packageTiers = ["default", "enhanced", "premium", "luxury"];
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export const isPackageTierSufficient = (
   minPackageTier: string,
@@ -15,3 +17,7 @@ export const isPackageTierSufficient = (
 
   return false;
 };
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
