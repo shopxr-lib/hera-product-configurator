@@ -63,7 +63,7 @@ const CustomizePopUp: React.FC = () => {
                 <button
                   key={choice.key}
                   className={clsx(
-                    "flex h-fit min-h-min w-full flex-col items-center justify-between rounded-md border-4 p-2",
+                    "flex h-full min-h-min w-full flex-col items-center justify-between rounded-md border-4 p-2",
                     {
                       "border-brand": selected,
                       "border-transparent hover:border-gray-300": !selected,
