@@ -1070,36 +1070,78 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "Birch",
                 subtitle: countertopDimensionsText["600"],
                 image: "images/counter-top/countertop-birch.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "counter-top-birch-800mm",
+                  },
+                ],
               },
               {
                 value: "counter-top-brownstone-600mm",
                 title: "Brownstone",
                 subtitle: countertopDimensionsText["600"],
                 image: "images/counter-top/countertop-brownstone.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "counter-top-brownstone-800mm",
+                  },
+                ],
               },
               {
                 value: "counter-top-charcoal-ash-600mm",
                 title: "Charcoal Ash",
                 subtitle: countertopDimensionsText["600"],
                 image: "images/counter-top/countertop-charcoal-ash.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "counter-top-charcoal-ash-800mm",
+                  },
+                ],
               },
               {
                 value: "counter-top-oakwood-600mm",
                 title: "Oakwood",
                 subtitle: countertopDimensionsText["600"],
                 image: "images/counter-top/countertop-oakwood.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "counter-top-oakwood-800mm",
+                  },
+                ],
               },
               {
                 value: "counter-top-black-600mm",
                 title: "Black Quartz",
                 subtitle: countertopDimensionsText["600"],
                 image: "images/counter-top/countertop-black.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "counter-top-black-800mm",
+                  },
+                ],
               },
               {
                 value: "counter-top-white-600mm",
                 title: "White Quartz",
                 subtitle: countertopDimensionsText["600"],
                 image: "images/counter-top/countertop-white.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "counter-top-white-800mm",
+                  },
+                ],
               },
             ],
           },
@@ -1112,36 +1154,78 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "Birch",
                 subtitle: countertopDimensionsText["800"],
                 image: "images/counter-top/countertop-birch.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "counter-top-birch-600mm",
+                  },
+                ],
               },
               {
                 value: "counter-top-brownstone-800mm",
                 title: "Brownstone",
                 subtitle: countertopDimensionsText["800"],
                 image: "images/counter-top/countertop-brownstone.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "counter-top-brownstone-600mm",
+                  },
+                ],
               },
               {
                 value: "counter-top-charcoal-ash-800mm",
                 title: "Charcoal Ash",
                 subtitle: countertopDimensionsText["800"],
                 image: "images/counter-top/countertop-charcoal-ash.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "counter-top-charcoal-ash-600mm",
+                  },
+                ],
               },
               {
                 value: "counter-top-oakwood-800mm",
                 title: "Oakwood",
                 subtitle: countertopDimensionsText["800"],
                 image: "images/counter-top/countertop-oakwood.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "counter-top-oakwood-600mm",
+                  },
+                ],
               },
               {
                 value: "counter-top-black-800mm",
                 title: "Black Quartz",
                 subtitle: countertopDimensionsText["800"],
                 image: "images/counter-top/countertop-black.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "counter-top-black-600mm",
+                  },
+                ],
               },
               {
                 value: "counter-top-white-800mm",
                 title: "White Quartz",
                 subtitle: countertopDimensionsText["800"],
                 image: "images/counter-top/countertop-white.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "counter-top-white-600mm",
+                  },
+                ],
               },
             ],
           },
