@@ -703,6 +703,13 @@ const PopUpInfos: Record<string, PopUpInfo> = {
       {
         title: "Insert Basin",
         type: "insert-basin",
+        transition: [
+          {
+            eventType: "top",
+            value: "counter-top",
+            to: null,
+          },
+        ],
         hideIf: (choiceMap) =>
           !choiceMap["vanity-color"] || choiceMap.top?.value !== "insert-basin",
         groupChoices: [
@@ -1056,6 +1063,13 @@ const PopUpInfos: Record<string, PopUpInfo> = {
       {
         title: "Counter Top",
         type: "counter-top",
+        transition: [
+          {
+            eventType: "top",
+            value: "insert-basin",
+            to: null,
+          },
+        ],
         hideIf: (choiceMap) =>
           !(
             choiceMap["vanity-color"] && choiceMap.top?.value === "counter-top"
@@ -1306,6 +1320,13 @@ const PopUpInfos: Record<string, PopUpInfo> = {
           !(
             choiceMap["vanity-color"] && choiceMap.top?.value === "counter-top"
           ),
+        transition: [
+          {
+            eventType: "top",
+            value: "insert-basin",
+            to: null,
+          },
+        ],
         choices: [
           {
             value: "basin-rectangular-ceramic-blush",
