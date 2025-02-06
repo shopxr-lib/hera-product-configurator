@@ -17,10 +17,11 @@ const Canvas: React.FC = () => {
         toneMappingExposure: 1.2,
       }}
       camera={{
-        position: [0, 1, 0.5],
-        fov: 80,
-        near: 0.001,
-        far: 1000,
+        position: [0, 0.4, 0.7],
+        fov: 75,
+        aspect: window.innerWidth / window.innerHeight,
+        near: 0.1,
+        far: 100,
         zoom: isMobile ? 0.6 : 1,
       }}
     >
@@ -29,7 +30,11 @@ const Canvas: React.FC = () => {
       <Environment files={["hdri/city.hdr"]} />
 
       <Room />
-      <OrbitControls />
+      <OrbitControls
+        enableDamping
+        rotateSpeed={0.35}
+        maxPolarAngle={Math.PI / 1.5}
+      />
     </ThreeCanvas>
   );
 };
