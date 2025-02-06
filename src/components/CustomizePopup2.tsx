@@ -165,7 +165,13 @@ const PopUpInfos: Record<string, PopUpInfo> = {
       {
         title: "Width",
         type: "width",
-        hideIf: (choiceMap) => choiceMap.breadth === undefined,
+        hideIf: (choiceMap) => !choiceMap.breadth,
+        transition: [
+          {
+            eventType: "breadth",
+            to: null,
+          },
+        ],
         choices: [
           {
             title: "50cm",
@@ -185,8 +191,13 @@ const PopUpInfos: Record<string, PopUpInfo> = {
       {
         title: "Colors",
         type: "vanity-color",
-        hideIf: (choiceMap) =>
-          choiceMap.breadth === undefined || choiceMap.width === undefined,
+        hideIf: (choiceMap) => !choiceMap.breadth || !choiceMap.width,
+        transition: [
+          {
+            eventType: "breadth",
+            to: null,
+          },
+        ],
         groupChoices: [
           {
             name: "Breadth 40cm, Width 50cm",
@@ -572,8 +583,10 @@ const PopUpInfos: Record<string, PopUpInfo> = {
       {
         title: "Top",
         type: "top",
-        hideIf: (choiceMap) =>
-          choiceMap.breadth === undefined || choiceMap.width === undefined,
+        hideIf: (choiceMap) => {
+          console.log(choiceMap["vanity-color"]);
+          return !choiceMap["vanity-color"];
+        },
         choices: [
           {
             title: "Insert Basin",
@@ -589,7 +602,14 @@ const PopUpInfos: Record<string, PopUpInfo> = {
       {
         title: "Insert Basin",
         type: "insert-basin",
-        hideIf: (choiceMap) => choiceMap.top?.value !== "insert-basin",
+        hideIf: (choiceMap) =>
+          !choiceMap["vanity-color"] || choiceMap.top?.value !== "insert-basin",
+        transition: [
+          {
+            eventType: "breadth",
+            to: null,
+          },
+        ],
         groupChoices: [
           {
             name: "Insert Basin - 60 cm",
@@ -881,7 +901,10 @@ const PopUpInfos: Record<string, PopUpInfo> = {
       {
         title: "Counter Top",
         type: "counter-top",
-        hideIf: (choiceMap) => choiceMap.top?.value !== "counter-top",
+        hideIf: (choiceMap) =>
+          !(
+            choiceMap["vanity-color"] && choiceMap.top?.value === "counter-top"
+          ),
         groupChoices: [
           {
             name: "Counter Top - 60 cm",
@@ -972,7 +995,10 @@ const PopUpInfos: Record<string, PopUpInfo> = {
       {
         title: "Overflow Ring",
         type: "overflow-ring",
-        hideIf: (choiceMap) => !(choiceMap.top?.value === "insert-basin"),
+        hideIf: (choiceMap) =>
+          !(
+            choiceMap["vanity-color"] && choiceMap.top?.value === "insert-basin"
+          ),
         choices: [
           {
             value: "basin-overlow-ring-chrome",
@@ -1007,7 +1033,10 @@ const PopUpInfos: Record<string, PopUpInfo> = {
       {
         title: "Pop-Up",
         type: "popup",
-        hideIf: (choiceMap) => !(choiceMap.top?.value === "insert-basin"),
+        hideIf: (choiceMap) =>
+          !(
+            choiceMap["vanity-color"] && choiceMap.top?.value === "insert-basin"
+          ),
         choices: [
           {
             value: "popup-gold",
@@ -1034,7 +1063,10 @@ const PopUpInfos: Record<string, PopUpInfo> = {
       {
         title: "Basin",
         type: "basin",
-        hideIf: (choiceMap) => choiceMap.top?.value !== "counter-top",
+        hideIf: (choiceMap) =>
+          !(
+            choiceMap["vanity-color"] && choiceMap.top?.value === "counter-top"
+          ),
         choices: [
           {
             value: "basin-rectangular-ceramic-blush",
@@ -1147,8 +1179,8 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         title: "Tap",
         type: "tap",
         hideIf: (choiceMap) =>
-          choiceMap.basin === undefined &&
-          choiceMap["insert-basin"] === undefined,
+          !choiceMap["vanity-color"] ||
+          (!choiceMap.basin && !choiceMap["insert-basin"]),
         choices: [
           {
             title: "Chrome 8101",
@@ -1304,7 +1336,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
       },
       {
         title: "Handle",
-        hideIf: (choiceMap) => choiceMap.tap === undefined,
+        hideIf: (choiceMap) => !choiceMap.tap,
         type: "handle",
         choices: [
           {
@@ -1342,7 +1374,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
       {
         title: "Stand",
         type: "stand",
-        hideIf: (choiceMap) => choiceMap.handle === undefined,
+        hideIf: (choiceMap) => !choiceMap.handle,
         choices: [
           {
             title: "With Stand",
@@ -1372,6 +1404,7 @@ type Section = {
   choices?: SectionChoice[];
   groupChoices?: ChoiceGroup[];
   hideIf?: (choiceMap: ChoiceMap) => boolean;
+  transition?: Transition[];
 };
 
 type ChoiceGroup = {
@@ -1393,12 +1426,18 @@ type SectionChoice = {
 type Transition = {
   eventType: ChoiceType;
   // eslint-disable-next-line
-  value: any;
-  to: string;
+  value?: any;
+  to: string | null;
 };
 
 Object.values(PopUpInfos).forEach((popUpInfo) => {
   popUpInfo.sections.forEach((section) => {
+    if (section.transition) {
+      section.transition.forEach((transition) => {
+        const callback = createCallbackFunction(transition, section);
+        eventSystem.subscribe(transition.eventType, callback);
+      });
+    }
     section.choices?.forEach((choice) => {
       if (choice.transition) {
         choice.transition.forEach((transition) => {
@@ -1427,20 +1466,25 @@ Object.values(PopUpInfos).forEach((popUpInfo) => {
 function createCallbackFunction(
   transition: Transition,
   section: Section,
-  choice: SectionChoice,
+  choice?: SectionChoice,
 ): EventCallback {
   return (event, value) => {
-    if (event === transition.eventType && value === transition.value) {
+    if (
+      event === transition.eventType &&
+      (!transition.value || value === transition.value)
+    ) {
       const { choiceMap, addChoice } = useStore.getState();
 
-      if (choiceMap[section.type]?.value === choice.value) {
+      const eventSource = choice?.value || section.type;
+
+      if (!choice || choiceMap[section.type]?.value === choice.value) {
         addChoice(
           {
             type: section.type,
             // eslint-disable-next-line
             value: transition.to as any,
           },
-          `transition/${choice.value}`,
+          `transition/${transition.eventType}/${eventSource}`,
         );
       }
     }

@@ -122,7 +122,7 @@ const choiceTypeToFurnitureTypeMap: Partial<Record<ChoiceType, FurnitureType>> =
 
 export type ChoiceType = VanityCabinetChoice["type"];
 export type Choice = VanityCabinetChoice;
-export type ChoiceMap = Record<ChoiceType, Choice>;
+export type ChoiceMap = Partial<Record<ChoiceType, Choice>>;
 
 type FurnitureMap = Partial<Record<FurnitureType, Omit<Furniture, "price">>>;
 
@@ -144,22 +144,20 @@ type StoreState = {
   clearCart: () => void;
 
   furnitureMap: FurnitureMap;
-  setDefaultFurnitureMap: () => void;
   setFurnitureDimensions: (type: FurnitureType, dimensions: Triplet) => void;
   setFurniturePosition: (type: FurnitureType, position: Triplet) => void;
 
   customizePopUpKey: string;
-  customizeSelected: string[];
-  customizeSelectedLevelKeys: string[];
-  clearCustomizeSelectedLevelKeys: () => void;
-  addCustomizeSelectedLevelKeys: (key: string, level: number) => void;
   setCustomizePopUpKey: (key: string) => void;
-  clearCustomizeSelected: () => void;
-  addCustomizeSelected: (key: string, level: number) => void;
-  commitCustomizeSelected: () => void;
 
   choiceMap: ChoiceMap;
-  addChoice: (choice: Choice, source?: string) => void;
+  addChoice: (
+    choice: {
+      type: Choice["type"];
+      value: any;
+    },
+    source?: string,
+  ) => void;
 };
 
 export const allFloorsTextures: TextureObject[] = [
@@ -206,9 +204,7 @@ export const allCeilingTextures = [
   },
 ];
 
-export const allFurnitures: (Omit<Furniture, "dimensions"> & {
-  transitionTo?: Record<string, string>;
-})[] = [
+export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   // Counter Top
   {
     key: "counter-top-black-600mm",
@@ -804,18 +800,6 @@ export const allFurnitures: (Omit<Furniture, "dimensions"> & {
   },
 ];
 
-const defaultBasin: Furniture = {
-  key: "basin",
-  name: "Basin",
-  type: FurnitureType.Basin,
-  path: "models/bto-basin-530mm.glb",
-  size: 530,
-  dimensions: [0, 0, 0],
-  position: [0, 0, 0],
-  minPackageTier: "default",
-  price: 0,
-};
-
 const defaultFurnitureMap: Partial<Record<FurnitureType, Furniture>> = {
   [FurnitureType.VanityCabinet]: {
     position: [0, 0, 0],
@@ -831,7 +815,7 @@ const roomDimensions = {
 };
 
 const useStore = create(
-  devtools<StoreState>((set, get) => ({
+  devtools<StoreState>((set) => ({
     roomDimensions,
     package: "default",
     setPackage: (p: string) => set({ package: p as PackageType }),
@@ -879,28 +863,24 @@ const useStore = create(
       });
     },
     furnitureMap: defaultFurnitureMap,
-    setDefaultFurnitureMap: () => {
-      set((state) => {
-        return {
-          ...state,
-          furnitureMap: defaultFurnitureMap,
-        };
-      });
-    },
 
     setFurnitureDimensions: (type, dimensions) => {
-      set((state) => {
-        return {
-          ...state,
-          furnitureMap: {
-            ...state.furnitureMap,
-            [type]: {
-              ...state.furnitureMap[type],
-              dimensions,
+      set(
+        (state) => {
+          return {
+            ...state,
+            furnitureMap: {
+              ...state.furnitureMap,
+              [type]: {
+                ...state.furnitureMap[type],
+                dimensions,
+              },
             },
-          },
-        };
-      });
+          };
+        },
+        undefined,
+        "setFurnitureDimensions",
+      );
     },
     setFurniturePosition: (type, position) => {
       set((state) => {
@@ -918,219 +898,7 @@ const useStore = create(
     },
 
     customizePopUpKey: "",
-    customizeSelected: [],
-    customizeSelectedLevelKeys: [],
-    addCustomizeSelectedLevelKeys: (key, level) => {
-      const current = get().customizeSelectedLevelKeys;
-
-      if (level < 0) {
-        return;
-      }
-
-      const cappedLevel = Math.min(level, current.length);
-
-      if (cappedLevel === current.length) {
-        set(
-          { customizeSelectedLevelKeys: [...current, key] },
-          undefined,
-          "addCustomizeSelectedLevelKeys",
-        );
-        return;
-      }
-
-      const newSelected = current.slice(0, cappedLevel);
-      newSelected[cappedLevel] = key;
-      set(
-        { customizeSelectedLevelKeys: newSelected },
-        undefined,
-        "addCustomizeSelectedLevelKeys",
-      );
-    },
-    clearCustomizeSelectedLevelKeys() {
-      set(
-        { customizeSelectedLevelKeys: [] },
-        undefined,
-        "clearCustomizeSelectedLevelKeys",
-      );
-    },
-    setCustomizePopUpKey: (key) => set({ customizePopUpKey: key }),
-    clearCustomizeSelected: () =>
-      set({ customizeSelected: [] }, undefined, "clearCustomizeSelected"),
-    addCustomizeSelected: (key, level) => {
-      const current = get().customizeSelected;
-      if (level < 0) {
-        return;
-      }
-
-      const cappedLevel = Math.min(level, current.length);
-
-      if (cappedLevel === current.length) {
-        set(
-          { customizeSelected: [...current, key] },
-          undefined,
-          "addCustomizeSelected",
-        );
-        return;
-      }
-
-      const newSelected = current.slice(0, cappedLevel);
-      newSelected[cappedLevel] = key;
-      set(
-        { customizeSelected: newSelected },
-        undefined,
-        "addCustomizeSelected",
-      );
-    },
-    commitCustomizeSelected: () => {
-      const selected = get().customizeSelected;
-      if (selected.length <= 0) {
-        return;
-      }
-
-      const popupKey = get().customizePopUpKey;
-
-      switch (popupKey) {
-        case "wallpaper": {
-          switch (selected[0]) {
-            case "wall": {
-              if (selected.length <= 1) {
-                return;
-              }
-              const texture = allWallTextures.find(
-                (texture) => texture.key === selected[1],
-              );
-              if (!texture) {
-                return;
-              }
-
-              set({
-                textures: {
-                  ...get().textures,
-                  wall: texture,
-                },
-              });
-              break;
-            }
-            case "ceiling": {
-              if (selected.length <= 1) {
-                return;
-              }
-              const texture = allCeilingTextures.find(
-                (texture) => texture.key === selected[1],
-              );
-              if (!texture) {
-                return;
-              }
-
-              set({
-                textures: {
-                  ...get().textures,
-                  ceiling: texture,
-                },
-              });
-
-              break;
-            }
-
-            case "floor": {
-              if (selected.length <= 1) {
-                return;
-              }
-              const texture = allFloorsTextures.find(
-                (texture) => texture.key === selected[1],
-              );
-              if (!texture) {
-                return;
-              }
-
-              set({
-                textures: {
-                  ...get().textures,
-                  floor: texture,
-                },
-              });
-            }
-          }
-          break;
-        }
-
-        case "vanitycabinet": {
-          const size = selected[0];
-          const cabinetVariant = selected[1];
-          const finalLevelComponent = selected[2]; // countertop or insert-basin
-
-          const finalComponentKey = `${finalLevelComponent}-${size}mm`;
-          const vanityCabinetKey = `vanity-cabinet-${cabinetVariant}-${size}mm`;
-
-          const vanityCabinet = allFurnitures.find(
-            (furniture) => furniture.key === vanityCabinetKey,
-          );
-          const { addToCart, removeFromCart } = get();
-          if (vanityCabinet) {
-            const oldFurnitureMap = get().furnitureMap;
-            const newFurnitureMap = {
-              ...oldFurnitureMap,
-              [FurnitureType.VanityCabinet]: {
-                ...{
-                  position: [0, 0, 0] as Triplet,
-                  dimensions: [0, 0, 0] as Triplet,
-                },
-                ...oldFurnitureMap[FurnitureType.VanityCabinet],
-                ...vanityCabinet,
-              },
-            };
-
-            // Remove default basin and counter top if hybrid
-            if (vanityCabinet.variant?.isHybrid) {
-              delete newFurnitureMap[FurnitureType.Basin];
-              delete newFurnitureMap[FurnitureType.BasinCounterTop];
-            } else if (!newFurnitureMap[FurnitureType.Basin]) {
-              newFurnitureMap[FurnitureType.Basin] = defaultBasin;
-              newFurnitureMap[FurnitureType.VanityCabinet].variant = {
-                ...newFurnitureMap[FurnitureType.VanityCabinet].variant,
-                isHybrid: false,
-              };
-
-              delete newFurnitureMap[FurnitureType.InsertBasin];
-            }
-
-            set({
-              furnitureMap: newFurnitureMap,
-            });
-            removeFromCart(FurnitureType.VanityCabinet);
-            addToCart(vanityCabinetKey);
-          }
-
-          const finalComponent = allFurnitures.find(
-            (furniture) => furniture.key === finalComponentKey,
-          );
-          if (finalComponent) {
-            const oldFurnitureMap = get().furnitureMap;
-
-            const newFurnitureMap = {
-              ...oldFurnitureMap,
-              [finalComponent.type]: {
-                ...{
-                  position: [0, 0, 0] as Triplet,
-                  dimensions: [0, 0, 0] as Triplet,
-                },
-                ...oldFurnitureMap[finalComponent.type],
-                ...finalComponent,
-              },
-            };
-
-            set({
-              furnitureMap: newFurnitureMap,
-            });
-            removeFromCart(FurnitureType.BasinCounterTop);
-            removeFromCart(FurnitureType.InsertBasin);
-            addToCart(finalComponentKey);
-          }
-
-          break;
-        }
-      }
-    },
+    setCustomizePopUpKey: (key: string) => set({ customizePopUpKey: key }),
 
     choiceMap: {} as ChoiceMap,
     addChoice: (choice, source: string = "") => {
@@ -1140,35 +908,71 @@ const useStore = create(
         const furniture = allFurnitures.find(
           (furniture) => furniture.key === choice.value,
         );
-        console.log(furniture);
+        if (choice.value === null) {
+          set(
+            (state) => {
+              const newFurnitureMap = {
+                ...state.furnitureMap,
+              };
+              delete newFurnitureMap[furnitureType];
+              return {
+                furnitureMap: newFurnitureMap,
+              };
+            },
+            undefined,
+            `addChoice/furniture/${source}`,
+          );
+        } else {
+          set(
+            (state) => {
+              return {
+                furnitureMap: {
+                  ...state.furnitureMap,
+                  [furnitureType]: {
+                    ...{
+                      dimensions: [0, 0, 0] as Triplet,
+                    },
+                    ...state.furnitureMap[furnitureType],
+                    ...furniture,
+                  },
+                },
+              };
+            },
+            undefined,
+            `addChoice/furniture/${source}`,
+          );
+        }
+      }
+
+      if (choice.value === null) {
+        set(
+          (state) => {
+            const newChoiceMap = {
+              ...state.choiceMap,
+            };
+            delete newChoiceMap[choice.type];
+            return {
+              choiceMap: newChoiceMap,
+            };
+          },
+          undefined,
+          `addChoice/choiceMap/${source}`,
+        );
+        return;
+      } else {
         set(
           (state) => {
             return {
-              furnitureMap: {
-                ...state.furnitureMap,
-                [furnitureType]: {
-                  ...state.furnitureMap[furnitureType],
-                  ...furniture,
-                },
+              choiceMap: {
+                ...state.choiceMap,
+                [choice.type]: choice,
               },
             };
           },
           undefined,
-          `addChoice/furniture/${source}`,
+          `addChoice/choiceMap/${source}`,
         );
       }
-      set(
-        (state) => {
-          return {
-            choiceMap: {
-              ...state.choiceMap,
-              [choice.type]: choice,
-            },
-          };
-        },
-        undefined,
-        `addChoice/choiceMap/${source}`,
-      );
     },
   })),
 );

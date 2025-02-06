@@ -35,9 +35,9 @@ const InsertBasin: React.FC<Props> = ({ path, ...props }) => {
     box.getSize(size);
 
     const position: [number, number, number] = [
-      cabinet.position![0],
-      cabinet.position![1] + cabinet.dimensions[1] / 2,
-      cabinet.position![2],
+      cabinet.position?.[0] ?? 0,
+      (cabinet.position?.[1] ?? 0) + cabinet.dimensions[1] / 2,
+      cabinet.position?.[2] ?? 0,
     ];
 
     if (cabinet.variant?.isHybrid) {
