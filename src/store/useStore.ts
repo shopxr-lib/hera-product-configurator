@@ -207,6 +207,54 @@ export const allCeilingTextures = [
 export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   // Counter Top
   {
+    key: "counter-top-birch-600mm",
+    name: "Birch Countertop 600mm",
+    type: FurnitureType.BasinCounterTop,
+    path: "models/counter-top/countertop-600mm.glb",
+    size: 600,
+    minPackageTier: "enhanced",
+    textureMap: {
+      map: "images/maps/vanity-cabinet/Birch.png",
+    },
+    price: 0,
+  },
+  {
+    key: "counter-top-brownstone-600mm",
+    name: "Brown Stone Countertop 600mm",
+    type: FurnitureType.BasinCounterTop,
+    path: "models/counter-top/countertop-600mm.glb",
+    size: 600,
+    minPackageTier: "enhanced",
+    textureMap: {
+      map: "images/maps/vanity-cabinet/Brown-Stone.png",
+    },
+    price: 0,
+  },
+  {
+    key: "counter-top-charcoal-ash-600mm",
+    name: "Brown Stone Countertop 600mm",
+    type: FurnitureType.BasinCounterTop,
+    path: "models/counter-top/countertop-600mm.glb",
+    size: 600,
+    minPackageTier: "enhanced",
+    textureMap: {
+      map: "images/maps/vanity-cabinet/Charcoal-Ash.png",
+    },
+    price: 0,
+  },
+  {
+    key: "counter-top-oakwood-600mm",
+    name: "Brown Stone Countertop 600mm",
+    type: FurnitureType.BasinCounterTop,
+    path: "models/counter-top/countertop-600mm.glb",
+    size: 600,
+    minPackageTier: "enhanced",
+    textureMap: {
+      map: "images/maps/vanity-cabinet/Oakwood.png",
+    },
+    price: 0,
+  },
+  {
     key: "counter-top-black-600mm",
     name: "Black Quartz Countertop 600mm",
     type: FurnitureType.BasinCounterTop,
@@ -229,6 +277,55 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/white-quartz-600mm-countertop-diffused.webp",
       roughnessMap: "images/maps/white-quartz-600mm-countertop-roughness.webp",
+    },
+    price: 0,
+  },
+
+  {
+    key: "counter-top-birch-800mm",
+    name: "Birch Countertop 800mm",
+    type: FurnitureType.BasinCounterTop,
+    path: "models/counter-top/countertop-800mm.glb",
+    size: 800,
+    minPackageTier: "enhanced",
+    textureMap: {
+      map: "images/maps/vanity-cabinet/Birch.png",
+    },
+    price: 0,
+  },
+  {
+    key: "counter-top-brownstone-800mm",
+    name: "Brown Stone Countertop 800mm",
+    type: FurnitureType.BasinCounterTop,
+    path: "models/counter-top/countertop-800mm.glb",
+    size: 800,
+    minPackageTier: "enhanced",
+    textureMap: {
+      map: "images/maps/vanity-cabinet/Brown-Stone.png",
+    },
+    price: 0,
+  },
+  {
+    key: "counter-top-charcoal-ash-800mm",
+    name: "Brown Stone Countertop 800mm",
+    type: FurnitureType.BasinCounterTop,
+    path: "models/counter-top/countertop-800mm.glb",
+    size: 800,
+    minPackageTier: "enhanced",
+    textureMap: {
+      map: "images/maps/vanity-cabinet/Charcoal-Ash.png",
+    },
+    price: 0,
+  },
+  {
+    key: "counter-top-oakwood-800mm",
+    name: "Brown Stone Countertop 800mm",
+    type: FurnitureType.BasinCounterTop,
+    path: "models/counter-top/countertop-800mm.glb",
+    size: 800,
+    minPackageTier: "enhanced",
+    textureMap: {
+      map: "images/maps/vanity-cabinet/Oakwood.png",
     },
     price: 0,
   },
@@ -908,6 +1005,7 @@ const useStore = create(
         const furniture = allFurnitures.find(
           (furniture) => furniture.key === choice.value,
         );
+        console.log(furniture);
         if (choice.value === null) {
           set(
             (state) => {
@@ -920,7 +1018,7 @@ const useStore = create(
               };
             },
             undefined,
-            `addChoice/furniture/${source}`,
+            { type: `addChoice/furniture`, payload: choice, source },
           );
         } else {
           set(
@@ -939,7 +1037,7 @@ const useStore = create(
               };
             },
             undefined,
-            `addChoice/furniture/${source}`,
+            { type: `addChoice/furniture`, payload: choice, source },
           );
         }
       }
@@ -956,7 +1054,7 @@ const useStore = create(
             };
           },
           undefined,
-          `addChoice/choiceMap/${source}`,
+          { type: `addChoice/choiceMap`, payload: choice, source },
         );
         return;
       } else {
@@ -970,7 +1068,7 @@ const useStore = create(
             };
           },
           undefined,
-          `addChoice/choiceMap/${source}`,
+          { type: `addChoice/choiceMap`, payload: choice, source },
         );
       }
     },

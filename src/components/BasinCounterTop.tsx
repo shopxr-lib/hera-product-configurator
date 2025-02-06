@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useGLTF, useTexture } from "@react-three/drei";
 
 import * as THREE from "three";
@@ -17,6 +23,9 @@ const BasinCounterTop: React.FC<Props> = ({
   ...props
 }) => {
   const { scene } = useGLTF(basePath);
+
+  const copiedScene = useMemo(() => scene.clone(), [scene]);
+
   const texture = useTexture(textureMap!, (t) => {
     Object.values(t).forEach((texture) => {
       texture.flipY = false;
@@ -37,29 +46,43 @@ const BasinCounterTop: React.FC<Props> = ({
   const [position, setPosition] = useState<[number, number, number]>([0, 0, 0]);
 
   const furnitureMap = useStore((state) => state.furnitureMap);
-  const basinFurniture = furnitureMap[FurnitureType.Basin];
+  const cabinet = furnitureMap[FurnitureType.VanityCabinet];
+  const self = furnitureMap[FurnitureType.BasinCounterTop];
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!ref.current) {
       return;
     }
-    if (!basinFurniture) {
+    if (!cabinet) {
       return;
     }
 
     const box = new THREE.Box3().setFromObject(ref.current);
     const size = new THREE.Vector3();
     box.getSize(size);
-    setPosition([
-      basinFurniture.position[0] + 0.01,
-      basinFurniture.position[1] -
-        basinFurniture.dimensions[1] / 2 -
-        size.y / 2,
-      basinFurniture.position[2],
-    ]);
-  }, [setPosition, basinFurniture]);
+    const position: [number, number, number] = [
+      cabinet.position?.[0] ?? 0,
+      (cabinet.position?.[1] ?? 0) + cabinet.dimensions[1] / 2,
+      cabinet.position?.[2] ?? 0,
+    ];
+    if (self && self.size in offset) {
+      const [x, y, z] = offset[self.size];
+      position[0] += x;
+      position[1] += y;
+      position[2] += z;
+    }
+    console.log(position);
+    setPosition(position);
+  }, [setPosition, cabinet, self]);
 
-  return <primitive object={scene} ref={ref} position={position} {...props} />;
+  return (
+    <primitive object={copiedScene} ref={ref} position={position} {...props} />
+  );
+};
+
+const offset: Record<number, number[]> = {
+  800: [0, 0.042, -0.065],
+  600: [0, 0.049, -0.042],
 };
 
 export default BasinCounterTop;
