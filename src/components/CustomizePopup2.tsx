@@ -169,7 +169,8 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         transition: [
           {
             eventType: "breadth",
-            to: null,
+            value: 46,
+            to: 60,
           },
         ],
         choices: [
@@ -192,12 +193,6 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         title: "Colors",
         type: "vanity-color",
         hideIf: (choiceMap) => !choiceMap.breadth || !choiceMap.width,
-        transition: [
-          {
-            eventType: "breadth",
-            to: null,
-          },
-        ],
         groupChoices: [
           {
             name: "Breadth 40cm, Width 50cm",
@@ -281,6 +276,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 80,
                     to: "vanity-cabinet-hybrid-pebble-800mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 46,
+                    to: "vanity-cabinet-birch-600mm",
+                  },
                 ],
               },
               {
@@ -299,6 +299,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 80,
                     to: "vanity-cabinet-hybrid-pine-800mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 46,
+                    to: "vanity-cabinet-birch-600mm",
+                  },
                 ],
               },
               {
@@ -316,6 +321,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     eventType: "width",
                     value: 80,
                     to: "vanity-cabinet-hybrid-walnut-800mm",
+                  },
+                  {
+                    eventType: "breadth",
+                    value: 46,
+                    to: "vanity-cabinet-birch-600mm",
                   },
                 ],
               },
@@ -342,6 +352,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 60,
                     to: "vanity-cabinet-hybrid-pebble-600mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 46,
+                    to: "vanity-cabinet-birch-800mm",
+                  },
                 ],
               },
               {
@@ -360,6 +375,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 60,
                     to: "vanity-cabinet-hybrid-pine-600mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 46,
+                    to: "vanity-cabinet-birch-800mm",
+                  },
                 ],
               },
               {
@@ -377,6 +397,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     eventType: "width",
                     value: 60,
                     to: "vanity-cabinet-hybrid-walnut-600mm",
+                  },
+                  {
+                    eventType: "breadth",
+                    value: 46,
+                    to: "vanity-cabinet-birch-800mm",
                   },
                 ],
               },
@@ -398,6 +423,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 80,
                     to: "vanity-cabinet-birch-800mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "vanity-cabinet-hybrid-pebble-600mm",
+                  },
                 ],
               },
               {
@@ -410,6 +440,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     eventType: "width",
                     value: 80,
                     to: "vanity-cabinet-blanco-800mm",
+                  },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "vanity-cabinet-hybrid-pebble-600mm",
                   },
                 ],
               },
@@ -424,6 +459,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 80,
                     to: "vanity-cabinet-brown-stone-800mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "vanity-cabinet-hybrid-pebble-600mm",
+                  },
                 ],
               },
               {
@@ -436,6 +476,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     eventType: "width",
                     value: 80,
                     to: "vanity-cabinet-charcoal-ash-800mm",
+                  },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "vanity-cabinet-hybrid-pebble-600mm",
                   },
                 ],
               },
@@ -450,6 +495,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 80,
                     to: "vanity-cabinet-graphite-800mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "vanity-cabinet-hybrid-pebble-600mm",
+                  },
                 ],
               },
               {
@@ -463,6 +513,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 80,
                     to: "vanity-cabinet-matt-black-800mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "vanity-cabinet-hybrid-pebble-600mm",
+                  },
                 ],
               },
               {
@@ -475,6 +530,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     eventType: "width",
                     value: 80,
                     to: "vanity-cabinet-oakwood-800mm",
+                  },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "vanity-cabinet-hybrid-pebble-600mm",
                   },
                 ],
               },
@@ -496,6 +556,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 60,
                     to: "vanity-cabinet-birch-600mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "vanity-cabinet-hybrid-pebble-800mm",
+                  },
                 ],
               },
               {
@@ -508,6 +573,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     eventType: "width",
                     value: 60,
                     to: "vanity-cabinet-blanco-600mm",
+                  },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "vanity-cabinet-hybrid-pebble-800mm",
                   },
                 ],
               },
@@ -522,6 +592,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 60,
                     to: "vanity-cabinet-brown-stone-600mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "vanity-cabinet-hybrid-pebble-800mm",
+                  },
                 ],
               },
               {
@@ -534,6 +609,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     eventType: "width",
                     value: 60,
                     to: "vanity-cabinet-charcoal-ash-600mm",
+                  },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "vanity-cabinet-hybrid-pebble-800mm",
                   },
                 ],
               },
@@ -548,6 +628,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 60,
                     to: "vanity-cabinet-graphite-600mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "vanity-cabinet-hybrid-pebble-800mm",
+                  },
                 ],
               },
               {
@@ -560,6 +645,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     eventType: "width",
                     value: 60,
                     to: "vanity-cabinet-matt-black-600mm",
+                  },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "vanity-cabinet-hybrid-pebble-800mm",
                   },
                 ],
               },
@@ -574,6 +664,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 60,
                     to: "vanity-cabinet-oakwood-600mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "vanity-cabinet-hybrid-pebble-800mm",
+                  },
                 ],
               },
             ],
@@ -584,7 +679,6 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         title: "Top",
         type: "top",
         hideIf: (choiceMap) => {
-          console.log(choiceMap["vanity-color"]);
           return !choiceMap["vanity-color"];
         },
         choices: [
@@ -596,6 +690,13 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             hideIf: (choiceMap) => choiceMap.breadth?.value === 40,
             title: "Countertop",
             value: "counter-top",
+            transition: [
+              {
+                eventType: "breadth",
+                value: 40,
+                to: "insert-basin",
+              },
+            ],
           },
         ],
       },
@@ -604,12 +705,6 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         type: "insert-basin",
         hideIf: (choiceMap) =>
           !choiceMap["vanity-color"] || choiceMap.top?.value !== "insert-basin",
-        transition: [
-          {
-            eventType: "breadth",
-            to: null,
-          },
-        ],
         groupChoices: [
           {
             name: "Insert Basin - 60 cm",
@@ -629,6 +724,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 80,
                     to: "insert-basin-ceramic-800mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "insert-basin-hybrid-ceramic-600mm",
+                  },
                 ],
               },
               {
@@ -642,6 +742,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 80,
                     to: "insert-basin-glass-black-800mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "insert-basin-hybrid-glass-black-600mm",
+                  },
                 ],
               },
               {
@@ -654,6 +759,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     eventType: "width",
                     value: 80,
                     to: "insert-basin-glass-white-800mm",
+                  },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "insert-basin-hybrid-glass-white-600mm",
                   },
                 ],
               },
@@ -677,6 +787,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 60,
                     to: "insert-basin-ceramic-600mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "insert-basin-hybrid-ceramic-800mm",
+                  },
                 ],
               },
               {
@@ -690,6 +805,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 60,
                     to: "insert-basin-glass-black-600mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "insert-basin-hybrid-glass-black-800mm",
+                  },
                 ],
               },
               {
@@ -702,6 +822,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     eventType: "width",
                     value: 60,
                     to: "insert-basin-glass-white-600mm",
+                  },
+                  {
+                    eventType: "breadth",
+                    value: 40,
+                    to: "insert-basin-hybrid-glass-white-800mm",
                   },
                 ],
               },
@@ -793,6 +918,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 80,
                     to: "insert-basin-hybrid-ceramic-800mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 46,
+                    to: "insert-basin-ceramic-600mm",
+                  },
                 ],
               },
               {
@@ -811,6 +941,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 80,
                     to: "insert-basin-hybrid-glass-black-800mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 46,
+                    to: "insert-basin-glass-black-600mm",
+                  },
                 ],
               },
               {
@@ -828,6 +963,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     eventType: "width",
                     value: 80,
                     to: "insert-basin-hybrid-glass-white-800mm",
+                  },
+                  {
+                    eventType: "breadth",
+                    value: 46,
+                    to: "insert-basin-glass-white-600mm",
                   },
                 ],
               },
@@ -856,6 +996,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 60,
                     to: "insert-basin-hybrid-ceramic-600mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 46,
+                    to: "insert-basin-ceramic-800mm",
+                  },
                 ],
               },
               {
@@ -874,6 +1019,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     value: 60,
                     to: "insert-basin-hybrid-glass-black-600mm",
                   },
+                  {
+                    eventType: "breadth",
+                    value: 46,
+                    to: "insert-basin-glass-black-800mm",
+                  },
                 ],
               },
               {
@@ -891,6 +1041,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                     eventType: "width",
                     value: 60,
                     to: "insert-basin-hybrid-glass-white-600mm",
+                  },
+                  {
+                    eventType: "breadth",
+                    value: 46,
+                    to: "insert-basin-glass-white-800mm",
                   },
                 ],
               },
@@ -1427,7 +1582,7 @@ type Transition = {
   eventType: ChoiceType;
   // eslint-disable-next-line
   value?: any;
-  to: string | null;
+  to: any;
 };
 
 Object.values(PopUpInfos).forEach((popUpInfo) => {
