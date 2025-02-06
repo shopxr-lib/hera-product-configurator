@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useGLTF, useTexture } from "@react-three/drei";
 
 import * as THREE from "three";
@@ -43,9 +37,13 @@ const BasinCounterTop: React.FC<Props> = ({
 
   const ref = useRef<THREE.Group>(null);
 
-  const [position, setPosition] = useState<[number, number, number]>([0, 0, 0]);
-
   const furnitureMap = useStore((state) => state.furnitureMap);
+
+  const setFurniturePosition = useStore((state) => state.setFurniturePosition);
+  const setFurnitureDimensions = useStore(
+    (state) => state.setFurnitureDimensions,
+  );
+
   const cabinet = furnitureMap[FurnitureType.VanityCabinet];
   const self = furnitureMap[FurnitureType.BasinCounterTop];
 
@@ -65,18 +63,27 @@ const BasinCounterTop: React.FC<Props> = ({
       (cabinet.position?.[1] ?? 0) + cabinet.dimensions[1] / 2,
       cabinet.position?.[2] ?? 0,
     ];
-    if (self && self.size in offset) {
+    if (self && self.size && self.size in offset) {
       const [x, y, z] = offset[self.size];
       position[0] += x;
       position[1] += y;
       position[2] += z;
     }
-    console.log(position);
-    setPosition(position);
-  }, [setPosition, cabinet, self]);
+    setFurnitureDimensions(FurnitureType.BasinCounterTop, [
+      size.x,
+      size.y,
+      size.z,
+    ]);
+    setFurniturePosition(FurnitureType.BasinCounterTop, position);
+  }, [cabinet, self?.size, setFurnitureDimensions, setFurniturePosition]);
 
   return (
-    <primitive object={copiedScene} ref={ref} position={position} {...props} />
+    <primitive
+      object={copiedScene}
+      ref={ref}
+      position={self?.position}
+      {...props}
+    />
   );
 };
 

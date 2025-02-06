@@ -42,23 +42,23 @@ const InsertBasin: React.FC<Props> = ({ path, ...props }) => {
 
     if (cabinet.variant?.isHybrid) {
       if (self?.variant?.insertBasinThickness === "thin") {
-        position[0] += hybridThinOffsetBySize[self.size]?.[0];
-        position[1] += hybridThinOffsetBySize[self.size]?.[1];
-        position[2] += hybridThinOffsetBySize[self.size]?.[2];
+        position[0] += hybridThinOffsetBySize[self.size!]?.[0];
+        position[1] += hybridThinOffsetBySize[self.size!]?.[1];
+        position[2] += hybridThinOffsetBySize[self.size!]?.[2];
       } else if (self?.variant?.insertBasinThickness === "thick") {
-        position[0] += hybridThickOffsetBySize[self.size]?.[0];
-        position[1] += hybridThickOffsetBySize[self.size]?.[1];
-        position[2] += hybridThickOffsetBySize[self.size]?.[2];
+        position[0] += hybridThickOffsetBySize[self.size!]?.[0];
+        position[1] += hybridThickOffsetBySize[self.size!]?.[1];
+        position[2] += hybridThickOffsetBySize[self.size!]?.[2];
       }
     } else {
       if (self?.variant?.insertBasinThickness === "thin") {
-        position[0] += nonHybridThinOffsetBySize[self.size]?.[0];
-        position[1] += nonHybridThinOffsetBySize[self.size]?.[1];
-        position[2] += nonHybridThinOffsetBySize[self.size]?.[2];
+        position[0] += nonHybridThinOffsetBySize[self.size!]?.[0];
+        position[1] += nonHybridThinOffsetBySize[self.size!]?.[1];
+        position[2] += nonHybridThinOffsetBySize[self.size!]?.[2];
       } else if (self?.variant?.insertBasinThickness === "thick") {
-        position[0] += nonHybridThickOffsetBySize[self.size]?.[0];
-        position[1] += nonHybridThickOffsetBySize[self.size]?.[1];
-        position[2] += nonHybridThickOffsetBySize[self.size]?.[2];
+        position[0] += nonHybridThickOffsetBySize[self.size!]?.[0];
+        position[1] += nonHybridThickOffsetBySize[self.size!]?.[1];
+        position[2] += nonHybridThickOffsetBySize[self.size!]?.[2];
       }
     }
 

@@ -21,10 +21,10 @@ export type Furniture = {
   type: FurnitureType;
   name: string;
   path: string;
-  size: number;
+  size?: number;
   dimensions: Triplet;
   position?: Triplet;
-  minPackageTier: PackageType;
+  minPackageTier?: PackageType;
   textureMap?: Partial<TextureMap>;
   variant?: Partial<FurnitureVariant>;
   price: number;
@@ -895,6 +895,178 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     minPackageTier: "enhanced",
     price: 0,
   },
+
+  // basin
+  {
+    key: "basin-rectangular-ceramic-blush",
+    name: "Rectangular Ceramic Basin - Blush",
+    type: FurnitureType.Basin,
+    path: "models/basin/rectangle-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Blush.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-rectangular-ceramic-eclair",
+    name: "Rectangular Ceramic Basin - Eclair",
+    type: FurnitureType.Basin,
+    path: "models/basin/rectangle-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Eclair.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-rectangular-ceramic-matt-black",
+    name: "Rectangular Matt Black Basin",
+    type: FurnitureType.Basin,
+    path: "models/basin/rectangle-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Matt-Black.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-rectangular-ceramic-matt-white",
+    name: "Rectangular Matte White Basin",
+    type: FurnitureType.Basin,
+    path: "models/basin/rectangle-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Matt-White.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-rectangular-ceramic-mocha",
+    name: "Rectangular Ceramic Basin - Mocha",
+    type: FurnitureType.Basin,
+    path: "models/basin/rectangle-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Mocha.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-rectangular-ceramic-moss",
+    name: "Rectangular Ceramic Basin - Moss",
+    type: FurnitureType.Basin,
+    path: "models/basin/rectangle-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Moss.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-rectangular-ceramic-slate-grey",
+    name: "Rectangular Ceramic Basin - Slate Grey",
+    type: FurnitureType.Basin,
+    path: "models/basin/rectangle-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Slate-Grey.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-rectangular-ceramic-storm",
+    name: "Rectangular Ceramic Basin - Storm",
+    type: FurnitureType.Basin,
+    path: "models/basin/rectangle-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Storm.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-rectangular-ceramic-teal",
+    name: "Rectangular Ceramic Basin - Teal",
+    type: FurnitureType.Basin,
+    path: "models/basin/rectangle-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Teal.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-round-ceramic-blush",
+    name: "Round Ceramic Basin - Blush",
+    type: FurnitureType.Basin,
+    path: "models/basin/round-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Blush.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-round-ceramic-matt-black",
+    name: "Round Ceramic Basin - Matt Black",
+    type: FurnitureType.Basin,
+    path: "models/basin/round-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Matt-Black.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-round-ceramic-matt-white",
+    name: "Round Ceramic Basin - Matt White",
+    type: FurnitureType.Basin,
+    path: "models/basin/round-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Matt-White.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-round-ceramic-mint",
+    name: "Round Ceramic Basin - Mint",
+    type: FurnitureType.Basin,
+    path: "models/basin/round-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Mint.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-round-ceramic-mocha",
+    name: "Round Ceramic Basin - Mocha",
+    type: FurnitureType.Basin,
+    path: "models/basin/round-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Mocha.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-round-ceramic-slate-grey",
+    name: "Round Ceramic Basin - Slate Grey",
+    type: FurnitureType.Basin,
+    path: "models/basin/round-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Slate-Grey.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-round-ceramic-stone-grey",
+    name: "Round Ceramic Basin - Stone Grey",
+    type: FurnitureType.Basin,
+    path: "models/basin/round-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Stone-Grey.png",
+    },
+    price: 0,
+  },
+  {
+    key: "basin-round-ceramic-tangerine",
+    name: "Round Ceramic Basin - Tangerine",
+    type: FurnitureType.Basin,
+    path: "models/basin/round-ceramic-basin.glb",
+    textureMap: {
+      map: "images/maps/basin/Basin-Tangerine.png",
+    },
+    price: 0,
+  },
 ];
 
 const defaultFurnitureMap: Partial<Record<FurnitureType, Furniture>> = {
@@ -965,7 +1137,6 @@ const useStore = create(
       set(
         (state) => {
           return {
-            ...state,
             furnitureMap: {
               ...state.furnitureMap,
               [type]: {
@@ -976,22 +1147,28 @@ const useStore = create(
           };
         },
         undefined,
-        "setFurnitureDimensions",
+        { type: "setFurnitureDimensions", payload: { type, dimensions } },
       );
     },
     setFurniturePosition: (type, position) => {
-      set((state) => {
-        return {
-          ...state,
-          furnitureMap: {
-            ...state.furnitureMap,
-            [type]: {
-              ...state.furnitureMap[type],
-              position,
+      set(
+        (state) => {
+          return {
+            furnitureMap: {
+              ...state.furnitureMap,
+              [type]: {
+                ...state.furnitureMap[type],
+                position,
+              },
             },
-          },
-        };
-      });
+          };
+        },
+        undefined,
+        {
+          type: "setFurniturePosition",
+          payload: { type, position },
+        },
+      );
     },
 
     customizePopUpKey: "",

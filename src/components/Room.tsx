@@ -16,7 +16,10 @@ const Room = () => {
           case FurnitureType.Basin:
             return (
               <Suspense key={furniture.key}>
-                <Basin path={furniture.path} rotation={[0, -Math.PI / 2, 0]} />
+                <Basin
+                  path={furniture.path}
+                  textureMap={furniture.textureMap}
+                />
               </Suspense>
             );
           case FurnitureType.BasinTap:
