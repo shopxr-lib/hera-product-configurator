@@ -64,6 +64,7 @@ const VanityCabinet = ({ path, textureMap, variant, ...props }: Props) => {
       size.y,
       size.z,
     ]);
+    setFurniturePosition(FurnitureType.VanityCabinet, [0, -0.1, 0]);
   }, [variant, setFurniturePosition, setFurnitureDimensions, self?.key]);
 
   return (
