@@ -40,15 +40,26 @@ const InsertBasin: React.FC<Props> = ({ path, ...props }) => {
       cabinet.position![2],
     ];
 
-    if (self?.variant?.insertBasinThickness === "thin") {
-      position[0] += thinOffsetBySize[self.size][0];
-      position[1] += thinOffsetBySize[self.size][1];
-      position[2] += thinOffsetBySize[self.size][2];
-    }
-    if (self?.variant?.insertBasinThickness === "thick") {
-      position[0] += thickOffsetBySize[self.size][0];
-      position[1] += thickOffsetBySize[self.size][1];
-      position[2] += thickOffsetBySize[self.size][2];
+    if (cabinet.variant?.isHybrid) {
+      if (self?.variant?.insertBasinThickness === "thin") {
+        position[0] += hybridThinOffsetBySize[self.size]?.[0];
+        position[1] += hybridThinOffsetBySize[self.size]?.[1];
+        position[2] += hybridThinOffsetBySize[self.size]?.[2];
+      } else if (self?.variant?.insertBasinThickness === "thick") {
+        position[0] += hybridThickOffsetBySize[self.size]?.[0];
+        position[1] += hybridThickOffsetBySize[self.size]?.[1];
+        position[2] += hybridThickOffsetBySize[self.size]?.[2];
+      }
+    } else {
+      if (self?.variant?.insertBasinThickness === "thin") {
+        position[0] += nonHybridThinOffsetBySize[self.size]?.[0];
+        position[1] += nonHybridThinOffsetBySize[self.size]?.[1];
+        position[2] += nonHybridThinOffsetBySize[self.size]?.[2];
+      } else if (self?.variant?.insertBasinThickness === "thick") {
+        position[0] += nonHybridThickOffsetBySize[self.size]?.[0];
+        position[1] += nonHybridThickOffsetBySize[self.size]?.[1];
+        position[2] += nonHybridThickOffsetBySize[self.size]?.[2];
+      }
     }
 
     setFurniturePosition(FurnitureType.InsertBasin, position);
@@ -59,6 +70,7 @@ const InsertBasin: React.FC<Props> = ({ path, ...props }) => {
     self?.variant?.insertBasinThickness,
     setFurnitureDimensions,
     setFurniturePosition,
+    self?.key,
   ]);
 
   return (
@@ -71,13 +83,23 @@ const InsertBasin: React.FC<Props> = ({ path, ...props }) => {
   );
 };
 
-const thinOffsetBySize: Record<number, [number, number, number]> = {
+const nonHybridThinOffsetBySize: Record<number, [number, number, number]> = {
+  600: [0, -0.045, -0.04],
+  800: [0, -0.052, -0.058],
+};
+
+const nonHybridThickOffsetBySize: Record<number, [number, number, number]> = {
+  600: [0, -0.103, -0.035],
+  800: [0, -0.11, -0.055],
+};
+
+const hybridThinOffsetBySize: Record<number, [number, number, number]> = {
   500: [0, -0.096, -0.025],
   600: [0, -0.082, -0.025],
   800: [0, -0.08, -0.03],
 };
 
-const thickOffsetBySize: Record<number, [number, number, number]> = {
+const hybridThickOffsetBySize: Record<number, [number, number, number]> = {
   500: [0, -0.047, -0.02],
   600: [0, -0.062, -0.02],
   800: [0, -0.06, -0.028],

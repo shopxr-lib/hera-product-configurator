@@ -381,32 +381,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         hideIf: (choiceMap) => choiceMap.top?.value !== "insert-basin",
         groupChoices: [
           {
-            name: "Insert Basin - 50 cm",
-            hideIf: (choiceMap) => choiceMap.width?.value !== 50,
-            choices: [
-              {
-                value: "insert-basin-ceramic-500mm",
-                title: "White Ceramic",
-                subtitle: insertBasinDimensionsText["500"].ceramic,
-                image: "images/insert-basin/ceramic-helios.webp",
-              },
-              {
-                value: "insert-basin-glass-black-500mm",
-                title: "Black Glass",
-                subtitle: insertBasinDimensionsText["500"].glass,
-                image: "images/insert-basin/glass-black.webp",
-              },
-              {
-                value: "insert-basin-glass-white-500mm",
-                title: "White Glass",
-                subtitle: insertBasinDimensionsText["500"].glass,
-                image: "images/insert-basin/glass-white.webp",
-              },
-            ],
-          },
-          {
             name: "Insert Basin - 60 cm",
-            hideIf: (choiceMap) => choiceMap.width?.value !== 60,
+            hideIf: (choiceMap) =>
+              !(
+                choiceMap.width?.value === 60 && choiceMap.breadth?.value === 46
+              ),
             choices: [
               {
                 value: "insert-basin-ceramic-600mm",
@@ -430,7 +409,10 @@ const PopUpInfos: Record<string, PopUpInfo> = {
           },
           {
             name: "Insert Basin - 80 cm",
-            hideIf: (choiceMap) => choiceMap.width?.value !== 80,
+            hideIf: (choiceMap) =>
+              !(
+                choiceMap.width?.value === 80 && choiceMap.breadth?.value === 46
+              ),
             choices: [
               {
                 value: "insert-basin-ceramic-800mm",
@@ -447,6 +429,87 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "insert-basin-glass-white-800mm",
                 title: "White Glass",
+                subtitle: insertBasinDimensionsText["800"].glass,
+                image: "images/insert-basin/glass-white.webp",
+              },
+            ],
+          },
+          {
+            name: "Insert Basin Hybrid - 50 cm",
+            hideIf: (choiceMap) =>
+              !(
+                choiceMap.width?.value === 50 && choiceMap.breadth?.value === 40
+              ),
+            choices: [
+              {
+                value: "insert-basin-hybrid-ceramic-500mm",
+                title: "Hybrid White Ceramic",
+                subtitle: insertBasinDimensionsText["500"].ceramic,
+                image: "images/insert-basin/ceramic-helios.webp",
+              },
+              {
+                value: "insert-basin-hybrid-glass-black-500mm",
+                title: "Hybrid Black Glass",
+                subtitle: insertBasinDimensionsText["500"].glass,
+                image: "images/insert-basin/glass-black.webp",
+              },
+              {
+                value: "insert-basin-hybrid-glass-white-500mm",
+                title: "Hybrid White Glass",
+                subtitle: insertBasinDimensionsText["500"].glass,
+                image: "images/insert-basin/glass-white.webp",
+              },
+            ],
+          },
+          {
+            name: "Insert Basin Hybrid - 60 cm",
+            hideIf: (choiceMap) =>
+              !(
+                choiceMap.width?.value === 60 && choiceMap.breadth?.value === 40
+              ),
+            choices: [
+              {
+                value: "insert-basin-hybrid-ceramic-600mm",
+                title: "Hybrid White Ceramic",
+                subtitle: insertBasinDimensionsText["600"].ceramic,
+                image: "images/insert-basin/ceramic-helios.webp",
+              },
+              {
+                value: "insert-basin-hybrid-glass-black-600mm",
+                title: "Hybrid Black Glass",
+                subtitle: insertBasinDimensionsText["600"].glass,
+                image: "images/insert-basin/glass-black.webp",
+              },
+              {
+                value: "insert-basin-hybrid-glass-white-600mm",
+                title: "Hybrid White Glass",
+                subtitle: insertBasinDimensionsText["600"].glass,
+                image: "images/insert-basin/glass-white.webp",
+              },
+            ],
+          },
+          {
+            name: "Insert Basin Hybrid - 80 cm",
+            hideIf: (choiceMap) =>
+              !(
+                choiceMap.width?.value === 80 && choiceMap.breadth?.value === 40
+              ),
+            choices: [
+              {
+                value: "insert-basin-hybrid-ceramic-800mm",
+                title: "Hybrid White Ceramic",
+                subtitle: insertBasinDimensionsText["800"].ceramic,
+                image: "images/insert-basin/ceramic-helios.webp",
+              },
+              {
+                value: "insert-basin-hybrid-glass-black-800mm",
+                title: "Hybrid Black Glass",
+                subtitle: insertBasinDimensionsText["800"].glass,
+                image: "images/insert-basin/glass-black.webp",
+              },
+              {
+                value: "insert-basin-hybrid-glass-white-800mm",
+                title: "Hybrid White Glass",
                 subtitle: insertBasinDimensionsText["800"].glass,
                 image: "images/insert-basin/glass-white.webp",
               },

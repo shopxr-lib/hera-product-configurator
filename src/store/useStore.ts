@@ -5,11 +5,12 @@ export enum FurnitureType {
   Basin = 1,
   BasinTap = 2,
   BasinCounterTop = 3,
-  ToiletBowl = 4,
-  Ceiling = 5,
-  Shower = 6,
-  VanityCabinet = 7,
-  InsertBasin = 8,
+  VanityCabinet = 4,
+  InsertBasin = 5,
+  OverflowRing = 6,
+  Popup = 7,
+  Handle = 8,
+  Tap = 9,
 }
 
 type Triplet = [number, number, number];
@@ -21,7 +22,7 @@ export type Furniture = {
   path: string;
   size: number;
   dimensions: Triplet;
-  position: Triplet;
+  position?: Triplet;
   minPackageTier: PackageType;
   textureMap?: Partial<TextureMap>;
   variant?: Partial<FurnitureVariant>;
@@ -105,6 +106,18 @@ export type VanityCabinetChoice =
       type: "stand";
       value: "wall-mount" | "with-stand";
     };
+
+const choiceTypeToFurnitureTypeMap: Partial<Record<ChoiceType, FurnitureType>> =
+  {
+    "vanity-color": FurnitureType.VanityCabinet,
+    "insert-basin": FurnitureType.InsertBasin,
+    "counter-top": FurnitureType.BasinCounterTop,
+    basin: FurnitureType.Basin,
+    "overflow-ring": FurnitureType.OverflowRing,
+    popup: FurnitureType.Popup,
+    tap: FurnitureType.Tap,
+    handle: FurnitureType.Handle,
+  };
 
 export type ChoiceType = VanityCabinetChoice["type"];
 export type Choice = VanityCabinetChoice;
@@ -192,7 +205,9 @@ export const allCeilingTextures = [
   },
 ];
 
-export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
+export const allFurnitures: (Omit<Furniture, "dimensions"> & {
+  transitionTo?: Record<string, string>;
+})[] = [
   // Counter Top
   {
     key: "counter-top-black-600mm",
@@ -259,6 +274,9 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
       map: "images/maps/vanity-cabinet/Birch.png",
     },
     price: 0,
+    variant: {
+      isHybrid: false,
+    },
   },
   {
     key: "vanity-cabinet-blanco-600mm",
@@ -271,6 +289,9 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
       map: "images/maps/vanity-cabinet/Blanco.png",
     },
     price: 0,
+    variant: {
+      isHybrid: false,
+    },
   },
   {
     key: "vanity-cabinet-brown-stone-600mm",
@@ -283,6 +304,9 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
       map: "images/maps/vanity-cabinet/Brown-Stone.png",
     },
     price: 0,
+    variant: {
+      isHybrid: false,
+    },
   },
   {
     key: "vanity-cabinet-charcoal-ash-600mm",
@@ -295,6 +319,9 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
       map: "images/maps/vanity-cabinet/Charcoal-Ash.png",
     },
     price: 0,
+    variant: {
+      isHybrid: false,
+    },
   },
   {
     key: "vanity-cabinet-matt-black-600mm",
@@ -307,6 +334,9 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
       map: "images/maps/vanity-cabinet/Matt-Black.png",
     },
     price: 0,
+    variant: {
+      isHybrid: false,
+    },
   },
   {
     key: "vanity-cabinet-graphite-600mm",
@@ -319,6 +349,9 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
       map: "images/maps/vanity-cabinet/Graphite.png",
     },
     price: 0,
+    variant: {
+      isHybrid: false,
+    },
   },
   {
     key: "vanity-cabinet-oakwood-600mm",
@@ -331,6 +364,9 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
       map: "images/maps/vanity-cabinet/Oakwood.png",
     },
     price: 0,
+    variant: {
+      isHybrid: false,
+    },
   },
   {
     key: "vanity-cabinet-birch-800mm",
@@ -343,6 +379,9 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
       map: "images/maps/vanity-cabinet/Birch.png",
     },
     price: 0,
+    variant: {
+      isHybrid: false,
+    },
   },
   {
     key: "vanity-cabinet-blanco-800mm",
@@ -355,6 +394,9 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
       map: "images/maps/vanity-cabinet/Blanco.png",
     },
     price: 0,
+    variant: {
+      isHybrid: false,
+    },
   },
   {
     key: "vanity-cabinet-brown-stone-800mm",
@@ -367,6 +409,9 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
       map: "images/maps/vanity-cabinet/Brown-Stone.png",
     },
     price: 0,
+    variant: {
+      isHybrid: false,
+    },
   },
   {
     key: "vanity-cabinet-charcoal-ash-800mm",
@@ -379,6 +424,9 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
       map: "images/maps/vanity-cabinet/Charcoal-Ash.png",
     },
     price: 0,
+    variant: {
+      isHybrid: false,
+    },
   },
   {
     key: "vanity-cabinet-graphite-800mm",
@@ -391,6 +439,9 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
       map: "images/maps/vanity-cabinet/Graphite.png",
     },
     price: 0,
+    variant: {
+      isHybrid: false,
+    },
   },
   {
     key: "vanity-cabinet-matt-black-800mm",
@@ -403,6 +454,9 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
       map: "images/maps/vanity-cabinet/Matt-Black.png",
     },
     price: 0,
+    variant: {
+      isHybrid: false,
+    },
   },
   {
     key: "vanity-cabinet-oakwood-800mm",
@@ -415,6 +469,9 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
       map: "images/maps/vanity-cabinet/Oakwood.png",
     },
     price: 0,
+    variant: {
+      isHybrid: false,
+    },
   },
 
   // hybrid vanity cabinet
@@ -430,6 +487,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     textureMap: {},
     minPackageTier: "enhanced",
     price: 0,
+    position: [0, 0, 0],
   },
   {
     key: "vanity-cabinet-hybrid-pine-500mm",
@@ -443,6 +501,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     textureMap: {},
     minPackageTier: "enhanced",
     price: 0,
+    position: [0, 0, 0],
   },
   {
     key: "vanity-cabinet-hybrid-walnut-500mm",
@@ -456,6 +515,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     textureMap: {},
     minPackageTier: "enhanced",
     price: 0,
+    position: [0, 0, 0],
   },
   {
     key: "vanity-cabinet-hybrid-pebble-600mm",
@@ -469,6 +529,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     textureMap: {},
     minPackageTier: "enhanced",
     price: 0,
+    position: [0, 0, 0],
   },
   {
     key: "vanity-cabinet-hybrid-pine-600mm",
@@ -482,6 +543,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     textureMap: {},
     minPackageTier: "enhanced",
     price: 0,
+    position: [0, 0, 0],
   },
   {
     key: "vanity-cabinet-hybrid-walnut-600mm",
@@ -495,6 +557,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     textureMap: {},
     minPackageTier: "enhanced",
     price: 0,
+    position: [0, 0, 0],
   },
 
   {
@@ -509,6 +572,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     textureMap: {},
     minPackageTier: "enhanced",
     price: 0,
+    position: [0, 0, 0],
   },
   {
     key: "vanity-cabinet-hybrid-pine-800mm",
@@ -522,6 +586,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     textureMap: {},
     minPackageTier: "enhanced",
     price: 0,
+    position: [0, 0, 0],
   },
   {
     key: "vanity-cabinet-hybrid-walnut-800mm",
@@ -535,12 +600,93 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     textureMap: {},
     minPackageTier: "enhanced",
     price: 0,
+    position: [0, 0, 0],
   },
 
   // insert basin
   {
-    key: "insert-basin-ceramic-500mm",
-    name: "Ceramic Insert Basin 500mm",
+    key: "insert-basin-ceramic-600mm",
+    name: "Ceramic Insert Basin 600mm",
+    type: FurnitureType.InsertBasin,
+    path: "models/insert-basin/Insert-Basin-Ceramic-600mm.glb",
+    size: 600,
+    variant: {
+      isHybrid: false,
+      insertBasinThickness: "thin",
+    },
+    minPackageTier: "enhanced",
+    price: 0,
+  },
+  {
+    key: "insert-basin-glass-black-600mm",
+    name: "Glass Black Insert Basin 600mm",
+    type: FurnitureType.InsertBasin,
+    path: "models/insert-basin/Insert-Basin-Glass-Black-600mm.glb",
+    size: 600,
+    variant: {
+      isHybrid: false,
+      insertBasinThickness: "thick",
+    },
+    minPackageTier: "enhanced",
+    price: 0,
+  },
+  {
+    key: "insert-basin-glass-white-600mm",
+    name: "Glass White Insert Basin 600mm",
+    type: FurnitureType.InsertBasin,
+    path: "models/insert-basin/Insert-Basin-Glass-White-600mm.glb",
+    size: 600,
+    variant: {
+      isHybrid: false,
+      insertBasinThickness: "thick",
+    },
+    minPackageTier: "enhanced",
+    price: 0,
+  },
+  {
+    key: "insert-basin-ceramic-800mm",
+    name: "Ceramic Insert Basin 800mm",
+    type: FurnitureType.InsertBasin,
+    path: "models/insert-basin/Insert-Basin-Ceramic-800mm.glb",
+    size: 800,
+    variant: {
+      isHybrid: false,
+      insertBasinThickness: "thin",
+    },
+    minPackageTier: "enhanced",
+    price: 0,
+  },
+  {
+    key: "insert-basin-glass-black-800mm",
+    name: "Glass Black Insert Basin 800mm",
+    type: FurnitureType.InsertBasin,
+    path: "models/insert-basin/Insert-Basin-Glass-Black-800mm.glb",
+    size: 800,
+    variant: {
+      isHybrid: false,
+      insertBasinThickness: "thick",
+    },
+    minPackageTier: "enhanced",
+    price: 0,
+  },
+  {
+    key: "insert-basin-glass-white-800mm",
+    name: "Glass White Insert Basin 800mm",
+    type: FurnitureType.InsertBasin,
+    path: "models/insert-basin/Insert-Basin-Glass-White-800mm.glb",
+    size: 800,
+    variant: {
+      isHybrid: false,
+      insertBasinThickness: "thick",
+    },
+    minPackageTier: "enhanced",
+    price: 0,
+  },
+
+  // hybrid insert basin
+  {
+    key: "insert-basin-hybrid-ceramic-500mm",
+    name: "Ceramic Hybrid Insert Basin 500mm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Ceramic-Hybrid-500mm.glb",
     size: 500,
@@ -552,7 +698,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     price: 0,
   },
   {
-    key: "insert-basin-glass-black-500mm",
+    key: "insert-basin-hybrid-glass-black-500mm",
     name: "Black Glass Insert Basin 500mm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-Black-Hybrid-500mm.glb",
@@ -565,7 +711,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     price: 0,
   },
   {
-    key: "insert-basin-glass-white-500mm",
+    key: "insert-basin-hybrid-glass-white-500mm",
     name: "White Glass Insert Basin 500mm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-White-Hybrid-500mm.glb",
@@ -578,7 +724,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     price: 0,
   },
   {
-    key: "insert-basin-ceramic-600mm",
+    key: "insert-basin-hybrid-ceramic-600mm",
     name: "Ceramic Insert Basin 600mm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Ceramic-Hybrid-600mm.glb",
@@ -591,7 +737,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     price: 0,
   },
   {
-    key: "insert-basin-glass-black-600mm",
+    key: "insert-basin-hybrid-glass-black-600mm",
     name: "Black Glass Insert Basin 600mm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-Black-Hybrid-600mm.glb",
@@ -604,7 +750,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     price: 0,
   },
   {
-    key: "insert-basin-glass-white-600mm",
+    key: "insert-basin-hybrid-glass-white-600mm",
     name: "White Glass Insert Basin 600mm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-White-Hybrid-600mm.glb",
@@ -617,7 +763,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     price: 0,
   },
   {
-    key: "insert-basin-ceramic-800mm",
+    key: "insert-basin-hybrid-ceramic-800mm",
     name: "Ceramic Insert Basin 800mm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Ceramic-Hybrid-800mm.glb",
@@ -630,7 +776,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     price: 0,
   },
   {
-    key: "insert-basin-glass-black-800mm",
+    key: "insert-basin-hybrid-glass-black-800mm",
     name: "Black Glass Insert Basin 800mm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-Black-Hybrid-800mm.glb",
@@ -643,7 +789,7 @@ export const allFurnitures: Omit<Furniture, "dimensions" | "position">[] = [
     price: 0,
   },
   {
-    key: "insert-basin-glass-white-800mm",
+    key: "insert-basin-hybrid-glass-white-800mm",
     name: "White Glass Insert Basin 800mm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-White-Hybrid-800mm.glb",
@@ -670,50 +816,10 @@ const defaultBasin: Furniture = {
 };
 
 const defaultFurnitureMap: Partial<Record<FurnitureType, Furniture>> = {
-  [FurnitureType.Basin]: defaultBasin,
-  [FurnitureType.BasinTap]: {
-    key: "basin-tap",
-    name: "Basin Tap",
-    type: FurnitureType.BasinTap,
-    path: "models/bto-default-tap.glb",
-    size: 0,
-    dimensions: [0, 0, 0],
+  [FurnitureType.VanityCabinet]: {
     position: [0, 0, 0],
-    minPackageTier: "default",
-    price: 0,
-  },
-  [FurnitureType.ToiletBowl]: {
-    key: "toilet-bowl",
-    name: "Toilet Bowl",
-    type: FurnitureType.ToiletBowl,
-    path: "models/HDB-BTO-toiletbowl.glb",
-    size: 0,
     dimensions: [0, 0, 0],
-    position: [0, 0, 0],
-    minPackageTier: "default",
-    price: 0,
-  },
-  [FurnitureType.Ceiling]: {
-    key: "toilet-ceiling",
-    name: "Toilet Ceiling",
-    type: FurnitureType.Ceiling,
-    path: "models/bto-toilet-ceiling-top-section.glb",
-    size: 0,
-    dimensions: [0, 0, 0],
-    position: [0, 0, 0],
-    minPackageTier: "default",
-    price: 0,
-  },
-  [FurnitureType.Shower]: {
-    key: "shower",
-    name: "Shower",
-    type: FurnitureType.Shower,
-    path: "models/bto-default-showerhead.glb",
-    size: 0,
-    dimensions: [0, 0, 0],
-    position: [0, 0, 0],
-    minPackageTier: "default",
-    price: 0,
+    ...allFurnitures.find((f) => f.type === FurnitureType.VanityCabinet)!,
   },
 };
 
@@ -1027,10 +1133,31 @@ const useStore = create(
 
     choiceMap: {} as ChoiceMap,
     addChoice: (choice) => {
+      const furnitureType = choiceTypeToFurnitureTypeMap[choice.type];
+      if (furnitureType) {
+        const furniture = allFurnitures.find(
+          (furniture) => furniture.key === choice.value,
+        );
+        console.log(furniture);
+        set(
+          (state) => {
+            return {
+              furnitureMap: {
+                ...state.furnitureMap,
+                [furnitureType]: {
+                  ...state.furnitureMap[furnitureType],
+                  ...furniture,
+                },
+              },
+            };
+          },
+          undefined,
+          "addChoice/furniture",
+        );
+      }
       set(
         (state) => {
           return {
-            ...state,
             choiceMap: {
               ...state.choiceMap,
               [choice.type]: choice,
