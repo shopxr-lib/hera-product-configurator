@@ -35,18 +35,20 @@ const InsertBasin: React.FC<Props> = ({ path, ...props }) => {
     box.getSize(size);
 
     const position: [number, number, number] = [
-      cabinet.position[0],
-      cabinet.position[1] + cabinet.dimensions[1] / 2,
-      cabinet.position[2],
+      cabinet.position![0],
+      cabinet.position![1] + cabinet.dimensions[1] / 2,
+      cabinet.position![2],
     ];
 
     if (self?.variant?.insertBasinThickness === "thin") {
       position[0] += thinOffsetBySize[self.size][0];
       position[1] += thinOffsetBySize[self.size][1];
+      position[2] += thinOffsetBySize[self.size][2];
     }
     if (self?.variant?.insertBasinThickness === "thick") {
       position[0] += thickOffsetBySize[self.size][0];
       position[1] += thickOffsetBySize[self.size][1];
+      position[2] += thickOffsetBySize[self.size][2];
     }
 
     setFurniturePosition(FurnitureType.InsertBasin, position);
@@ -70,15 +72,15 @@ const InsertBasin: React.FC<Props> = ({ path, ...props }) => {
 };
 
 const thinOffsetBySize: Record<number, [number, number, number]> = {
-  500: [-0.028, -0.096, 0],
-  600: [-0.026, -0.08, 0],
-  800: [-0.03, -0.08, 0],
+  500: [0, -0.096, -0.025],
+  600: [0, -0.082, -0.025],
+  800: [0, -0.08, -0.03],
 };
 
 const thickOffsetBySize: Record<number, [number, number, number]> = {
-  500: [-0.023, -0.047, 0],
-  600: [-0.023, -0.06, 0],
-  800: [-0.028, -0.06, 0],
+  500: [0, -0.047, -0.02],
+  600: [0, -0.062, -0.02],
+  800: [0, -0.06, -0.028],
 };
 
 export default InsertBasin;
