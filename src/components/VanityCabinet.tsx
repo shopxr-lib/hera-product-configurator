@@ -5,7 +5,7 @@ import useStore, {
   FurnitureVariant,
   TextureMap,
 } from "../store/useStore";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 
 type Props = {
   path: string;
@@ -17,12 +17,15 @@ type Props = {
 
 const VanityCabinet = ({ path, textureMap, variant, ...props }: Props) => {
   const { scene } = useGLTF(path);
+
+  // https://github.com/pmndrs/react-three-fiber/issues/245#issuecomment-554612085
+  const copiedScene = useMemo(() => scene.clone(), [scene]);
+
   const texture = useTexture(textureMap ?? {}, (t) => {
     Object.values(t).forEach((texture) => {
       texture.flipY = false;
     });
   });
-  const roomDimension = useStore((state) => state.roomDimensions);
 
   useEffect(() => {
     scene.traverse((object) => {
@@ -46,9 +49,8 @@ const VanityCabinet = ({ path, textureMap, variant, ...props }: Props) => {
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
 
   const self = furnitureMap[FurnitureType.VanityCabinet];
-  const basinFurniture = furnitureMap[FurnitureType.Basin];
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!ref.current) {
       return;
     }
@@ -57,34 +59,17 @@ const VanityCabinet = ({ path, textureMap, variant, ...props }: Props) => {
     const size = new THREE.Vector3();
     box.getSize(size);
 
-    let position: [number, number, number] = [0, 0, 0];
-    if (basinFurniture) {
-      position = [
-        basinFurniture.position[0] + 0.01,
-        basinFurniture.position[1] - size.y - 0.08,
-        basinFurniture.position[2],
-      ];
-    }
-    setFurniturePosition(FurnitureType.VanityCabinet, position);
     setFurnitureDimensions(FurnitureType.VanityCabinet, [
       size.x,
       size.y,
       size.z,
     ]);
-  }, [
-    variant,
-    setFurniturePosition,
-    setFurnitureDimensions,
-    basinFurniture,
-    roomDimension.depth,
-    roomDimension.height,
-    self?.key,
-  ]);
+  }, [variant, setFurniturePosition, setFurnitureDimensions, self?.key]);
 
   return (
     <primitive
       ref={ref}
-      object={scene}
+      object={copiedScene}
       position={self?.position}
       {...props}
       {...texture}
