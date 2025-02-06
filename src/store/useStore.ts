@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
@@ -158,7 +159,7 @@ type StoreState = {
   commitCustomizeSelected: () => void;
 
   choiceMap: ChoiceMap;
-  addChoice: (choice: Choice) => void;
+  addChoice: (choice: Choice, source?: string) => void;
 };
 
 export const allFloorsTextures: TextureObject[] = [
@@ -1132,7 +1133,8 @@ const useStore = create(
     },
 
     choiceMap: {} as ChoiceMap,
-    addChoice: (choice) => {
+    addChoice: (choice, source: string = "") => {
+      eventSystem.dispatch(choice.type, choice.value);
       const furnitureType = choiceTypeToFurnitureTypeMap[choice.type];
       if (furnitureType) {
         const furniture = allFurnitures.find(
@@ -1152,7 +1154,7 @@ const useStore = create(
             };
           },
           undefined,
-          "addChoice/furniture",
+          `addChoice/furniture/${source}`,
         );
       }
       set(
@@ -1165,10 +1167,36 @@ const useStore = create(
           };
         },
         undefined,
-        "addChoice",
+        `addChoice/choiceMap/${source}`,
       );
     },
   })),
 );
+export type EventCallback = (event: ChoiceType, value: any) => void;
+
+class EventSystem {
+  listeners: Record<string, EventCallback[]> = {};
+
+  subscribe(event: ChoiceType, callback: EventCallback) {
+    if (!this.listeners[event]) {
+      this.listeners[event] = [];
+    }
+    this.listeners[event].push(callback);
+  }
+
+  unsubscribe(event: ChoiceType, callback: EventCallback) {
+    if (!this.listeners[event]) return;
+    this.listeners[event] = this.listeners[event].filter(
+      (cb) => cb !== callback,
+    );
+  }
+
+  dispatch(event: ChoiceType, value: any) {
+    if (!this.listeners[event]) return;
+    this.listeners[event].forEach((callback) => callback(event, value));
+  }
+}
+
+export const eventSystem = new EventSystem();
 
 export default useStore;

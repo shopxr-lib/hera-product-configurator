@@ -1,6 +1,11 @@
 import React from "react";
 import clsx from "clsx";
-import useStore, { ChoiceMap, ChoiceType } from "../store/useStore";
+import useStore, {
+  ChoiceMap,
+  ChoiceType,
+  EventCallback,
+  eventSystem,
+} from "../store/useStore";
 import { Modal, Text, Title } from "@mantine/core";
 
 const CustomizePopUp: React.FC = () => {
@@ -193,18 +198,54 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "Hybrid Pebble",
                 subtitle: vanityCabinetHybridDimensionsText["500"],
                 image: "images/vanity-cabinet/hybrid-pebble-500mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "vanity-cabinet-hybrid-pebble-600mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "vanity-cabinet-hybrid-pebble-800mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-hybrid-pine-500mm",
                 title: "Hybrid Pine",
                 subtitle: vanityCabinetHybridDimensionsText["500"],
                 image: "images/vanity-cabinet/hybrid-pine-500mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "vanity-cabinet-hybrid-pine-600mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "vanity-cabinet-hybrid-pine-800mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-hybrid-walnut-500mm",
                 title: "Hybrid Walnut",
                 subtitle: vanityCabinetHybridDimensionsText["500"],
                 image: "images/vanity-cabinet/hybrid-walnut-500mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "vanity-cabinet-hybrid-walnut-600mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "vanity-cabinet-hybrid-walnut-800mm",
+                  },
+                ],
               },
             ],
           },
@@ -218,18 +259,54 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "Hybrid Pebble",
                 subtitle: vanityCabinetHybridDimensionsText["600"],
                 image: "images/vanity-cabinet/hybrid-pebble-600mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "vanity-cabinet-hybrid-pebble-500mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "vanity-cabinet-hybrid-pebble-800mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-hybrid-pine-600mm",
                 title: "Hybrid Pine",
                 subtitle: vanityCabinetHybridDimensionsText["600"],
                 image: "images/vanity-cabinet/hybrid-pine-600mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "vanity-cabinet-hybrid-pine-500mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "vanity-cabinet-hybrid-pine-800mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-hybrid-walnut-600mm",
                 title: "Hybrid Walnut",
                 subtitle: vanityCabinetHybridDimensionsText["600"],
                 image: "images/vanity-cabinet/hybrid-walnut-600mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "vanity-cabinet-hybrid-walnut-500mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "vanity-cabinet-hybrid-walnut-800mm",
+                  },
+                ],
               },
             ],
           },
@@ -243,18 +320,54 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "Hybrid Pebble",
                 subtitle: vanityCabinetHybridDimensionsText["800"],
                 image: "images/vanity-cabinet/hybrid-pebble-800mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "vanity-cabinet-hybrid-pebble-500mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "vanity-cabinet-hybrid-pebble-600mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-hybrid-pine-800mm",
                 title: "Hybrid Pine",
                 subtitle: vanityCabinetHybridDimensionsText["800"],
                 image: "images/vanity-cabinet/hybrid-pine-800mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "vanity-cabinet-hybrid-pine-500mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "vanity-cabinet-hybrid-pine-600mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-hybrid-walnut-800mm",
                 title: "Hybrid Walnut",
                 subtitle: vanityCabinetHybridDimensionsText["800"],
                 image: "images/vanity-cabinet/hybrid-walnut-800mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "vanity-cabinet-hybrid-walnut-500mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "vanity-cabinet-hybrid-walnut-600mm",
+                  },
+                ],
               },
             ],
           },
@@ -268,42 +381,91 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "Birch",
                 subtitle: vanityCabinetDimensionsText["600"],
                 image: "images/vanity-cabinet/birch-600mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "vanity-cabinet-birch-800mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-blanco-600mm",
                 title: "Blanco",
                 subtitle: vanityCabinetDimensionsText["600"],
                 image: "images/vanity-cabinet/blanco-600mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "vanity-cabinet-blanco-800mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-brown-stone-600mm",
                 title: "Brownstone",
                 subtitle: vanityCabinetDimensionsText["600"],
                 image: "images/vanity-cabinet/brownstone-600mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "vanity-cabinet-brown-stone-800mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-charcoal-ash-600mm",
                 title: "Charcoal Ash",
                 subtitle: vanityCabinetDimensionsText["600"],
                 image: "images/vanity-cabinet/charcoal-ash-600mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "vanity-cabinet-charcoal-ash-800mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-graphite-600mm",
                 title: "Graphite",
                 subtitle: vanityCabinetDimensionsText["600"],
                 image: "images/vanity-cabinet/graphite-600mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "vanity-cabinet-graphite-800mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-matt-black-600mm",
                 title: "Matt Black",
                 subtitle: vanityCabinetDimensionsText["600"],
                 image: "images/vanity-cabinet/matt-black-600mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "vanity-cabinet-matt-black-800mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-oakwood-600mm",
                 title: "Oakwood",
                 subtitle: vanityCabinetDimensionsText["600"],
                 image: "images/vanity-cabinet/oakwood-600mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "vanity-cabinet-oakwood-800mm",
+                  },
+                ],
               },
             ],
           },
@@ -317,42 +479,91 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "Birch",
                 subtitle: vanityCabinetDimensionsText["800"],
                 image: "images/vanity-cabinet/birch-800mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "vanity-cabinet-birch-600mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-blanco-800mm",
                 title: "Blanco",
                 subtitle: vanityCabinetDimensionsText["800"],
                 image: "images/vanity-cabinet/blanco-800mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "vanity-cabinet-blanco-600mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-brown-stone-800mm",
                 title: "Brownstone",
                 subtitle: vanityCabinetDimensionsText["800"],
                 image: "images/vanity-cabinet/brownstone-800mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "vanity-cabinet-brown-stone-600mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-charcoal-ash-800mm",
                 title: "Charcoal",
                 subtitle: vanityCabinetDimensionsText["800"],
                 image: "images/vanity-cabinet/charcoal-ash-800mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "vanity-cabinet-charcoal-ash-600mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-graphite-800mm",
                 title: "Graphite",
                 subtitle: vanityCabinetDimensionsText["800"],
                 image: "images/vanity-cabinet/graphite-800mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "vanity-cabinet-graphite-600mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-matt-black-800mm",
                 title: "Matt Black",
                 subtitle: vanityCabinetDimensionsText["800"],
                 image: "images/vanity-cabinet/matt-black-800mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "vanity-cabinet-matt-black-600mm",
+                  },
+                ],
               },
               {
                 value: "vanity-cabinet-oakwood-800mm",
                 title: "Oakwood",
                 subtitle: vanityCabinetDimensionsText["800"],
                 image: "images/vanity-cabinet/oakwood-800mm.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "vanity-cabinet-oakwood-600mm",
+                  },
+                ],
               },
             ],
           },
@@ -1026,6 +1237,64 @@ type SectionChoice = {
   subtitle?: string;
   image?: string;
   hideIf?: (choiceMap: ChoiceMap) => boolean;
+  transition?: Transition[];
 };
+
+type Transition = {
+  eventType: ChoiceType;
+  // eslint-disable-next-line
+  value: any;
+  to: string;
+};
+
+Object.values(PopUpInfos).forEach((popUpInfo) => {
+  popUpInfo.sections.forEach((section) => {
+    section.choices?.forEach((choice) => {
+      if (choice.transition) {
+        choice.transition.forEach((transition) => {
+          const callback = createCallbackFunction(transition, section, choice);
+          eventSystem.subscribe(transition.eventType, callback);
+        });
+      }
+    });
+    section.groupChoices?.forEach((groupChoice) => {
+      groupChoice.choices.forEach((choice) => {
+        if (choice.transition) {
+          choice.transition.forEach((transition) => {
+            const callback = createCallbackFunction(
+              transition,
+              section,
+              choice,
+            );
+            eventSystem.subscribe(transition.eventType, callback);
+          });
+        }
+      });
+    });
+  });
+});
+
+function createCallbackFunction(
+  transition: Transition,
+  section: Section,
+  choice: SectionChoice,
+): EventCallback {
+  return (event, value) => {
+    if (event === transition.eventType && value === transition.value) {
+      const { choiceMap, addChoice } = useStore.getState();
+
+      if (choiceMap[section.type]?.value === choice.value) {
+        addChoice(
+          {
+            type: section.type,
+            // eslint-disable-next-line
+            value: transition.to as any,
+          },
+          `transition/${choice.value}`,
+        );
+      }
+    }
+  };
+}
 
 export default CustomizePopUp;
