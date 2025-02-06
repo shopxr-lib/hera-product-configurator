@@ -603,18 +603,39 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "White Ceramic",
                 subtitle: insertBasinDimensionsText["600"].ceramic,
                 image: "images/insert-basin/ceramic-helios.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "insert-basin-ceramic-800mm",
+                  },
+                ],
               },
               {
                 value: "insert-basin-glass-black-600mm",
                 title: "Black Glass",
                 subtitle: insertBasinDimensionsText["600"].glass,
                 image: "images/insert-basin/glass-black.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "insert-basin-glass-black-800mm",
+                  },
+                ],
               },
               {
                 value: "insert-basin-glass-white-600mm",
                 title: "White Glass",
                 subtitle: insertBasinDimensionsText["600"].glass,
                 image: "images/insert-basin/glass-white.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "insert-basin-glass-white-800mm",
+                  },
+                ],
               },
             ],
           },
@@ -630,18 +651,39 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "White Ceramic",
                 subtitle: insertBasinDimensionsText["800"].ceramic,
                 image: "images/insert-basin/ceramic-helios.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "insert-basin-ceramic-600mm",
+                  },
+                ],
               },
               {
                 value: "insert-basin-glass-black-800mm",
                 title: "Black Glass",
                 subtitle: insertBasinDimensionsText["800"].glass,
                 image: "images/insert-basin/glass-black.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "insert-basin-glass-black-600mm",
+                  },
+                ],
               },
               {
                 value: "insert-basin-glass-white-800mm",
                 title: "White Glass",
                 subtitle: insertBasinDimensionsText["800"].glass,
                 image: "images/insert-basin/glass-white.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "insert-basin-glass-white-600mm",
+                  },
+                ],
               },
             ],
           },
@@ -657,18 +699,54 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "Hybrid White Ceramic",
                 subtitle: insertBasinDimensionsText["500"].ceramic,
                 image: "images/insert-basin/ceramic-helios.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "insert-basin-hybrid-ceramic-600mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "insert-basin-hybrid-ceramic-800mm",
+                  },
+                ],
               },
               {
                 value: "insert-basin-hybrid-glass-black-500mm",
                 title: "Hybrid Black Glass",
                 subtitle: insertBasinDimensionsText["500"].glass,
                 image: "images/insert-basin/glass-black.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "insert-basin-hybrid-glass-black-600mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "insert-basin-hybrid-glass-black-800mm",
+                  },
+                ],
               },
               {
                 value: "insert-basin-hybrid-glass-white-500mm",
                 title: "Hybrid White Glass",
                 subtitle: insertBasinDimensionsText["500"].glass,
                 image: "images/insert-basin/glass-white.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "insert-basin-hybrid-glass-white-600mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "insert-basin-hybrid-glass-white-800mm",
+                  },
+                ],
               },
             ],
           },
@@ -684,18 +762,54 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "Hybrid White Ceramic",
                 subtitle: insertBasinDimensionsText["600"].ceramic,
                 image: "images/insert-basin/ceramic-helios.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "insert-basin-hybrid-ceramic-500mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "insert-basin-hybrid-ceramic-800mm",
+                  },
+                ],
               },
               {
                 value: "insert-basin-hybrid-glass-black-600mm",
                 title: "Hybrid Black Glass",
                 subtitle: insertBasinDimensionsText["600"].glass,
                 image: "images/insert-basin/glass-black.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "insert-basin-hybrid-glass-black-500mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "insert-basin-hybrid-glass-black-800mm",
+                  },
+                ],
               },
               {
                 value: "insert-basin-hybrid-glass-white-600mm",
                 title: "Hybrid White Glass",
                 subtitle: insertBasinDimensionsText["600"].glass,
                 image: "images/insert-basin/glass-white.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "insert-basin-hybrid-glass-white-500mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "insert-basin-hybrid-glass-white-800mm",
+                  },
+                ],
               },
             ],
           },
@@ -711,18 +825,54 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "Hybrid White Ceramic",
                 subtitle: insertBasinDimensionsText["800"].ceramic,
                 image: "images/insert-basin/ceramic-helios.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "insert-basin-hybrid-ceramic-500mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "insert-basin-hybrid-ceramic-600mm",
+                  },
+                ],
               },
               {
                 value: "insert-basin-hybrid-glass-black-800mm",
                 title: "Hybrid Black Glass",
                 subtitle: insertBasinDimensionsText["800"].glass,
                 image: "images/insert-basin/glass-black.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "insert-basin-hybrid-glass-black-500mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "insert-basin-hybrid-glass-black-600mm",
+                  },
+                ],
               },
               {
                 value: "insert-basin-hybrid-glass-white-800mm",
                 title: "Hybrid White Glass",
                 subtitle: insertBasinDimensionsText["800"].glass,
                 image: "images/insert-basin/glass-white.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "insert-basin-hybrid-glass-white-500mm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "insert-basin-hybrid-glass-white-600mm",
+                  },
+                ],
               },
             ],
           },
