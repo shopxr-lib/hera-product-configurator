@@ -1136,6 +1136,70 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     },
     price: 0,
   },
+
+  // popup
+  {
+    key: "popup-chrome",
+    name: "Chrome Popup",
+    type: FurnitureType.Popup,
+    path: "models/popup/popup.glb",
+    materials: {
+      color: 0xc8c8c8,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "popup-gold",
+    name: "Gold Popup",
+    type: FurnitureType.Popup,
+    path: "models/popup/popup.glb",
+    materials: {
+      color: 0xb48f5b,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "popup-gun-metal",
+    name: "Gun Metal Popup",
+    type: FurnitureType.Popup,
+    path: "models/popup/popup.glb",
+    materials: {
+      color: 0x5a5a5a,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "popup-matt-black",
+    name: "Matt Black Popup",
+    type: FurnitureType.Popup,
+    path: "models/popup/popup.glb",
+    materials: {
+      color: 0x313131,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "popup-rose-gold",
+    name: "Rose Gold Popup",
+    type: FurnitureType.Popup,
+    path: "models/popup/popup.glb",
+    materials: {
+      color: 0xb47765,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+
+  // tap
 ];
 
 const defaultFurnitureMap: Partial<Record<FurnitureType, Furniture>> = {

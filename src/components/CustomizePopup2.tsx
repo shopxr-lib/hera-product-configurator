@@ -1301,6 +1301,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
           ),
         choices: [
           {
+            value: "popup-chrome",
+            title: "Chrome",
+            image: "images/popup/popup-chrome.webp",
+          },
+          {
             value: "popup-gold",
             title: "Gold",
             image: "images/popup/popup-gold.webp",

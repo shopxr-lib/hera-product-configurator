@@ -6,6 +6,7 @@ import VanityCabinet from "./VanityCabinet";
 import Basin from "./Basin";
 import InsertBasin from "./InsertBasin";
 import OverflowRing from "./OverflowRing";
+import Popup from "./Popup";
 
 const Room = () => {
   const furnitureMap = useStore((state) => state.furnitureMap);
@@ -64,6 +65,13 @@ const Room = () => {
                 />
               </Suspense>
             );
+          case FurnitureType.Popup:
+            return (
+              <Suspense key={furniture.key}>
+                <Popup path={furniture.path} materials={furniture.materials!} />
+              </Suspense>
+            );
+
           default:
             return <primitive key={index} object={furniture} />;
         }
