@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import VanityCabinet from "./VanityCabinet";
 import Basin from "./Basin";
 import InsertBasin from "./InsertBasin";
+import OverflowRing from "./OverflowRing";
 
 const Room = () => {
   const furnitureMap = useStore((state) => state.furnitureMap);
@@ -51,6 +52,16 @@ const Room = () => {
             return (
               <Suspense key={furniture.key}>
                 <InsertBasin path={furniture.path} />
+              </Suspense>
+            );
+          case FurnitureType.OverflowRing:
+            return (
+              <Suspense key={furniture.key}>
+                <OverflowRing
+                  path={furniture.path}
+                  textureMap={furniture.textureMap!}
+                  materials={furniture.materials!}
+                />
               </Suspense>
             );
           default:

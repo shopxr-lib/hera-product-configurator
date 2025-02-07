@@ -1250,16 +1250,25 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         type: "overflow-ring",
         hideIf: (choiceMap) =>
           !(
-            choiceMap["vanity-color"] && choiceMap.top?.value === "insert-basin"
+            choiceMap["vanity-color"] &&
+            choiceMap.top?.value === "insert-basin" &&
+            new RegExp(`ceramic`).test(String(choiceMap["insert-basin"]?.value))
           ),
+        transition: [
+          {
+            eventType: "insert-basin",
+            value: "glass",
+            to: null,
+          },
+        ],
         choices: [
           {
-            value: "basin-overlow-ring-chrome",
+            value: "basin-overflow-ring-chrome",
             title: "Chrome",
             image: "images/basin-overflow-ring/basin-overflow-ring-chrome.webp",
           },
           {
-            value: "basin-overlow-ring-gold",
+            value: "basin-overflow-ring-gold",
             title: "Gold",
             image: "images/basin-overflow-ring/basin-overflow-ring-gold.webp",
           },
@@ -1731,7 +1740,7 @@ function createCallbackFunction(
   return (event, value) => {
     if (
       event === transition.eventType &&
-      (!transition.value || value === transition.value)
+      (!transition.value || new RegExp(`${transition.value}`).test(value))
     ) {
       const { choiceMap, addChoice } = useStore.getState();
 

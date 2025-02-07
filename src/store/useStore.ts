@@ -26,6 +26,7 @@ export type Furniture = {
   position?: Triplet;
   minPackageTier?: PackageType;
   textureMap?: Partial<TextureMap>;
+  materials?: Partial<MaterialMap>;
   variant?: Partial<FurnitureVariant>;
   price: number;
 };
@@ -45,6 +46,12 @@ export type TextureMap = {
   aoMap: string;
   displacementMap: string;
   map: string; // diffuse map
+};
+
+export type MaterialMap = {
+  color: number;
+  metalness: number;
+  roughness: number;
 };
 
 type TextureObject = {
@@ -1064,6 +1071,68 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     path: "models/basin/round-ceramic-basin.glb",
     textureMap: {
       map: "images/maps/basin/Basin-Tangerine.png",
+    },
+    price: 0,
+  },
+
+  // overflow-ring
+  {
+    key: "basin-overflow-ring-chrome",
+    name: "Chrome Overflow Ring",
+    type: FurnitureType.OverflowRing,
+    path: "models/overflow-ring/overflow-ring.glb",
+    materials: {
+      color: 0xc8c8c8,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "basin-overflow-ring-gold",
+    name: "Gold Overflow Ring",
+    type: FurnitureType.OverflowRing,
+    path: "models/overflow-ring/overflow-ring.glb",
+    materials: {
+      color: 0xb48f5b,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "basin-overflow-ring-gun-metal",
+    name: "Gun Metal Overflow Ring",
+    type: FurnitureType.OverflowRing,
+    path: "models/overflow-ring/overflow-ring.glb",
+    materials: {
+      color: 0x5a5a5a,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "basin-overflow-ring-matt-black",
+    name: "Matt Black Overflow Ring",
+    type: FurnitureType.OverflowRing,
+    path: "models/overflow-ring/overflow-ring.glb",
+    materials: {
+      color: 0x313131,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "basin-overflow-ring-rose-gold",
+    name: "Rose Gold Overflow Ring",
+    type: FurnitureType.OverflowRing,
+    path: "models/overflow-ring/overflow-ring.glb",
+    materials: {
+      color: 0xb47765,
+      metalness: 1,
+      roughness: 0.087,
     },
     price: 0,
   },
