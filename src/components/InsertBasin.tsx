@@ -85,7 +85,7 @@ const InsertBasin: React.FC<Props> = ({ path, ...props }) => {
 
 const nonHybridThinOffsetBySize: Record<number, [number, number, number]> = {
   600: [0, -0.045, -0.04],
-  800: [0, -0.052, -0.058],
+  800: [0, -0.052, -0.067],
 };
 
 const nonHybridThickOffsetBySize: Record<number, [number, number, number]> = {
@@ -100,7 +100,7 @@ const hybridThinOffsetBySize: Record<number, [number, number, number]> = {
 };
 
 const hybridThickOffsetBySize: Record<number, [number, number, number]> = {
-  500: [0, -0.047, -0.02],
+  500: [0, -0.075, -0.02],
   600: [0, -0.062, -0.02],
   800: [0, -0.06, -0.028],
 };

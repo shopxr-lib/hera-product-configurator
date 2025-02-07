@@ -782,7 +782,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     key: "insert-basin-hybrid-ceramic-500mm",
     name: "Ceramic Hybrid Insert Basin 500mm",
     type: FurnitureType.InsertBasin,
-    path: "models/insert-basin/Insert-Basin-Ceramic-Hybrid-500mm.glb",
+    path: "models/insert-basin/Insert-Basin-Ceramic-Hybrid-50cm.glb",
     size: 500,
     variant: {
       isHybrid: true,
@@ -821,7 +821,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     key: "insert-basin-hybrid-ceramic-600mm",
     name: "Ceramic Insert Basin 600mm",
     type: FurnitureType.InsertBasin,
-    path: "models/insert-basin/Insert-Basin-Ceramic-Hybrid-600mm.glb",
+    path: "models/insert-basin/Insert-Basin-Ceramic-Hybrid-60cm.glb",
     size: 600,
     variant: {
       isHybrid: true,
@@ -860,7 +860,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     key: "insert-basin-hybrid-ceramic-800mm",
     name: "Ceramic Insert Basin 800mm",
     type: FurnitureType.InsertBasin,
-    path: "models/insert-basin/Insert-Basin-Ceramic-Hybrid-800mm.glb",
+    path: "models/insert-basin/Insert-Basin-Ceramic-Hybrid-80cm.glb",
     size: 800,
     variant: {
       isHybrid: true,
