@@ -1698,7 +1698,7 @@ const roomDimensions = {
 };
 
 const useStore = create(
-  devtools<StoreState>((set) => ({
+  devtools<StoreState>((set, get) => ({
     roomDimensions,
     package: "default",
     setPackage: (p: string) => set({ package: p as PackageType }),
@@ -1791,77 +1791,42 @@ const useStore = create(
     choiceMap: {} as ChoiceMap,
     addChoice: (choice, source: string = "") => {
       eventSystem.dispatch(choice.type, choice.value);
+
       const furnitureType = choiceTypeToFurnitureTypeMap[choice.type];
+      const currentState = get();
+      const newFurnitureMap = { ...currentState.furnitureMap };
+      const newChoiceMap = { ...currentState.choiceMap };
+
       if (furnitureType) {
         const furniture = allFurnitures.find(
           (furniture) => furniture.key === choice.value,
         );
-        console.log(furniture);
         if (choice.value === null) {
-          set(
-            (state) => {
-              const newFurnitureMap = {
-                ...state.furnitureMap,
-              };
-              delete newFurnitureMap[furnitureType];
-              return {
-                furnitureMap: newFurnitureMap,
-              };
-            },
-            undefined,
-            { type: `addChoice/furniture`, payload: choice, source },
-          );
+          delete newFurnitureMap[furnitureType];
+        } else if (furniture) {
+          newFurnitureMap[furnitureType] = {
+            ...{ dimensions: [0, 0, 0] as Triplet },
+            ...furniture,
+          };
         } else {
-          set(
-            (state) => {
-              return {
-                furnitureMap: {
-                  ...state.furnitureMap,
-                  [furnitureType]: {
-                    ...{
-                      dimensions: [0, 0, 0] as Triplet,
-                    },
-                    ...state.furnitureMap[furnitureType],
-                    ...furniture,
-                  },
-                },
-              };
-            },
-            undefined,
-            { type: `addChoice/furniture`, payload: choice, source },
-          );
+          console.warn("Furniture not found", choice.value);
         }
       }
 
       if (choice.value === null) {
-        set(
-          (state) => {
-            const newChoiceMap = {
-              ...state.choiceMap,
-            };
-            delete newChoiceMap[choice.type];
-            return {
-              choiceMap: newChoiceMap,
-            };
-          },
-          undefined,
-          { type: `addChoice/choiceMap`, payload: choice, source },
-        );
-        return;
+        delete newChoiceMap[choice.type];
       } else {
-        set(
-          (state) => {
-            return {
-              choiceMap: {
-                ...state.choiceMap,
-                [choice.type]: choice,
-              },
-            };
-          },
-          undefined,
-          { type: `addChoice/choiceMap`, payload: choice, source },
-        );
+        newChoiceMap[choice.type] = choice;
       }
+
+      set(
+        {
+          furnitureMap: newFurnitureMap,
+          choiceMap: newChoiceMap,
+        },
+        undefined,
+        { type: "addChoice", payload: { choice, source } },
+      );
     },
   })),
 );
