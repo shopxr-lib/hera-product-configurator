@@ -161,6 +161,7 @@ type StoreState = {
     choice: {
       type: Choice["type"];
       value: any;
+      preserveSelection?: boolean;
     },
     source?: string,
   ) => void;
@@ -1813,10 +1814,13 @@ const useStore = create(
         }
       }
 
-      if (choice.value === null) {
+      if (choice.value === null && !choice.preserveSelection) {
         delete newChoiceMap[choice.type];
       } else {
-        newChoiceMap[choice.type] = choice;
+        newChoiceMap[choice.type] = {
+          type: choice.type,
+          value: choice.value,
+        };
       }
 
       set(

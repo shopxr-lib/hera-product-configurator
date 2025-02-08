@@ -42,6 +42,7 @@ const CustomizePopUp: React.FC = () => {
           addChoice({
             type: section.type,
             value: choice.value,
+            preserveSelection: choice.preserveSelection,
           });
         }}
       >
@@ -1649,7 +1650,8 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             name: "Handle - 60 cm",
             choices: [
               {
-                value: "handle-nil",
+                value: null,
+                preserveSelection: true,
                 title: "No handle",
                 image: "images/nil-selection.webp",
               },
@@ -1833,6 +1835,7 @@ type ChoiceGroup = {
 type SectionChoice = {
   //eslint-disable-next-line
   value: any;
+  preserveSelection?: boolean;
   title: string;
   subtitle?: string;
   image?: string;
