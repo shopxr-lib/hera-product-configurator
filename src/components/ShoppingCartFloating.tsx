@@ -1,13 +1,12 @@
 import { IconShoppingCartFilled } from "@tabler/icons-react";
-import useStore from "../store/useStore";
-import { startingPrices } from "./constants";
+import useStore, { calculatePrice } from "../store/useStore";
 
 const ShoppingCartFloating = () => {
-  const selectedPackage = useStore((state) => state.package);
   const setModal = useStore((state) => state.setModal);
+  const choiceMap = useStore((state) => state.choiceMap);
   return (
     <button
-      className="md-4 fixed right-4 top-4 flex items-center gap-2 rounded-full bg-brand-800 p-4"
+      className="md-4 bg-brand-800 fixed top-4 right-4 flex items-center gap-2 rounded-full p-4"
       onClick={() => setModal("shoppingCart", true)}
     >
       <p className="text-white">
@@ -15,7 +14,7 @@ const ShoppingCartFloating = () => {
           style: "currency",
           currency: "USD",
           maximumFractionDigits: 0,
-        }).format(startingPrices[selectedPackage])}
+        }).format(calculatePrice(choiceMap))}
       </p>
       <IconShoppingCartFilled size={24} className="text-white" />
     </button>

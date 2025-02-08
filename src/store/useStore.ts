@@ -1997,6 +1997,58 @@ class EventSystem {
   }
 }
 
+export function calculatePrice(choiceMap: StoreState["choiceMap"]) {
+  let price = 0;
+
+  // cabinet
+  if (choiceMap.breadth?.value === 46) {
+    if (choiceMap.width?.value === 60) {
+      price += 748;
+    } else if (choiceMap.width?.value === 80) {
+      price += 848;
+    }
+  } else if (choiceMap.breadth?.value === 40) {
+    if (choiceMap.width?.value === 50) {
+      price += 648;
+    } else if (choiceMap.width?.value === 60) {
+      price += 748;
+    } else if (choiceMap.width?.value === 80) {
+      price += 848;
+    }
+  }
+
+  // tap
+  if (
+    String(choiceMap.tap?.value).includes("8101") ||
+    String(choiceMap.tap?.value).includes("8201") ||
+    String(choiceMap.tap?.value).includes("8301")
+  ) {
+    price += 228;
+  } else if (
+    String(choiceMap.tap?.value).includes("8102") ||
+    String(choiceMap.tap?.value).includes("8202") ||
+    String(choiceMap.tap?.value).includes("8302")
+  ) {
+    price += 288;
+  }
+
+  // basin
+  if (choiceMap.top?.value === "counter-top") {
+    if (String(choiceMap.basin?.value).includes("rectangular")) {
+      price += 268;
+    } else if (String(choiceMap.basin?.value).includes("round")) {
+      price += 268;
+    }
+  }
+
+  // stand
+  if (choiceMap.stand?.value) {
+    price += 98;
+  }
+
+  return price;
+}
+
 export const eventSystem = new EventSystem();
 
 export default useStore;
