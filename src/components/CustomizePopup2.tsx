@@ -32,7 +32,7 @@ const CustomizePopUp: React.FC = () => {
       <button
         key={choice.value}
         className={clsx(
-          "flex h-fit min-h-min w-full flex-col items-center justify-between rounded-md border-4 p-2",
+          "flex h-full min-h-min w-full flex-col items-center justify-between rounded-md border-4 p-2",
           {
             "border-brand": selected,
             "border-transparent hover:border-gray-300": !selected,
@@ -73,7 +73,7 @@ const CustomizePopUp: React.FC = () => {
       title={<p className="text-3xl font-bold">{popUpInfo.title}</p>}
       centered
       classNames={{
-        content: "sm:left-4 sm:absolute sm:w-[600px]",
+        content: "sm:left-4 sm:absolute sm:w-[400px]",
       }}
     >
       <div className="flex flex-col gap-8">
@@ -84,7 +84,7 @@ const CustomizePopUp: React.FC = () => {
             return (
               <div className="flex flex-col gap-4" key={section.title}>
                 <Title order={4}>{section.title}</Title>
-                <div className="grid grid-cols-3 items-center justify-center gap-4">
+                <div className="grid auto-rows-fr grid-cols-3 items-center justify-center gap-4">
                   {section.choices
                     ?.filter((choice) => !choice.hideIf?.(choiceMap))
                     ?.map((choice) => renderChoice(section, choice))}
