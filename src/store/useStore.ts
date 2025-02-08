@@ -1884,6 +1884,7 @@ const useStore = create(
         } else if (furniture) {
           newFurnitureMap[furnitureType] = {
             ...{ dimensions: [0, 0, 0] as Triplet },
+            ...currentState.furnitureMap[furnitureType],
             ...furniture,
           };
         } else {

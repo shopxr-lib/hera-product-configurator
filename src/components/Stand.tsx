@@ -43,6 +43,11 @@ const Stand: React.FC<Props> = ({ path, ...rest }) => {
     setFurniturePosition(FurnitureType.Stand, position);
   }, [cabinet, setFurniturePosition, self?.key]);
 
+  // reduce very obvious flickering when cabinet is not yet loaded
+  if (cabinet?.dimensions.every((d) => d === 0)) {
+    return null;
+  }
+
   return (
     <primitive
       ref={ref}
