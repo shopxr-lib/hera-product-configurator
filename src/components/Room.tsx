@@ -8,6 +8,7 @@ import OverflowRing from "./OverflowRing";
 import Popup from "./Popup";
 import Tap from "./Tap";
 import Handle from "./Handle";
+import Stand from "./Stand";
 
 const Room = () => {
   const furnitureMap = useStore((state) => state.furnitureMap);
@@ -80,6 +81,13 @@ const Room = () => {
                   path={furniture.path}
                   materials={furniture.materials!}
                 />
+              </Suspense>
+            );
+
+          case FurnitureType.Stand:
+            return (
+              <Suspense key={furniture.key}>
+                <Stand path={furniture.path} />
               </Suspense>
             );
 

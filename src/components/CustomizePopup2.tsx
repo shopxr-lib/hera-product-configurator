@@ -1794,14 +1794,49 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         title: "Stand",
         type: "stand",
         hideIf: (choiceMap) => !choiceMap.handle,
+        transition: [
+          {
+            eventType: "breadth",
+            value: 40,
+            to: null,
+            preserveSelection: true,
+          },
+        ],
         choices: [
           {
+            hideIf: (choiceMap) =>
+              !(
+                choiceMap.width?.value === 60 && choiceMap.breadth?.value !== 40
+              ),
             title: "With Stand",
-            value: "with-stand",
+            value: "stand-60cm",
+            transition: [
+              {
+                eventType: "width",
+                value: 80,
+                to: "stand-80cm",
+              },
+            ],
+          },
+          {
+            hideIf: (choiceMap) =>
+              !(
+                choiceMap.width?.value === 80 && choiceMap.breadth?.value !== 40
+              ),
+            title: "With Stand",
+            value: "stand-80cm",
+            transition: [
+              {
+                eventType: "width",
+                value: 60,
+                to: "stand-60cm",
+              },
+            ],
           },
           {
             title: "Wall Mounted",
-            value: "wall-mounted",
+            value: null,
+            preserveSelection: true,
           },
         ],
       },
@@ -1848,6 +1883,7 @@ type Transition = {
   // eslint-disable-next-line
   value?: any;
   to: any;
+  preserveSelection?: boolean;
 };
 
 Object.values(PopUpInfos).forEach((popUpInfo) => {
@@ -1903,6 +1939,7 @@ function createCallbackFunction(
             type: section.type,
             // eslint-disable-next-line
             value: transition.to as any,
+            preserveSelection: transition.preserveSelection,
           },
           `transition/${transition.eventType}/${eventSource}`,
         );

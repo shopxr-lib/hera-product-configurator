@@ -11,6 +11,7 @@ export enum FurnitureType {
   OverflowRing = 6,
   Popup = 7,
   Handle = 8,
+  Stand = 9,
 }
 
 type Triplet = [number, number, number];
@@ -124,6 +125,7 @@ const choiceTypeToFurnitureTypeMap: Partial<Record<ChoiceType, FurnitureType>> =
     popup: FurnitureType.Popup,
     tap: FurnitureType.BasinTap,
     handle: FurnitureType.Handle,
+    stand: FurnitureType.Stand,
   };
 
 export type ChoiceType = VanityCabinetChoice["type"];
@@ -1680,6 +1682,22 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
+    price: 0,
+  },
+
+  // stand
+  {
+    key: "stand-60cm",
+    name: "60cm Stand",
+    type: FurnitureType.Stand,
+    path: "models/stand/Vanity-Cabinet-Stand-600mm.glb",
+    price: 0,
+  },
+  {
+    key: "stand-80cm",
+    name: "80cm Stand",
+    type: FurnitureType.Stand,
+    path: "models/stand/Vanity-Cabinet-Stand-800mm.glb",
     price: 0,
   },
 ];
