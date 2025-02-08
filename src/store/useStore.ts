@@ -1559,6 +1559,128 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     },
     price: 0,
   },
+
+  // handle
+  {
+    key: "handle-chrome-60cm",
+    name: "Chrome Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-600mm.glb",
+    materials: {
+      color: 0xc8c8c8,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "handle-gold-60cm",
+    name: "Gold Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-600mm.glb",
+    materials: {
+      color: 0xb48f5b,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "handle-gun-metal-60cm",
+    name: "Gun Metal Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-600mm.glb",
+    materials: {
+      color: 0x5a5a5a,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "handle-matt-black-60cm",
+    name: "Matt Black Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-600mm.glb",
+    materials: {
+      color: 0x313131,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "handle-rose-gold-60cm",
+    name: "Rose Gold Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-600mm.glb",
+    materials: {
+      color: 0xb47765,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "handle-chrome-80cm",
+    name: "Chrome Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-800mm.glb",
+    materials: {
+      color: 0xc8c8c8,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "handle-gold-80cm",
+    name: "Gold Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-800mm.glb",
+    materials: {
+      color: 0xb48f5b,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "handle-gun-metal-80cm",
+    name: "Gun Metal Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-800mm.glb",
+    materials: {
+      color: 0x5a5a5a,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "handle-matt-black-80cm",
+    name: "Matt Black Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-800mm.glb",
+    materials: {
+      color: 0x313131,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "handle-rose-gold-80cm",
+    name: "Rose Gold Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-800mm.glb",
+    materials: {
+      color: 0xb47765,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
 ];
 
 const defaultFurnitureMap: Partial<Record<FurnitureType, Furniture>> = {

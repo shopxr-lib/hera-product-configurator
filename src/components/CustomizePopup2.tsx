@@ -1643,36 +1643,148 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         title: "Handle",
         hideIf: (choiceMap) => !choiceMap.tap,
         type: "handle",
-        choices: [
+        groupChoices: [
           {
-            value: "handle-nil",
-            title: "No handle",
-            image: "images/nil-selection.webp",
+            hideIf: (choiceMap) => choiceMap.width?.value !== 60,
+            name: "Handle - 60 cm",
+            choices: [
+              {
+                value: "handle-nil",
+                title: "No handle",
+                image: "images/nil-selection.webp",
+              },
+              {
+                value: "handle-chrome-60cm",
+                title: "Chrome",
+                image: "images/handle/vanity-cabinet-handle-chrome.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "handle-chrome-80cm",
+                  },
+                ],
+              },
+              {
+                value: "handle-gold-60cm",
+                title: "Gold",
+                image: "images/handle/vanity-cabinet-handle-gold.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "handle-gold-80cm",
+                  },
+                ],
+              },
+              {
+                value: "handle-gun-metal-60cm",
+                title: "Gun Metal",
+                image: "images/handle/vanity-cabinet-handle-gun-metal.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "handle-gun-metal-80cm",
+                  },
+                ],
+              },
+              {
+                value: "handle-matt-black-60cm",
+                title: "Matt Black",
+                image: "images/handle/vanity-cabinet-handle-matt-black.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "handle-matt-black-80cm",
+                  },
+                ],
+              },
+              {
+                value: "handle-rose-gold-60cm",
+                title: "Rose Gold",
+                image: "images/handle/vanity-cabinet-handle-rose-gold.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "handle-rose-gold-80cm",
+                  },
+                ],
+              },
+            ],
           },
           {
-            value: "handle-chrome",
-            title: "Chrome",
-            image: "images/handle/vanity-cabinet-handle-chrome.webp",
-          },
-          {
-            value: "handle-gold",
-            title: "Gold",
-            image: "images/handle/vanity-cabinet-handle-gold.webp",
-          },
-          {
-            value: "handle-gun-metal",
-            title: "Gun Metal",
-            image: "images/handle/vanity-cabinet-handle-gun-metal.webp",
-          },
-          {
-            value: "handle-matt-black",
-            title: "Matt Black",
-            image: "images/handle/vanity-cabinet-handle-matt-black.webp",
-          },
-          {
-            value: "handle-rose-gold",
-            title: "Rose Gold",
-            image: "images/handle/vanity-cabinet-handle-rose-gold.webp",
+            name: "Handle - 80 cm",
+            hideIf: (choiceMap) => choiceMap.width?.value !== 80,
+            choices: [
+              {
+                value: "handle-nil",
+                title: "No handle",
+                image: "images/nil-selection.webp",
+              },
+              {
+                value: "handle-chrome-80cm",
+                title: "Chrome",
+                image: "images/handle/vanity-cabinet-handle-chrome.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "handle-chrome-60cm",
+                  },
+                ],
+              },
+              {
+                value: "handle-gold-80cm",
+                title: "Gold",
+                image: "images/handle/vanity-cabinet-handle-gold.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "handle-gold-60cm",
+                  },
+                ],
+              },
+              {
+                value: "handle-gun-metal-80cm",
+                title: "Gun Metal",
+                image: "images/handle/vanity-cabinet-handle-gun-metal.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "handle-gun-metal-60cm",
+                  },
+                ],
+              },
+              {
+                value: "handle-matt-black-80cm",
+                title: "Matt Black",
+                image: "images/handle/vanity-cabinet-handle-matt-black.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "handle-matt-black-60cm",
+                  },
+                ],
+              },
+              {
+                value: "handle-rose-gold-80cm",
+                title: "Rose Gold",
+                image: "images/handle/vanity-cabinet-handle-rose-gold.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "handle-rose-gold-60cm",
+                  },
+                ],
+              },
+            ],
           },
         ],
       },

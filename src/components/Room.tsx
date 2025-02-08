@@ -7,6 +7,7 @@ import InsertBasin from "./InsertBasin";
 import OverflowRing from "./OverflowRing";
 import Popup from "./Popup";
 import Tap from "./Tap";
+import Handle from "./Handle";
 
 const Room = () => {
   const furnitureMap = useStore((state) => state.furnitureMap);
@@ -69,6 +70,16 @@ const Room = () => {
             return (
               <Suspense key={furniture.key}>
                 <Popup path={furniture.path} materials={furniture.materials!} />
+              </Suspense>
+            );
+
+          case FurnitureType.Handle:
+            return (
+              <Suspense key={furniture.key}>
+                <Handle
+                  path={furniture.path}
+                  materials={furniture.materials!}
+                />
               </Suspense>
             );
 
