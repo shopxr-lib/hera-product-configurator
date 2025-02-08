@@ -112,7 +112,7 @@ export type VanityCabinetChoice =
     }
   | {
       type: "stand";
-      value: "wall-mount" | "with-stand";
+      value: string;
     };
 
 const choiceTypeToFurnitureTypeMap: Partial<Record<ChoiceType, FurnitureType>> =
@@ -1702,12 +1702,14 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
 ];
 
-const defaultFurnitureMap: Partial<Record<FurnitureType, Furniture>> = {
-  [FurnitureType.VanityCabinet]: {
-    position: [0, 0, 0],
-    dimensions: [0, 0, 0],
-    ...allFurnitures.find((f) => f.type === FurnitureType.VanityCabinet)!,
-  },
+const defaultFurnitures = {
+  [FurnitureType.VanityCabinet]: "vanity-cabinet-birch-600mm",
+  [FurnitureType.InsertBasin]: "insert-basin-ceramic-600mm",
+  [FurnitureType.OverflowRing]: "basin-overflow-ring-chrome",
+  [FurnitureType.Popup]: "popup-chrome",
+  [FurnitureType.BasinTap]: "tap-chrome-8101",
+  [FurnitureType.Handle]: "handle-chrome-60cm",
+  [FurnitureType.Stand]: "stand-60cm",
 };
 
 const roomDimensions = {
@@ -1715,6 +1717,10 @@ const roomDimensions = {
   height: 2.0,
   length: 1.8,
 };
+
+function isFurnitureType(key: any): key is keyof typeof defaultFurnitures {
+  return Object.keys(defaultFurnitures).includes(key);
+}
 
 const useStore = create(
   devtools<StoreState>((set, get) => ({
@@ -1764,7 +1770,25 @@ const useStore = create(
         };
       });
     },
-    furnitureMap: defaultFurnitureMap,
+    furnitureMap: Object.keys(defaultFurnitures).reduce<
+      StoreState["furnitureMap"]
+    >((acc, type) => {
+      const furniture = allFurnitures.find((furniture) => {
+        if (!isFurnitureType(type)) {
+          return false;
+        }
+
+        return furniture.key === defaultFurnitures[type];
+      });
+
+      return {
+        ...acc,
+        [type]: {
+          ...{ dimensions: [0, 0, 0] as Triplet },
+          ...furniture,
+        },
+      };
+    }, {}),
 
     setFurnitureDimensions: (type, dimensions) => {
       set(
@@ -1807,7 +1831,42 @@ const useStore = create(
     customizePopUpKey: "",
     setCustomizePopUpKey: (key: string) => set({ customizePopUpKey: key }),
 
-    choiceMap: {} as ChoiceMap,
+    choiceMap: {
+      breadth: { type: "breadth", value: 46 },
+      width: { type: "width", value: 60 },
+      "vanity-color": {
+        type: "vanity-color",
+        value: defaultFurnitures[FurnitureType.VanityCabinet],
+      },
+      top: {
+        type: "top",
+        value: "insert-basin",
+      },
+      "insert-basin": {
+        type: "insert-basin",
+        value: defaultFurnitures[FurnitureType.InsertBasin],
+      },
+      "overflow-ring": {
+        type: "overflow-ring",
+        value: defaultFurnitures[FurnitureType.OverflowRing],
+      },
+      popup: {
+        type: "popup",
+        value: defaultFurnitures[FurnitureType.Popup],
+      },
+      tap: {
+        type: "tap",
+        value: defaultFurnitures[FurnitureType.BasinTap],
+      },
+      handle: {
+        type: "handle",
+        value: defaultFurnitures[FurnitureType.Handle],
+      },
+      stand: {
+        type: "stand",
+        value: defaultFurnitures[FurnitureType.Stand],
+      },
+    } as ChoiceMap,
     addChoice: (choice, source: string = "") => {
       eventSystem.dispatch(choice.type, choice.value);
 
