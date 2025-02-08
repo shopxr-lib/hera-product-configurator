@@ -81,7 +81,7 @@ const normalOffset: Record<number, number[]> = {
   800: [0, 0.1, -0.063],
 };
 const hybridOffset: Record<number, number[]> = {
-  500: [-0.005, 0.065, 0.01],
+  500: [0, 0.1, -0.03],
   600: [0, 0.115, -0.035],
   800: [0, 0.115, -0.035],
 };

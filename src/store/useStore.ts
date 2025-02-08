@@ -1565,6 +1565,66 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
 
   // handle
   {
+    key: "handle-chrome-50cm",
+    name: "Chrome Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-500mm.glb",
+    materials: {
+      color: 0xc8c8c8,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "handle-gold-50cm",
+    name: "Gold Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-500mm.glb",
+    materials: {
+      color: 0xb48f5b,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "handle-gun-metal-50cm",
+    name: "Gun Metal Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-500mm.glb",
+    materials: {
+      color: 0x5a5a5a,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "handle-matt-black-50cm",
+    name: "Matt Black Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-500mm.glb",
+    materials: {
+      color: 0x313131,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
+    key: "handle-rose-gold-50cm",
+    name: "Rose Gold Handle",
+    type: FurnitureType.Handle,
+    path: "models/handle/Vanity-Cabinet-Handle-500mm.glb",
+    materials: {
+      color: 0xb47765,
+      metalness: 1,
+      roughness: 0.087,
+    },
+    price: 0,
+  },
+  {
     key: "handle-chrome-60cm",
     name: "Chrome Handle",
     type: FurnitureType.Handle,

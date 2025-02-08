@@ -1644,22 +1644,120 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         title: "Handle",
         hideIf: (choiceMap) => !choiceMap.tap,
         type: "handle",
+        choices: [
+          {
+            value: null,
+            preserveSelection: true,
+            title: "No handle",
+            image: "images/nil-selection.webp",
+          },
+        ],
         groupChoices: [
+          {
+            hideIf: (choiceMap) => choiceMap.width?.value !== 50,
+            name: "Handle - 50 cm",
+            choices: [
+              {
+                value: "handle-chrome-50cm",
+                title: "Chrome",
+                image: "images/handle/vanity-cabinet-handle-chrome.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "handle-chrome-60cm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "handle-chrome-80cm",
+                  },
+                ],
+              },
+              {
+                value: "handle-gold-50cm",
+                title: "Gold",
+                image: "images/handle/vanity-cabinet-handle-gold.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "handle-gold-60cm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "handle-gold-80cm",
+                  },
+                ],
+              },
+              {
+                value: "handle-gun-metal-50cm",
+                title: "Gun Metal",
+                image: "images/handle/vanity-cabinet-handle-gun-metal.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "handle-gun-metal-60cm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "handle-gun-metal-80cm",
+                  },
+                ],
+              },
+              {
+                value: "handle-matt-black-50cm",
+                title: "Matt Black",
+                image: "images/handle/vanity-cabinet-handle-matt-black.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "handle-matt-black-60cm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "handle-matt-black-80cm",
+                  },
+                ],
+              },
+              {
+                value: "handle-rose-gold-50cm",
+                title: "Rose Gold",
+                image: "images/handle/vanity-cabinet-handle-rose-gold.webp",
+                transition: [
+                  {
+                    eventType: "width",
+                    value: 60,
+                    to: "handle-rose-gold-60cm",
+                  },
+                  {
+                    eventType: "width",
+                    value: 80,
+                    to: "handle-rose-gold-80cm",
+                  },
+                ],
+              },
+            ],
+          },
           {
             hideIf: (choiceMap) => choiceMap.width?.value !== 60,
             name: "Handle - 60 cm",
             choices: [
               {
-                value: null,
-                preserveSelection: true,
-                title: "No handle",
-                image: "images/nil-selection.webp",
-              },
-              {
                 value: "handle-chrome-60cm",
                 title: "Chrome",
                 image: "images/handle/vanity-cabinet-handle-chrome.webp",
                 transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "handle-chrome-50cm",
+                  },
                   {
                     eventType: "width",
                     value: 80,
@@ -1674,6 +1772,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 transition: [
                   {
                     eventType: "width",
+                    value: 50,
+                    to: "handle-gold-50cm",
+                  },
+                  {
+                    eventType: "width",
                     value: 80,
                     to: "handle-gold-80cm",
                   },
@@ -1684,6 +1787,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "Gun Metal",
                 image: "images/handle/vanity-cabinet-handle-gun-metal.webp",
                 transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "handle-gun-metal-50cm",
+                  },
                   {
                     eventType: "width",
                     value: 80,
@@ -1698,6 +1806,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 transition: [
                   {
                     eventType: "width",
+                    value: 50,
+                    to: "handle-matt-black-50cm",
+                  },
+                  {
+                    eventType: "width",
                     value: 80,
                     to: "handle-matt-black-80cm",
                   },
@@ -1708,6 +1821,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "Rose Gold",
                 image: "images/handle/vanity-cabinet-handle-rose-gold.webp",
                 transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "handle-rose-gold-50cm",
+                  },
                   {
                     eventType: "width",
                     value: 80,
@@ -1722,15 +1840,15 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             hideIf: (choiceMap) => choiceMap.width?.value !== 80,
             choices: [
               {
-                value: "handle-nil",
-                title: "No handle",
-                image: "images/nil-selection.webp",
-              },
-              {
                 value: "handle-chrome-80cm",
                 title: "Chrome",
                 image: "images/handle/vanity-cabinet-handle-chrome.webp",
                 transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "handle-chrome-50cm",
+                  },
                   {
                     eventType: "width",
                     value: 60,
@@ -1745,6 +1863,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 transition: [
                   {
                     eventType: "width",
+                    value: 50,
+                    to: "handle-gold-50cm",
+                  },
+                  {
+                    eventType: "width",
                     value: 60,
                     to: "handle-gold-60cm",
                   },
@@ -1755,6 +1878,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "Gun Metal",
                 image: "images/handle/vanity-cabinet-handle-gun-metal.webp",
                 transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "handle-gun-metal-50cm",
+                  },
                   {
                     eventType: "width",
                     value: 60,
@@ -1769,6 +1897,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 transition: [
                   {
                     eventType: "width",
+                    value: 50,
+                    to: "handle-matt-black-50cm",
+                  },
+                  {
+                    eventType: "width",
                     value: 60,
                     to: "handle-matt-black-60cm",
                   },
@@ -1779,6 +1912,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 title: "Rose Gold",
                 image: "images/handle/vanity-cabinet-handle-rose-gold.webp",
                 transition: [
+                  {
+                    eventType: "width",
+                    value: 50,
+                    to: "handle-rose-gold-50cm",
+                  },
                   {
                     eventType: "width",
                     value: 60,
