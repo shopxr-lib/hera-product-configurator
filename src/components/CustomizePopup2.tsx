@@ -1465,13 +1465,17 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         title: "Tap",
         type: "tap",
         hideIf: (choiceMap) =>
-          !choiceMap["vanity-color"] ||
-          (!choiceMap.basin && !choiceMap["insert-basin"]),
+          !choiceMap["top"] ||
+          (choiceMap["top"]?.value === "insert-basin" &&
+            !choiceMap["insert-basin"]) ||
+          (choiceMap["top"]?.value === "counter-top" && !choiceMap["basin"]),
+        transition: [{ eventType: "top", to: null }],
         choices: [
           {
             title: "Chrome 8101",
             value: "tap-chrome-8101",
             image: "images/tap/tap-chrome-8101-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Chrome 8102",
@@ -1482,6 +1486,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             title: "Chrome 8201",
             value: "tap-chrome-8201",
             image: "images/tap/tap-chrome-8201-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Chrome 8202",
@@ -1492,6 +1497,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             title: "Chrome 8301",
             value: "tap-chrome-8301",
             image: "images/tap/tap-chrome-8301-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Chrome 8302",
@@ -1502,6 +1508,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             title: "Gun Metal 8101",
             value: "tap-gun-metal-8101",
             image: "images/tap/tap-gun-metal-8101-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Gun Metal 8102",
@@ -1512,6 +1519,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             title: "Gun Metal 8201",
             value: "tap-gun-metal-8201",
             image: "images/tap/tap-gun-metal-8201-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Gun Metal 8202",
@@ -1522,6 +1530,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             title: "Gun Metal 8301",
             value: "tap-gun-metal-8301",
             image: "images/tap/tap-gun-metal-8301-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Gun Metal 8302",
@@ -1532,6 +1541,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             title: "Matt Black 8101",
             value: "tap-matt-black-8101",
             image: "images/tap/tap-matt-black-8101-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Black 8102",
@@ -1542,16 +1552,19 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             title: "Matt Black 8201",
             value: "tap-matt-black-8201",
             image: "images/tap/tap-matt-black-8201-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Black 8202",
             value: "tap-matt-black-8202",
             image: "images/tap/tap-matt-black-8202-large.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Black 8301",
             value: "tap-matt-black-8301",
             image: "images/tap/tap-matt-black-8301-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Black 8302",
@@ -1562,6 +1575,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             title: "Matt Gold 8101",
             value: "tap-matt-gold-8101",
             image: "images/tap/tap-matt-gold-8101-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Gold 8102",
@@ -1572,6 +1586,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             title: "Matt Gold 8201",
             value: "tap-matt-gold-8201",
             image: "images/tap/tap-matt-gold-8201-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Gold 8202",
@@ -1582,6 +1597,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             title: "Matt Gold 8301",
             value: "tap-matt-gold-8301",
             image: "images/tap/tap-matt-gold-8301-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Gold 8302",
@@ -1592,6 +1608,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             title: "Rose Gold 8101",
             value: "tap-rose-gold-8101",
             image: "images/tap/tap-rose-gold-8101-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Rose Gold 8102",
@@ -1602,6 +1619,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             title: "Rose Gold 8201",
             value: "tap-rose-gold-8201",
             image: "images/tap/tap-rose-gold-8201-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Rose Gold 8202",
@@ -1612,6 +1630,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             title: "Rose Gold 8301",
             value: "tap-rose-gold-8301",
             image: "images/tap/tap-rose-gold-8301-small.webp",
+            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Rose Gold 8302",

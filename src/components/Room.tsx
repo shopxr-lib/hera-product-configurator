@@ -1,5 +1,4 @@
 import useStore, { FurnitureType } from "../store/useStore";
-import BasinTap from "./BasinTap";
 import BasinCounterTop from "./BasinCounterTop";
 import { Suspense } from "react";
 import VanityCabinet from "./VanityCabinet";
@@ -7,6 +6,7 @@ import Basin from "./Basin";
 import InsertBasin from "./InsertBasin";
 import OverflowRing from "./OverflowRing";
 import Popup from "./Popup";
+import Tap from "./Tap";
 
 const Room = () => {
   const furnitureMap = useStore((state) => state.furnitureMap);
@@ -27,7 +27,7 @@ const Room = () => {
           case FurnitureType.BasinTap:
             return (
               <Suspense key={furniture.key}>
-                <BasinTap path={furniture.path} />
+                <Tap path={furniture.path} materials={furniture.materials!} />
               </Suspense>
             );
           case FurnitureType.BasinCounterTop:
