@@ -1260,6 +1260,11 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             value: "glass",
             to: null,
           },
+          {
+            eventType: "top",
+            value: "counter-top",
+            to: null,
+          },
         ],
         choices: [
           {
@@ -1299,6 +1304,13 @@ const PopUpInfos: Record<string, PopUpInfo> = {
           !(
             choiceMap["vanity-color"] && choiceMap.top?.value === "insert-basin"
           ),
+        transition: [
+          {
+            eventType: "top",
+            value: "counter-top",
+            to: null,
+          },
+        ],
         choices: [
           {
             value: "popup-chrome",
