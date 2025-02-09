@@ -1,9 +1,9 @@
 import { IconShoppingCartFilled } from "@tabler/icons-react";
-import useStore, { calculatePrice } from "../store/useStore";
+import useStore, { useTotalPrice } from "../store/useStore";
 
 const ShoppingCartFloating = () => {
   const setModal = useStore((state) => state.setModal);
-  const choiceMap = useStore((state) => state.choiceMap);
+  const totalPrice = useTotalPrice();
   return (
     <button
       className="md-4 bg-brand-800 fixed top-4 right-4 flex items-center gap-2 rounded-full p-4"
@@ -14,7 +14,7 @@ const ShoppingCartFloating = () => {
           style: "currency",
           currency: "USD",
           maximumFractionDigits: 0,
-        }).format(calculatePrice(choiceMap))}
+        }).format(totalPrice)}
       </p>
       <IconShoppingCartFilled size={24} className="text-white" />
     </button>

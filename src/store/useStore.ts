@@ -217,7 +217,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   // Counter Top
   {
     key: "counter-top-birch-600mm",
-    name: "Birch Countertop 600mm",
+    name: "Countertop Birch 60cm",
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-600mm.glb",
     size: 600,
@@ -229,7 +229,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "counter-top-brownstone-600mm",
-    name: "Brown Stone Countertop 600mm",
+    name: "Countertop Brown Stone 60cm",
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-600mm.glb",
     size: 600,
@@ -241,7 +241,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "counter-top-charcoal-ash-600mm",
-    name: "Brown Stone Countertop 600mm",
+    name: "Countertop Charcoal Ash 60cm",
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-600mm.glb",
     size: 600,
@@ -253,7 +253,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "counter-top-oakwood-600mm",
-    name: "Brown Stone Countertop 600mm",
+    name: "Countertop Oakwood 60cm",
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-600mm.glb",
     size: 600,
@@ -265,7 +265,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "counter-top-black-600mm",
-    name: "Black Quartz Countertop 600mm",
+    name: "Countertop Black Quartz 60cm",
     type: FurnitureType.BasinCounterTop,
     path: "models/Quartzstone-countertop-lightcolour-600mm.glb",
     size: 600,
@@ -278,7 +278,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "counter-top-white-600mm",
-    name: "White Quartz Countertop 600mm",
+    name: "Countertop White Quartz 60cm",
     type: FurnitureType.BasinCounterTop,
     path: "models/Quartzstone-countertop-lightcolour-600mm.glb",
     size: 600,
@@ -292,7 +292,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
 
   {
     key: "counter-top-birch-800mm",
-    name: "Birch Countertop 800mm",
+    name: "Countertop Birch 80cm",
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-800mm.glb",
     size: 800,
@@ -304,7 +304,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "counter-top-brownstone-800mm",
-    name: "Brown Stone Countertop 800mm",
+    name: "Countertop Brownstone 80cm",
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-800mm.glb",
     size: 800,
@@ -316,7 +316,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "counter-top-charcoal-ash-800mm",
-    name: "Brown Stone Countertop 800mm",
+    name: "Countertop Charcoal Ash 80cm",
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-800mm.glb",
     size: 800,
@@ -328,7 +328,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "counter-top-oakwood-800mm",
-    name: "Brown Stone Countertop 800mm",
+    name: "Countertop Oakwood 80cm",
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-800mm.glb",
     size: 800,
@@ -340,7 +340,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "counter-top-black-800mm",
-    name: "Black Quartz Countertop 800mm",
+    name: "Countertop Black Quartz 80cm",
     type: FurnitureType.BasinCounterTop,
     path: "models/Quartzstone-countertop-lightcolour-800mm.glb",
     size: 800,
@@ -353,7 +353,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "counter-top-white-800mm",
-    name: "White Quartz Countertop 800mm",
+    name: "Countertop White Quartz 80cm",
     type: FurnitureType.BasinCounterTop,
     path: "models/Quartzstone-countertop-lightcolour-800mm.glb",
     size: 800,
@@ -368,7 +368,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   // Vanity Cabinet
   {
     key: "vanity-cabinet-birch-600mm",
-    name: "Birch Vanity Cabinet 600mm",
+    name: "Vanity Cabinet Birch 60cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
     size: 600,
@@ -383,7 +383,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-blanco-600mm",
-    name: "Blanco Vanity Cabinet 600mm",
+    name: "Vanity Cabinet Blanco 60cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
     size: 600,
@@ -398,7 +398,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-brown-stone-600mm",
-    name: "Brown Stone Vanity Cabinet 600mm",
+    name: "Vanity Cabinet Brown Stone 60cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
     size: 600,
@@ -413,7 +413,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-charcoal-ash-600mm",
-    name: "Charcoal Ash Vanity Cabinet 600mm",
+    name: "Vanity Cabinet Charcoal Ash 60cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
     size: 600,
@@ -428,7 +428,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-matt-black-600mm",
-    name: "Matt Black Vanity Cabinet 600mm",
+    name: "Vanity Cabinet Matt Black 60cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
     size: 600,
@@ -443,7 +443,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-graphite-600mm",
-    name: "Graphite Vanity Cabinet 600mm",
+    name: "Vanity Cabinet Graphite 60cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
     size: 600,
@@ -458,7 +458,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-oakwood-600mm",
-    name: "Oakwood Vanity Cabinet 600mm",
+    name: "Vanity Cabinet Oakwood 60cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
     size: 600,
@@ -473,7 +473,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-birch-800mm",
-    name: "Birch Vanity Cabinet 800mm",
+    name: "Vanity Cabinet Birch 80cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-800mm.glb",
     size: 800,
@@ -488,7 +488,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-blanco-800mm",
-    name: "Blanco Vanity Cabinet 800mm",
+    name: "Vanity Cabinet Blanco 80cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-800mm.glb",
     size: 800,
@@ -503,7 +503,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-brown-stone-800mm",
-    name: "Brown Stone Vanity Cabinet 800mm",
+    name: "Vanity Cabinet Brown Stone 80cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-800mm.glb",
     size: 800,
@@ -518,7 +518,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-charcoal-ash-800mm",
-    name: "Charcoal Ash Vanity Cabinet 800mm",
+    name: "Vanity Cabinet Charcoal Ash 80cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-800mm.glb",
     size: 800,
@@ -533,7 +533,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-graphite-800mm",
-    name: "Graphite Vanity Cabinet 800mm",
+    name: "Vanity Cabinet Graphite 80cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-800mm.glb",
     size: 800,
@@ -548,7 +548,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-matt-black-800mm",
-    name: "Matt Black Vanity Cabinet 800mm",
+    name: "Vanity Cabinet Matt Black 80cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-800mm.glb",
     size: 800,
@@ -563,7 +563,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-oakwood-800mm",
-    name: "Oakwood Vanity Cabinet 800mm",
+    name: "Vanity Cabinet Oakwood 80cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-800mm.glb",
     size: 800,
@@ -580,7 +580,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   // hybrid vanity cabinet
   {
     key: "vanity-cabinet-hybrid-pebble-500mm",
-    name: "Hybrid Pebble Vanity Cabinet 500mm",
+    name: "Vanity Cabinet Hybrid Pebble 50cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-Hybrid-Pebble-500mm.glb",
     size: 500,
@@ -594,7 +594,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-hybrid-pine-500mm",
-    name: "Hybrid Pine Vanity Cabinet 500mm",
+    name: "Vanity Cabinet Hybrid Pine 50cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-Hybrid-Pine-500mm.glb",
     size: 500,
@@ -608,7 +608,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-hybrid-walnut-500mm",
-    name: "Hybrid Walnut Vanity Cabinet 500mm",
+    name: "Vanity Cabinet Hybrid Walnut 50cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-Hybrid-Walnut-500mm.glb",
     size: 500,
@@ -622,7 +622,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-hybrid-pebble-600mm",
-    name: "Hybrid Pebble Vanity Cabinet 600mm",
+    name: "Vanity Cabinet Hybrid Pebble 60cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-Hybrid-Pebble-600mm.glb",
     size: 600,
@@ -636,7 +636,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-hybrid-pine-600mm",
-    name: "Hybrid Pine Vanity Cabinet 600mm",
+    name: "Vanity Cabinet Hybrid Pine 60cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-Hybrid-Pine-600mm.glb",
     size: 600,
@@ -650,7 +650,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-hybrid-walnut-600mm",
-    name: "Hybrid Walnut Vanity Cabinet 600mm",
+    name: "Vanity Cabinet Hybrid Walnut 60cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-Hybrid-Walnut-600mm.glb",
     size: 600,
@@ -665,7 +665,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
 
   {
     key: "vanity-cabinet-hybrid-pebble-800mm",
-    name: "Hybrid Pebble Vanity Cabinet 800mm",
+    name: "Vanity Cabinet Hybrid Pebble 80cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-Hybrid-Pebble-800mm.glb",
     size: 800,
@@ -679,7 +679,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-hybrid-pine-800mm",
-    name: "Hybrid Pine Vanity Cabinet 800mm",
+    name: "Vanity Cabinet Hybrid Pine 80cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-Hybrid-Pine-800mm.glb",
     size: 800,
@@ -693,7 +693,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "vanity-cabinet-hybrid-walnut-800mm",
-    name: "Hybrid Walnut Vanity Cabinet 800mm",
+    name: "Vanity Cabinet Hybrid Walnut 80cm",
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-Hybrid-Walnut-800mm.glb",
     size: 800,
@@ -709,7 +709,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   // insert basin
   {
     key: "insert-basin-ceramic-600mm",
-    name: "Ceramic Insert Basin 600mm",
+    name: "Insert Basin Ceramic 60cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Ceramic-600mm.glb",
     size: 600,
@@ -722,7 +722,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "insert-basin-glass-black-600mm",
-    name: "Glass Black Insert Basin 600mm",
+    name: "Insert Basin Glass Black 60cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-Black-600mm.glb",
     size: 600,
@@ -735,7 +735,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "insert-basin-glass-white-600mm",
-    name: "Glass White Insert Basin 600mm",
+    name: "Insert Basin Glass White 60cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-White-600mm.glb",
     size: 600,
@@ -748,7 +748,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "insert-basin-ceramic-800mm",
-    name: "Ceramic Insert Basin 800mm",
+    name: "Insert Basin Ceramic 80cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Ceramic-800mm.glb",
     size: 800,
@@ -761,7 +761,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "insert-basin-glass-black-800mm",
-    name: "Glass Black Insert Basin 800mm",
+    name: "Insert Basin Glass Black 80cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-Black-800mm.glb",
     size: 800,
@@ -774,7 +774,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "insert-basin-glass-white-800mm",
-    name: "Glass White Insert Basin 800mm",
+    name: "Insert Basin Glass White 80cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-White-800mm.glb",
     size: 800,
@@ -789,7 +789,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   // hybrid insert basin
   {
     key: "insert-basin-hybrid-ceramic-500mm",
-    name: "Ceramic Hybrid Insert Basin 500mm",
+    name: "Insert Basin Ceramic Hybrid 50cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Ceramic-Hybrid-50cm.glb",
     size: 500,
@@ -802,7 +802,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "insert-basin-hybrid-glass-black-500mm",
-    name: "Black Glass Insert Basin 500mm",
+    name: "Insert Basin Glass Black 50cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-Black-Hybrid-500mm.glb",
     size: 500,
@@ -815,7 +815,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "insert-basin-hybrid-glass-white-500mm",
-    name: "White Glass Insert Basin 500mm",
+    name: "Insert Basin Glass White 50cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-White-Hybrid-500mm.glb",
     size: 500,
@@ -828,7 +828,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "insert-basin-hybrid-ceramic-600mm",
-    name: "Ceramic Insert Basin 600mm",
+    name: "Insert Basin Ceramic 60cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Ceramic-Hybrid-60cm.glb",
     size: 600,
@@ -841,7 +841,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "insert-basin-hybrid-glass-black-600mm",
-    name: "Black Glass Insert Basin 600mm",
+    name: "Insert Basin Glass Black 60cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-Black-Hybrid-600mm.glb",
     size: 600,
@@ -854,7 +854,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "insert-basin-hybrid-glass-white-600mm",
-    name: "White Glass Insert Basin 600mm",
+    name: "Insert Basin White Glass 60cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-White-Hybrid-600mm.glb",
     size: 600,
@@ -867,7 +867,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "insert-basin-hybrid-ceramic-800mm",
-    name: "Ceramic Insert Basin 800mm",
+    name: "Insert Basin Ceramic 80cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Ceramic-Hybrid-80cm.glb",
     size: 800,
@@ -880,7 +880,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "insert-basin-hybrid-glass-black-800mm",
-    name: "Black Glass Insert Basin 800mm",
+    name: "Insert Basin Glass Black 80cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-Black-Hybrid-800mm.glb",
     size: 800,
@@ -893,7 +893,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "insert-basin-hybrid-glass-white-800mm",
-    name: "White Glass Insert Basin 800mm",
+    name: "Insert Basin Glass White 80cm",
     type: FurnitureType.InsertBasin,
     path: "models/insert-basin/Insert-Basin-Glass-White-Hybrid-800mm.glb",
     size: 800,
@@ -908,7 +908,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   // basin
   {
     key: "basin-rectangular-ceramic-blush",
-    name: "Rectangular Ceramic Basin - Blush",
+    name: "Basin Rectangular Ceramic Blush",
     type: FurnitureType.Basin,
     path: "models/basin/rectangle-ceramic-basin.glb",
     textureMap: {
@@ -918,7 +918,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-rectangular-ceramic-eclair",
-    name: "Rectangular Ceramic Basin - Eclair",
+    name: "Basin Rectangular Ceramic Eclair",
     type: FurnitureType.Basin,
     path: "models/basin/rectangle-ceramic-basin.glb",
     textureMap: {
@@ -928,7 +928,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-rectangular-ceramic-matt-black",
-    name: "Rectangular Matt Black Basin",
+    name: "Basin Rectangular Matt Black",
     type: FurnitureType.Basin,
     path: "models/basin/rectangle-ceramic-basin.glb",
     textureMap: {
@@ -938,7 +938,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-rectangular-ceramic-matt-white",
-    name: "Rectangular Matte White Basin",
+    name: "Basin Rectangular Matte White ",
     type: FurnitureType.Basin,
     path: "models/basin/rectangle-ceramic-basin.glb",
     textureMap: {
@@ -948,7 +948,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-rectangular-ceramic-mocha",
-    name: "Rectangular Ceramic Basin - Mocha",
+    name: "Basin Rectangular Ceramic Mocha",
     type: FurnitureType.Basin,
     path: "models/basin/rectangle-ceramic-basin.glb",
     textureMap: {
@@ -958,7 +958,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-rectangular-ceramic-moss",
-    name: "Rectangular Ceramic Basin - Moss",
+    name: "Basin Rectangular Ceramic Moss",
     type: FurnitureType.Basin,
     path: "models/basin/rectangle-ceramic-basin.glb",
     textureMap: {
@@ -968,7 +968,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-rectangular-ceramic-slate-grey",
-    name: "Rectangular Ceramic Basin - Slate Grey",
+    name: "Basin Rectangular Ceramic Slate Grey",
     type: FurnitureType.Basin,
     path: "models/basin/rectangle-ceramic-basin.glb",
     textureMap: {
@@ -978,7 +978,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-rectangular-ceramic-storm",
-    name: "Rectangular Ceramic Basin - Storm",
+    name: "Basin Rectangular Ceramic Storm",
     type: FurnitureType.Basin,
     path: "models/basin/rectangle-ceramic-basin.glb",
     textureMap: {
@@ -988,7 +988,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-rectangular-ceramic-teal",
-    name: "Rectangular Ceramic Basin - Teal",
+    name: "Basin Rectangular Ceramic Teal",
     type: FurnitureType.Basin,
     path: "models/basin/rectangle-ceramic-basin.glb",
     textureMap: {
@@ -998,7 +998,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-round-ceramic-blush",
-    name: "Round Ceramic Basin - Blush",
+    name: "Basin Round Ceramic Blush",
     type: FurnitureType.Basin,
     path: "models/basin/round-ceramic-basin.glb",
     textureMap: {
@@ -1008,7 +1008,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-round-ceramic-matt-black",
-    name: "Round Ceramic Basin - Matt Black",
+    name: "Basin Round Ceramic Matt Black",
     type: FurnitureType.Basin,
     path: "models/basin/round-ceramic-basin.glb",
     textureMap: {
@@ -1018,7 +1018,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-round-ceramic-matt-white",
-    name: "Round Ceramic Basin - Matt White",
+    name: "Basin Round Ceramic Matt White",
     type: FurnitureType.Basin,
     path: "models/basin/round-ceramic-basin.glb",
     textureMap: {
@@ -1028,7 +1028,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-round-ceramic-mint",
-    name: "Round Ceramic Basin - Mint",
+    name: "Basin Round Ceramic Mint",
     type: FurnitureType.Basin,
     path: "models/basin/round-ceramic-basin.glb",
     textureMap: {
@@ -1038,7 +1038,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-round-ceramic-mocha",
-    name: "Round Ceramic Basin - Mocha",
+    name: "Basin Round Ceramic Mocha",
     type: FurnitureType.Basin,
     path: "models/basin/round-ceramic-basin.glb",
     textureMap: {
@@ -1048,7 +1048,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-round-ceramic-slate-grey",
-    name: "Round Ceramic Basin - Slate Grey",
+    name: "Basin Round Ceramic Slate Grey",
     type: FurnitureType.Basin,
     path: "models/basin/round-ceramic-basin.glb",
     textureMap: {
@@ -1058,7 +1058,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-round-ceramic-stone-grey",
-    name: "Round Ceramic Basin - Stone Grey",
+    name: "Basin Round Ceramic Stone Grey",
     type: FurnitureType.Basin,
     path: "models/basin/round-ceramic-basin.glb",
     textureMap: {
@@ -1068,7 +1068,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-round-ceramic-tangerine",
-    name: "Round Ceramic Basin - Tangerine",
+    name: "Round Ceramic Basin Tangerine",
     type: FurnitureType.Basin,
     path: "models/basin/round-ceramic-basin.glb",
     textureMap: {
@@ -1080,7 +1080,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   // overflow-ring
   {
     key: "basin-overflow-ring-chrome",
-    name: "Chrome Overflow Ring",
+    name: "Overflow Ring Chrome",
     type: FurnitureType.OverflowRing,
     path: "models/overflow-ring/overflow-ring.glb",
     materials: {
@@ -1092,7 +1092,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-overflow-ring-gold",
-    name: "Gold Overflow Ring",
+    name: "Overflow Ring Gold",
     type: FurnitureType.OverflowRing,
     path: "models/overflow-ring/overflow-ring.glb",
     materials: {
@@ -1104,7 +1104,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-overflow-ring-gun-metal",
-    name: "Gun Metal Overflow Ring",
+    name: "Overflow Ring Gun Metal",
     type: FurnitureType.OverflowRing,
     path: "models/overflow-ring/overflow-ring.glb",
     materials: {
@@ -1116,7 +1116,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-overflow-ring-matt-black",
-    name: "Matt Black Overflow Ring",
+    name: "Overflow Ring Matt Black",
     type: FurnitureType.OverflowRing,
     path: "models/overflow-ring/overflow-ring.glb",
     materials: {
@@ -1128,7 +1128,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "basin-overflow-ring-rose-gold",
-    name: "Rose Gold Overflow Ring",
+    name: "Overflow Ring Rose Gold",
     type: FurnitureType.OverflowRing,
     path: "models/overflow-ring/overflow-ring.glb",
     materials: {
@@ -1142,7 +1142,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   // popup
   {
     key: "popup-chrome",
-    name: "Chrome Popup",
+    name: "Popup Chrome",
     type: FurnitureType.Popup,
     path: "models/popup/popup.glb",
     materials: {
@@ -1154,7 +1154,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "popup-gold",
-    name: "Gold Popup",
+    name: "Popup Gold",
     type: FurnitureType.Popup,
     path: "models/popup/popup.glb",
     materials: {
@@ -1166,7 +1166,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "popup-gun-metal",
-    name: "Gun Metal Popup",
+    name: "Popup Gun Metal",
     type: FurnitureType.Popup,
     path: "models/popup/popup.glb",
     materials: {
@@ -1178,7 +1178,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "popup-matt-black",
-    name: "Matt Black Popup",
+    name: "Popup Matt Black",
     type: FurnitureType.Popup,
     path: "models/popup/popup.glb",
     materials: {
@@ -1190,7 +1190,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "popup-rose-gold",
-    name: "Rose Gold Popup",
+    name: "Popup Rose Gold",
     type: FurnitureType.Popup,
     path: "models/popup/popup.glb",
     materials: {
@@ -1204,7 +1204,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   // tap
   {
     key: "tap-chrome-8101",
-    name: "Chrome 8101",
+    name: "Tap Chrome 8101",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8101.glb",
     materials: {
@@ -1216,7 +1216,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-chrome-8102",
-    name: "Chrome 8102",
+    name: "Tap Chrome 8102",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8102.glb",
     materials: {
@@ -1228,7 +1228,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-chrome-8201",
-    name: "Chrome 8201",
+    name: "Tap Chrome 8201",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8201.glb",
     materials: {
@@ -1240,7 +1240,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-chrome-8202",
-    name: "Chrome 8202",
+    name: "Tap Chrome 8202",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8202.glb",
     materials: {
@@ -1252,7 +1252,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-chrome-8301",
-    name: "Chrome 8301",
+    name: "Tap Chrome 8301",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8301.glb",
     materials: {
@@ -1264,7 +1264,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-chrome-8302",
-    name: "Chrome 8302",
+    name: "Tap Chrome 8302",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8302.glb",
     materials: {
@@ -1276,7 +1276,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-gun-metal-8101",
-    name: "Gun Metal 8101",
+    name: "Tap Gun Metal 8101",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8101.glb",
     materials: {
@@ -1288,7 +1288,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-gun-metal-8102",
-    name: "Gun Metal 8102",
+    name: "Tap Gun Metal 8102",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8102.glb",
     materials: {
@@ -1300,7 +1300,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-gun-metal-8201",
-    name: "Gun Metal 8201",
+    name: "Tap Gun Metal 8201",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8201.glb",
     materials: {
@@ -1312,7 +1312,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-gun-metal-8202",
-    name: "Gun Metal 8202",
+    name: "Tap Gun Metal 8202",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8202.glb",
     materials: {
@@ -1324,7 +1324,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-gun-metal-8301",
-    name: "Gun Metal 8301",
+    name: "Tap Gun Metal 8301",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8301.glb",
     materials: {
@@ -1336,7 +1336,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-gun-metal-8302",
-    name: "Gun Metal 8302",
+    name: "Tap Gun Metal 8302",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8302.glb",
     materials: {
@@ -1348,7 +1348,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-matt-black-8101",
-    name: "Matt Black 8101",
+    name: "Tap Matt Black 8101",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8101.glb",
     materials: {
@@ -1360,7 +1360,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-matt-black-8102",
-    name: "Matt Black 8102",
+    name: "Tap Matt Black 8102",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8102.glb",
     materials: {
@@ -1372,7 +1372,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-matt-black-8201",
-    name: "Matt Black 8201",
+    name: "Tap Matt Black 8201",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8201.glb",
     materials: {
@@ -1384,7 +1384,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-matt-black-8202",
-    name: "Matt Black 8202",
+    name: "Tap Matt Black 8202",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8202.glb",
     materials: {
@@ -1396,7 +1396,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-matt-black-8301",
-    name: "Matt Black 8301",
+    name: "Tap Matt Black 8301",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8301.glb",
     materials: {
@@ -1408,7 +1408,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-matt-black-8302",
-    name: "Matt Black 8302",
+    name: "Tap Matt Black 8302",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8302.glb",
     materials: {
@@ -1420,7 +1420,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-matt-gold-8101",
-    name: "Matt Gold 8101",
+    name: "Tap Matt Gold 8101",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8101.glb",
     materials: {
@@ -1432,7 +1432,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-matt-gold-8102",
-    name: "Matt Gold 8102",
+    name: "Tap Matt Gold 8102",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8102.glb",
     materials: {
@@ -1444,7 +1444,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-matt-gold-8201",
-    name: "Matt Gold 8201",
+    name: "Tap Matt Gold 8201",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8201.glb",
     materials: {
@@ -1456,7 +1456,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-matt-gold-8202",
-    name: "Matt Gold 8202",
+    name: "Tap Matt Gold 8202",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8202.glb",
     materials: {
@@ -1468,7 +1468,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-matt-gold-8301",
-    name: "Matt Gold 8301",
+    name: "Tap Matt Gold 8301",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8301.glb",
     materials: {
@@ -1480,7 +1480,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-matt-gold-8302",
-    name: "Matt Gold 8302",
+    name: "Tap Matt Gold 8302",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8302.glb",
     materials: {
@@ -1492,7 +1492,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-rose-gold-8101",
-    name: "Rose Gold 8101",
+    name: "Tap Rose Gold 8101",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8101.glb",
     materials: {
@@ -1504,7 +1504,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-rose-gold-8102",
-    name: "Rose Gold 8102",
+    name: "Tap Rose Gold 8102",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8102.glb",
     materials: {
@@ -1516,7 +1516,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-rose-gold-8201",
-    name: "Rose Gold 8201",
+    name: "Tap Rose Gold 8201",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8201.glb",
     materials: {
@@ -1528,7 +1528,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-rose-gold-8202",
-    name: "Rose Gold 8202",
+    name: "Tap Rose Gold 8202",
     type: FurnitureType.BasinTap,
     path: "models/tap/tap-8202.glb",
     materials: {
@@ -1540,7 +1540,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-rose-gold-8301",
-    name: "Rose Gold 8301",
+    name: "Tap Rose Gold 8301",
     path: "models/tap/tap-8301.glb",
     type: FurnitureType.BasinTap,
     materials: {
@@ -1552,7 +1552,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "tap-rose-gold-8302",
-    name: "Rose Gold 8302",
+    name: "Tap Rose Gold 8302",
     path: "models/tap/tap-8302.glb",
     type: FurnitureType.BasinTap,
     materials: {
@@ -1566,7 +1566,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   // handle
   {
     key: "handle-chrome-50cm",
-    name: "Chrome Handle",
+    name: "Handle Chrome",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-500mm.glb",
     materials: {
@@ -1578,7 +1578,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "handle-gold-50cm",
-    name: "Gold Handle",
+    name: "Handle Gold",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-500mm.glb",
     materials: {
@@ -1590,7 +1590,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "handle-gun-metal-50cm",
-    name: "Gun Metal Handle",
+    name: "Handle Gun Metal",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-500mm.glb",
     materials: {
@@ -1602,7 +1602,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "handle-matt-black-50cm",
-    name: "Matt Black Handle",
+    name: "Handle Matt Black",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-500mm.glb",
     materials: {
@@ -1614,7 +1614,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "handle-rose-gold-50cm",
-    name: "Rose Gold Handle",
+    name: "Handle Rose Gold",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-500mm.glb",
     materials: {
@@ -1626,7 +1626,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "handle-chrome-60cm",
-    name: "Chrome Handle",
+    name: "Handle Chrome",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-600mm.glb",
     materials: {
@@ -1638,7 +1638,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "handle-gold-60cm",
-    name: "Gold Handle",
+    name: "Handle Gold",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-600mm.glb",
     materials: {
@@ -1650,7 +1650,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "handle-gun-metal-60cm",
-    name: "Gun Metal Handle",
+    name: "Handle Gun Metal",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-600mm.glb",
     materials: {
@@ -1662,7 +1662,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "handle-matt-black-60cm",
-    name: "Matt Black Handle",
+    name: "Handle Matt Black",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-600mm.glb",
     materials: {
@@ -1674,7 +1674,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "handle-rose-gold-60cm",
-    name: "Rose Gold Handle",
+    name: "Handle Rose Gold",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-600mm.glb",
     materials: {
@@ -1686,7 +1686,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "handle-chrome-80cm",
-    name: "Chrome Handle",
+    name: "Handle Chrome",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-800mm.glb",
     materials: {
@@ -1698,7 +1698,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "handle-gold-80cm",
-    name: "Gold Handle",
+    name: "Handle Gold",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-800mm.glb",
     materials: {
@@ -1710,7 +1710,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "handle-gun-metal-80cm",
-    name: "Gun Metal Handle",
+    name: "Handle Gun Metal",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-800mm.glb",
     materials: {
@@ -1722,7 +1722,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "handle-matt-black-80cm",
-    name: "Matt Black Handle",
+    name: "Handle Matt Black",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-800mm.glb",
     materials: {
@@ -1734,7 +1734,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   },
   {
     key: "handle-rose-gold-80cm",
-    name: "Rose Gold Handle",
+    name: "Handle Rose Gold",
     type: FurnitureType.Handle,
     path: "models/handle/Vanity-Cabinet-Handle-800mm.glb",
     materials: {
@@ -1748,14 +1748,14 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
   // stand
   {
     key: "stand-60cm",
-    name: "60cm Stand",
+    name: "Stand 60cm",
     type: FurnitureType.Stand,
     path: "models/stand/Vanity-Cabinet-Stand-600mm.glb",
     price: 0,
   },
   {
     key: "stand-80cm",
-    name: "80cm Stand",
+    name: "Stand 80cm",
     type: FurnitureType.Stand,
     path: "models/stand/Vanity-Cabinet-Stand-800mm.glb",
     price: 0,
@@ -1972,6 +1972,7 @@ const useStore = create(
     },
   })),
 );
+
 export type EventCallback = (event: ChoiceType, value: any) => void;
 
 class EventSystem {
@@ -1997,58 +1998,169 @@ class EventSystem {
   }
 }
 
-export function calculatePrice(choiceMap: StoreState["choiceMap"]) {
+export const eventSystem = new EventSystem();
+
+export const useCartItems = () => {
+  const { choiceMap, furnitureMap } = useStore();
+
+  const furnitureTypeIncluded = new Map<FurnitureType, boolean>();
+  const cartItems: CartItem[] = [];
+
+  let vanityCabinet: CartItem | undefined = undefined;
+  const vanityChoice = choiceMap["vanity-color"];
+  if (vanityChoice) {
+    const furnitureType = choiceTypeToFurnitureTypeMap["vanity-color"];
+    if (furnitureType) {
+      const furniture = furnitureMap[furnitureType];
+      furnitureTypeIncluded.set(furnitureType, true);
+      if (furniture) {
+        vanityCabinet = {
+          key: furniture.key,
+          name: furniture.name,
+          price: calculatePrice(choiceMap, 1 << furnitureType),
+        };
+      }
+    }
+  }
+
+  if (vanityCabinet) {
+    const handle = choiceMap.handle;
+    const overflowRing = choiceMap["overflow-ring"];
+    const popup = choiceMap.popup;
+    const insertBasin = choiceMap["insert-basin"];
+
+    for (const choice of [handle, overflowRing, popup, insertBasin]) {
+      if (!choice) {
+        continue;
+      }
+
+      const furnitureType = choiceTypeToFurnitureTypeMap[choice.type];
+
+      if (furnitureType) {
+        furnitureTypeIncluded.set(furnitureType, true);
+
+        const furniture = furnitureMap[furnitureType];
+        if (furniture) {
+          vanityCabinet.children = [
+            ...(vanityCabinet.children || []),
+            {
+              key: furniture.key,
+              name: furniture.name,
+              price: calculatePrice(choiceMap, 1 << furnitureType),
+            },
+          ];
+        }
+      }
+    }
+
+    cartItems.push(vanityCabinet);
+  }
+
+  const keys = Object.keys(choiceMap) as ChoiceType[];
+
+  for (const key of keys) {
+    const furnitureType = choiceTypeToFurnitureTypeMap[key];
+
+    if (furnitureType && !furnitureTypeIncluded.has(furnitureType)) {
+      const furniture = furnitureMap[furnitureType];
+      if (furniture) {
+        cartItems.push({
+          key: furniture.key,
+          name: furniture.name,
+          price: calculatePrice(choiceMap, 1 << furnitureType),
+        });
+      }
+    }
+  }
+  console.log(cartItems);
+
+  return cartItems;
+};
+
+export const useTotalPrice = () => {
+  const { choiceMap } = useStore();
+  return calculatePrice(choiceMap, 0);
+};
+
+function calculatePrice(
+  choiceMap: StoreState["choiceMap"],
+  furnitureTypeBitMask: number,
+) {
   let price = 0;
 
-  // cabinet
-  if (choiceMap.breadth?.value === 46) {
-    if (choiceMap.width?.value === 60) {
-      price += 748;
-    } else if (choiceMap.width?.value === 80) {
-      price += 848;
-    }
-  } else if (choiceMap.breadth?.value === 40) {
-    if (choiceMap.width?.value === 50) {
-      price += 648;
-    } else if (choiceMap.width?.value === 60) {
-      price += 748;
-    } else if (choiceMap.width?.value === 80) {
-      price += 848;
-    }
-  }
-
-  // tap
   if (
-    String(choiceMap.tap?.value).includes("8101") ||
-    String(choiceMap.tap?.value).includes("8201") ||
-    String(choiceMap.tap?.value).includes("8301")
+    furnitureTypeBitMask & (1 << FurnitureType.VanityCabinet) ||
+    furnitureTypeBitMask === 0
   ) {
-    price += 228;
-  } else if (
-    String(choiceMap.tap?.value).includes("8102") ||
-    String(choiceMap.tap?.value).includes("8202") ||
-    String(choiceMap.tap?.value).includes("8302")
-  ) {
-    price += 288;
+    if (choiceMap.breadth?.value === 46) {
+      if (choiceMap.width?.value === 60) {
+        price += 748;
+      } else if (choiceMap.width?.value === 80) {
+        price += 848;
+      }
+    } else if (choiceMap.breadth?.value === 40) {
+      if (choiceMap.width?.value === 50) {
+        price += 648;
+      } else if (choiceMap.width?.value === 60) {
+        price += 748;
+      } else if (choiceMap.width?.value === 80) {
+        price += 848;
+      }
+    }
   }
 
-  // basin
-  if (choiceMap.top?.value === "counter-top") {
-    if (String(choiceMap.basin?.value).includes("rectangular")) {
-      price += 268;
-    } else if (String(choiceMap.basin?.value).includes("round")) {
-      price += 268;
+  if (
+    furnitureTypeBitMask & (1 << FurnitureType.BasinTap) ||
+    furnitureTypeBitMask === 0
+  ) {
+    // tap
+    if (
+      String(choiceMap.tap?.value).includes("8101") ||
+      String(choiceMap.tap?.value).includes("8201") ||
+      String(choiceMap.tap?.value).includes("8301")
+    ) {
+      price += 228;
+    } else if (
+      String(choiceMap.tap?.value).includes("8102") ||
+      String(choiceMap.tap?.value).includes("8202") ||
+      String(choiceMap.tap?.value).includes("8302")
+    ) {
+      price += 288;
+    }
+  }
+
+  if (
+    furnitureTypeBitMask & (1 << FurnitureType.InsertBasin) ||
+    furnitureTypeBitMask === 0
+  ) {
+    // basin
+    if (choiceMap.top?.value === "counter-top") {
+      if (String(choiceMap.basin?.value).includes("rectangular")) {
+        price += 268;
+      } else if (String(choiceMap.basin?.value).includes("round")) {
+        price += 268;
+      }
     }
   }
 
   // stand
-  if (choiceMap.stand?.value) {
-    price += 98;
+  if (
+    furnitureTypeBitMask & (1 << FurnitureType.Stand) ||
+    furnitureTypeBitMask === 0
+  ) {
+    if (choiceMap.stand?.value) {
+      price += 98;
+    }
   }
 
   return price;
 }
 
-export const eventSystem = new EventSystem();
+type CartItem = {
+  key: string;
+  name: string;
+  price: number;
+  children?: CartItem[];
+};
 
 export default useStore;

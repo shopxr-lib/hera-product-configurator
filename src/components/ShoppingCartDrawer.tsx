@@ -1,19 +1,13 @@
 import { Divider, Drawer, Title } from "@mantine/core";
-import useStore from "../store/useStore";
-import { startingPrices } from "./constants";
+import useStore, { useCartItems, useTotalPrice } from "../store/useStore";
 
 const ShoppingCartPopUp = () => {
   const opened = useStore((state) => state.modals.shoppingCart);
   const setModal = useStore((state) => state.setModal);
   const close = () => setModal("shoppingCart", false);
-  const cartItems = useStore((state) => state.cartItems);
 
-  const chosenPackage = useStore((state) => state.package);
-
-  const total = cartItems.reduce(
-    (acc, item) => acc + item.price,
-    startingPrices[chosenPackage],
-  );
+  const totalPrice = useTotalPrice();
+  const cartItems = useCartItems();
 
   return (
     <Drawer
@@ -29,30 +23,41 @@ const ShoppingCartPopUp = () => {
             <Title order={5}>Items</Title>
             <Title order={5}>Price</Title>
           </div>
-          <div className="flex justify-between">
-            <p>
-              Package: <span className="capitalize">{chosenPackage}</span>
-            </p>
-            <p>
-              {Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-                maximumFractionDigits: 0,
-              }).format(startingPrices[chosenPackage])}
-            </p>
-          </div>
-          {cartItems.map((item) => (
-            <div key={item.key} className="flex justify-between">
-              <p>{item.name}</p>
-              <p>
-                {Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                  maximumFractionDigits: 0,
-                }).format(item.price)}
-              </p>
-            </div>
-          ))}
+          {cartItems.map((cartItem) => {
+            return (
+              <div key={cartItem.key} className="flex flex-col gap-2">
+                <div className="flex justify-between">
+                  <p>{cartItem.name}</p>
+                  <p>
+                    {Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                      maximumFractionDigits: 0,
+                    }).format(cartItem.price)}
+                  </p>
+                </div>
+                {cartItem.children?.map((child) => {
+                  return (
+                    <div
+                      key={child.key}
+                      className="ml-4 flex justify-between text-sm text-gray-800"
+                    >
+                      <p>{child.name}</p>
+                      {child.price > 0 && (
+                        <p>
+                          {Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                            maximumFractionDigits: 0,
+                          }).format(child.price)}
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
           <Divider />
           <div className="flex justify-between">
             <p className="font-bold">Total</p>
@@ -61,7 +66,7 @@ const ShoppingCartPopUp = () => {
                 style: "currency",
                 currency: "USD",
                 maximumFractionDigits: 0,
-              }).format(total)}
+              }).format(totalPrice)}
             </p>
           </div>
         </div>
