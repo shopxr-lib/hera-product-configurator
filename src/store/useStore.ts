@@ -2028,8 +2028,15 @@ export const useCartItems = () => {
     const overflowRing = choiceMap["overflow-ring"];
     const popup = choiceMap.popup;
     const insertBasin = choiceMap["insert-basin"];
+    const counterTop = choiceMap["counter-top"];
 
-    for (const choice of [handle, overflowRing, popup, insertBasin]) {
+    for (const choice of [
+      handle,
+      overflowRing,
+      popup,
+      insertBasin,
+      counterTop,
+    ]) {
       if (!choice) {
         continue;
       }
@@ -2072,7 +2079,6 @@ export const useCartItems = () => {
       }
     }
   }
-  console.log(cartItems);
 
   return cartItems;
 };
@@ -2130,7 +2136,7 @@ function calculatePrice(
   }
 
   if (
-    furnitureTypeBitMask & (1 << FurnitureType.InsertBasin) ||
+    furnitureTypeBitMask & (1 << FurnitureType.Basin) ||
     furnitureTypeBitMask === 0
   ) {
     // basin
