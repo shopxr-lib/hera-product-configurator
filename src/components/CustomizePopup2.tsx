@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import useStore, {
   ChoiceMap,
@@ -17,6 +17,45 @@ const CustomizePopUp: React.FC = () => {
   const addChoice = useStore((state) => state.addChoice);
 
   const popUpInfo = PopUpInfos[customizePopUpKey];
+
+  useEffect(() => {
+    if (!popUpInfo) {
+      return;
+    }
+    let firstChoice: SectionChoice | undefined = undefined;
+    for (const section of popUpInfo.sections) {
+      if (section.hideIf && section.hideIf(choiceMap)) {
+        continue;
+      }
+
+      // already selected
+      if (choiceMap[section.type]) {
+        continue;
+      }
+
+      firstChoice = section.choices?.find(
+        (choice) => !choice.hideIf?.(choiceMap),
+      );
+      if (!firstChoice) {
+        firstChoice = section.groupChoices?.find(
+          (group) => !group.hideIf?.(choiceMap),
+        )?.choices?.[0];
+      }
+
+      if (firstChoice) {
+        addChoice(
+          {
+            type: section.type,
+            value: firstChoice.value,
+            preserveSelection: firstChoice.preserveSelection,
+          },
+          "firstChoice",
+        );
+        break;
+      }
+    }
+  }, [addChoice, choiceMap, popUpInfo]);
+
   if (!popUpInfo) {
     return null;
   }
