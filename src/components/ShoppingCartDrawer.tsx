@@ -1,5 +1,11 @@
 import { Divider, Drawer, Title } from "@mantine/core";
-import useStore, { useCartItems, useTotalPrice } from "../store/useStore";
+import useStore, {
+  allFees,
+  installationFee,
+  useCartItems,
+  useTotalPrice,
+} from "../store/useStore";
+import { Checkbox } from "@mantine/core";
 
 const ShoppingCartPopUp = () => {
   const opened = useStore((state) => state.modals.shoppingCart);
@@ -8,6 +14,14 @@ const ShoppingCartPopUp = () => {
 
   const totalPrice = useTotalPrice();
   const cartItems = useCartItems();
+
+  const fees = useStore((state) => state.fees);
+  const addFee = useStore((state) => state.addFee);
+  const removeFee = useStore((state) => state.removeFee);
+
+  const currentInstallationFee = fees.find(
+    (fee) => fee.type === "installation",
+  );
 
   return (
     <Drawer
@@ -58,6 +72,53 @@ const ShoppingCartPopUp = () => {
               </div>
             );
           })}
+          <Divider />
+          <div className="flex flex-col gap-4">
+            {allFees.map((fee) => {
+              switch (fee.type) {
+                case "installation":
+                  return (
+                    <div className="flex items-center justify-between">
+                      <Checkbox
+                        size="md"
+                        label="Include Installation"
+                        checked={!!currentInstallationFee}
+                        onChange={() => {
+                          if (currentInstallationFee) {
+                            removeFee(currentInstallationFee.type);
+                          } else {
+                            addFee(installationFee);
+                          }
+                        }}
+                      />
+
+                      <p>
+                        {currentInstallationFee &&
+                          Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                            maximumFractionDigits: 0,
+                          }).format(currentInstallationFee.price)}
+                      </p>
+                    </div>
+                  );
+
+                default:
+                  return (
+                    <div className="flex justify-between">
+                      <p>{fee.name}</p>
+                      <p>
+                        {Intl.NumberFormat("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                          maximumFractionDigits: 0,
+                        }).format(fee.price)}
+                      </p>
+                    </div>
+                  );
+              }
+            })}
+          </div>
           <Divider />
           <div className="flex justify-between">
             <p className="font-bold">Total</p>

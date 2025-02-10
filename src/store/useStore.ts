@@ -167,7 +167,31 @@ type StoreState = {
     },
     source?: string,
   ) => void;
+  fees: Fee[];
+  addFee: (fee: Fee) => void;
+  removeFee: (type: FeeType) => void;
 };
+
+type Fee = {
+  name: string;
+  price: number;
+  type: FeeType;
+};
+
+export type FeeType = "delivery" | "installation";
+
+export const deliveryFee: Fee = {
+  name: "Delivery",
+  type: "delivery",
+  price: 0, // free above $500
+};
+export const installationFee: Fee = {
+  name: "Installation",
+  type: "installation",
+  price: 180,
+};
+
+export const allFees = [deliveryFee, installationFee];
 
 export const allFloorsTextures: TextureObject[] = [
   {
@@ -1970,6 +1994,24 @@ const useStore = create(
         { type: "addChoice", payload: { choice, source } },
       );
     },
+    fees: [],
+    addFee: (fee: Fee) => {
+      const feeByType = new Map(get().fees.map((fee) => [fee.type, fee]));
+      if (!feeByType.has(fee.type)) {
+        set((state) => {
+          return {
+            fees: [...state.fees, fee],
+          };
+        });
+      }
+    },
+    removeFee: (type: FeeType) => {
+      set((state) => {
+        return {
+          fees: state.fees.filter((fee) => fee.type !== type),
+        };
+      });
+    },
   })),
 );
 
@@ -2084,8 +2126,10 @@ export const useCartItems = () => {
 };
 
 export const useTotalPrice = () => {
-  const { choiceMap } = useStore();
-  return calculatePrice(choiceMap, 0);
+  const { choiceMap, fees } = useStore();
+  const itemPrice = calculatePrice(choiceMap, 0);
+  const feePrice = fees.reduce((acc, fee) => acc + fee.price, 0);
+  return itemPrice + feePrice;
 };
 
 function calculatePrice(
