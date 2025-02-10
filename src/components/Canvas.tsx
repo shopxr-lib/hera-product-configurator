@@ -22,7 +22,6 @@ const Canvas: React.FC = () => {
       }}
     >
       {/* will adjust aspect ratio automatically */}
-      <gridHelper args={[5, 5]} />
       <PerspectiveCamera
         makeDefault
         fov={75}
