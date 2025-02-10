@@ -56,9 +56,9 @@ const Basin: React.FC<Props> = ({ path, textureMap, ...props }) => {
     setFurnitureDimensions(FurnitureType.Basin, [size.x, size.y, size.z]);
 
     const derivedPosition: [number, number, number] = [
-      counterTop.position![0],
-      counterTop.position![1] + counterTop.dimensions[1] / 2,
-      counterTop.position![2] + 0.05,
+      counterTop.position?.[0] ?? 0,
+      (counterTop.position?.[1] ?? 0) + counterTop.dimensions[1] / 2,
+      (counterTop.position?.[2] ?? 0) + 0.06,
     ];
     setFurniturePosition(FurnitureType.Basin, derivedPosition);
   }, [counterTop, setFurnitureDimensions, setFurniturePosition]);
