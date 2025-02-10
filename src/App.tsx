@@ -10,6 +10,7 @@ import ShoppingCartFloating from "./components/ShoppingCartFloating";
 import { Notifications } from "@mantine/notifications";
 import ShoppingCartDrawer from "./components/ShoppingCartDrawer";
 import Branding from "./components/Branding";
+import { Leva } from "leva";
 
 function App() {
   return (
@@ -32,6 +33,16 @@ function App() {
         primaryColor: "brand",
       }}
     >
+      <div className="absolute top-4 right-48 z-50">
+        <Leva
+          fill
+          collapsed={false}
+          hideCopyButton
+          titleBar={{
+            title: "Customize",
+          }}
+        />
+      </div>
       <Notifications />
       <Canvas />
       <Customize />
