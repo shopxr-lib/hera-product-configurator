@@ -78,7 +78,10 @@ const ShoppingCartPopUp = () => {
               switch (fee.type) {
                 case "installation":
                   return (
-                    <div className="flex items-center justify-between">
+                    <div
+                      key={fee.name}
+                      className="flex items-center justify-between"
+                    >
                       <Checkbox
                         size="md"
                         label="Include Installation"
@@ -105,7 +108,7 @@ const ShoppingCartPopUp = () => {
 
                 default:
                   return (
-                    <div className="flex justify-between">
+                    <div key={fee.name} className="flex justify-between">
                       <p>{fee.name}</p>
                       <p>
                         {Intl.NumberFormat("en-US", {
