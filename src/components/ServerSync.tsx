@@ -1,16 +1,15 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useService } from "../lib/hooks/useService";
 import useStore from "../store/useStore";
 import { useEffect } from "react";
-import { shallow } from "zustand/shallow";
-import { ConfigurationSessionConfig } from "../lib/services/configuration_session";
-import { useDebounceCallback } from "usehooks-ts";
-
-const sessionKey = "aldkfalksdfj";
-const productSetId = 1;
+import { useParams } from "react-router";
 
 const ServerSync = () => {
   const service = useService();
+  const { productSetId, sessionKey } = useParams<{
+    productSetId: string;
+    sessionKey: string;
+  }>();
 
   const { data } = useQuery({
     queryKey: [
@@ -19,30 +18,31 @@ const ServerSync = () => {
     ],
     queryFn: async () => {
       const [res, err] = await service.configurationSession.get({
-        session_key: sessionKey,
-        product_set_id: productSetId,
+        session_key: sessionKey ?? "",
+        product_set_id: Number(productSetId),
       });
       if (err) {
         throw err;
       }
       return res;
     },
+    enabled: Boolean(sessionKey) && Boolean(productSetId),
   });
 
-  const { mutate: updateConfig } = useMutation({
-    mutationFn: async (config: ConfigurationSessionConfig) => {
-      const err = await service.configurationSession.update({
-        session_key: sessionKey,
-        product_set_id: productSetId,
-        config,
-      });
-      if (err) {
-        throw err;
-      }
-    },
-  });
+  // const { mutate: updateConfig } = useMutation({
+  //   mutationFn: async (config: ConfigurationSessionConfig) => {
+  //     const err = await service.configurationSession.update({
+  //       session_key: sessionKey,
+  //       product_set_id: productSetId,
+  //       config,
+  //     });
+  //     if (err) {
+  //       throw err;
+  //     }
+  //   },
+  // });
 
-  const debouncedUpdateConfig = useDebounceCallback(updateConfig, 500);
+  // const debouncedUpdateConfig = useDebounceCallback(updateConfig, 500);
 
   const setFurnitureMap = useStore((state) => state.setFurnitureMap);
   const setChoiceMap = useStore((state) => state.setChoiceMap);
@@ -53,17 +53,17 @@ const ServerSync = () => {
     }
   }, [data, setFurnitureMap, setChoiceMap]);
 
-  useEffect(() => {
-    return useStore.subscribe(
-      (state) => state.config,
-      (config) => {
-        debouncedUpdateConfig(config);
-      },
-      {
-        equalityFn: shallow,
-      },
-    );
-  });
+  // useEffect(() => {
+  //   return useStore.subscribe(
+  //     (state) => state.config,
+  //     (config) => {
+  //       debouncedUpdateConfig(config);
+  //     },
+  //     {
+  //       equalityFn: shallow,
+  //     },
+  //   );
+  // });
 
   return null;
 };
