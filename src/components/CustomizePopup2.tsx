@@ -243,7 +243,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-hybrid-pebble-500mm",
                 title: "Hybrid Pebble",
                 subtitle: vanityCabinetHybridDimensionsText["500"],
-                image: "images/vanity-cabinet/hybrid-pebble-500mm.webp",
+                image: "/images/vanity-cabinet/hybrid-pebble-500mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -261,7 +261,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-hybrid-pine-500mm",
                 title: "Hybrid Pine",
                 subtitle: vanityCabinetHybridDimensionsText["500"],
-                image: "images/vanity-cabinet/hybrid-pine-500mm.webp",
+                image: "/images/vanity-cabinet/hybrid-pine-500mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -279,7 +279,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-hybrid-walnut-500mm",
                 title: "Hybrid Walnut",
                 subtitle: vanityCabinetHybridDimensionsText["500"],
-                image: "images/vanity-cabinet/hybrid-walnut-500mm.webp",
+                image: "/images/vanity-cabinet/hybrid-walnut-500mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -304,7 +304,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-hybrid-pebble-600mm",
                 title: "Hybrid Pebble",
                 subtitle: vanityCabinetHybridDimensionsText["600"],
-                image: "images/vanity-cabinet/hybrid-pebble-600mm.webp",
+                image: "/images/vanity-cabinet/hybrid-pebble-600mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -327,7 +327,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-hybrid-pine-600mm",
                 title: "Hybrid Pine",
                 subtitle: vanityCabinetHybridDimensionsText["600"],
-                image: "images/vanity-cabinet/hybrid-pine-600mm.webp",
+                image: "/images/vanity-cabinet/hybrid-pine-600mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -350,7 +350,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-hybrid-walnut-600mm",
                 title: "Hybrid Walnut",
                 subtitle: vanityCabinetHybridDimensionsText["600"],
-                image: "images/vanity-cabinet/hybrid-walnut-600mm.webp",
+                image: "/images/vanity-cabinet/hybrid-walnut-600mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -380,7 +380,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-hybrid-pebble-800mm",
                 title: "Hybrid Pebble",
                 subtitle: vanityCabinetHybridDimensionsText["800"],
-                image: "images/vanity-cabinet/hybrid-pebble-800mm.webp",
+                image: "/images/vanity-cabinet/hybrid-pebble-800mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -403,7 +403,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-hybrid-pine-800mm",
                 title: "Hybrid Pine",
                 subtitle: vanityCabinetHybridDimensionsText["800"],
-                image: "images/vanity-cabinet/hybrid-pine-800mm.webp",
+                image: "/images/vanity-cabinet/hybrid-pine-800mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -426,7 +426,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-hybrid-walnut-800mm",
                 title: "Hybrid Walnut",
                 subtitle: vanityCabinetHybridDimensionsText["800"],
-                image: "images/vanity-cabinet/hybrid-walnut-800mm.webp",
+                image: "/images/vanity-cabinet/hybrid-walnut-800mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -456,7 +456,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-birch-600mm",
                 title: "Birch",
                 subtitle: vanityCabinetDimensionsText["600"],
-                image: "images/vanity-cabinet/birch-600mm.webp",
+                image: "/images/vanity-cabinet/birch-600mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -474,7 +474,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-blanco-600mm",
                 title: "Blanco",
                 subtitle: vanityCabinetDimensionsText["600"],
-                image: "images/vanity-cabinet/blanco-600mm.webp",
+                image: "/images/vanity-cabinet/blanco-600mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -492,7 +492,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-brown-stone-600mm",
                 title: "Brownstone",
                 subtitle: vanityCabinetDimensionsText["600"],
-                image: "images/vanity-cabinet/brownstone-600mm.webp",
+                image: "/images/vanity-cabinet/brownstone-600mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -510,7 +510,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-charcoal-ash-600mm",
                 title: "Charcoal Ash",
                 subtitle: vanityCabinetDimensionsText["600"],
-                image: "images/vanity-cabinet/charcoal-ash-600mm.webp",
+                image: "/images/vanity-cabinet/charcoal-ash-600mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -528,7 +528,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-graphite-600mm",
                 title: "Graphite",
                 subtitle: vanityCabinetDimensionsText["600"],
-                image: "images/vanity-cabinet/graphite-600mm.webp",
+                image: "/images/vanity-cabinet/graphite-600mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -546,7 +546,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-matt-black-600mm",
                 title: "Matt Black",
                 subtitle: vanityCabinetDimensionsText["600"],
-                image: "images/vanity-cabinet/matt-black-600mm.webp",
+                image: "/images/vanity-cabinet/matt-black-600mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -564,7 +564,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-oakwood-600mm",
                 title: "Oakwood",
                 subtitle: vanityCabinetDimensionsText["600"],
-                image: "images/vanity-cabinet/oakwood-600mm.webp",
+                image: "/images/vanity-cabinet/oakwood-600mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -589,7 +589,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-birch-800mm",
                 title: "Birch",
                 subtitle: vanityCabinetDimensionsText["800"],
-                image: "images/vanity-cabinet/birch-800mm.webp",
+                image: "/images/vanity-cabinet/birch-800mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -607,7 +607,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-blanco-800mm",
                 title: "Blanco",
                 subtitle: vanityCabinetDimensionsText["800"],
-                image: "images/vanity-cabinet/blanco-800mm.webp",
+                image: "/images/vanity-cabinet/blanco-800mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -625,7 +625,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-brown-stone-800mm",
                 title: "Brownstone",
                 subtitle: vanityCabinetDimensionsText["800"],
-                image: "images/vanity-cabinet/brownstone-800mm.webp",
+                image: "/images/vanity-cabinet/brownstone-800mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -643,7 +643,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-charcoal-ash-800mm",
                 title: "Charcoal",
                 subtitle: vanityCabinetDimensionsText["800"],
-                image: "images/vanity-cabinet/charcoal-ash-800mm.webp",
+                image: "/images/vanity-cabinet/charcoal-ash-800mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -661,7 +661,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-graphite-800mm",
                 title: "Graphite",
                 subtitle: vanityCabinetDimensionsText["800"],
-                image: "images/vanity-cabinet/graphite-800mm.webp",
+                image: "/images/vanity-cabinet/graphite-800mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -679,7 +679,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-matt-black-800mm",
                 title: "Matt Black",
                 subtitle: vanityCabinetDimensionsText["800"],
-                image: "images/vanity-cabinet/matt-black-800mm.webp",
+                image: "/images/vanity-cabinet/matt-black-800mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -697,7 +697,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "vanity-cabinet-oakwood-800mm",
                 title: "Oakwood",
                 subtitle: vanityCabinetDimensionsText["800"],
-                image: "images/vanity-cabinet/oakwood-800mm.webp",
+                image: "/images/vanity-cabinet/oakwood-800mm.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -764,7 +764,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-ceramic-600mm",
                 title: "White Ceramic",
                 subtitle: insertBasinDimensionsText["600"].ceramic,
-                image: "images/insert-basin/ceramic-helios.webp",
+                image: "/images/insert-basin/ceramic-helios.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -782,7 +782,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-glass-black-600mm",
                 title: "Black Glass",
                 subtitle: insertBasinDimensionsText["600"].glass,
-                image: "images/insert-basin/glass-black.webp",
+                image: "/images/insert-basin/glass-black.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -800,7 +800,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-glass-white-600mm",
                 title: "White Glass",
                 subtitle: insertBasinDimensionsText["600"].glass,
-                image: "images/insert-basin/glass-white.webp",
+                image: "/images/insert-basin/glass-white.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -827,7 +827,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-ceramic-800mm",
                 title: "White Ceramic",
                 subtitle: insertBasinDimensionsText["800"].ceramic,
-                image: "images/insert-basin/ceramic-helios.webp",
+                image: "/images/insert-basin/ceramic-helios.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -845,7 +845,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-glass-black-800mm",
                 title: "Black Glass",
                 subtitle: insertBasinDimensionsText["800"].glass,
-                image: "images/insert-basin/glass-black.webp",
+                image: "/images/insert-basin/glass-black.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -863,7 +863,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-glass-white-800mm",
                 title: "White Glass",
                 subtitle: insertBasinDimensionsText["800"].glass,
-                image: "images/insert-basin/glass-white.webp",
+                image: "/images/insert-basin/glass-white.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -890,7 +890,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-hybrid-ceramic-500mm",
                 title: "Hybrid White Ceramic",
                 subtitle: insertBasinDimensionsText["500"].ceramic,
-                image: "images/insert-basin/ceramic-helios.webp",
+                image: "/images/insert-basin/ceramic-helios.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -908,7 +908,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-hybrid-glass-black-500mm",
                 title: "Hybrid Black Glass",
                 subtitle: insertBasinDimensionsText["500"].glass,
-                image: "images/insert-basin/glass-black.webp",
+                image: "/images/insert-basin/glass-black.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -926,7 +926,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-hybrid-glass-white-500mm",
                 title: "Hybrid White Glass",
                 subtitle: insertBasinDimensionsText["500"].glass,
-                image: "images/insert-basin/glass-white.webp",
+                image: "/images/insert-basin/glass-white.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -953,7 +953,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-hybrid-ceramic-600mm",
                 title: "Hybrid White Ceramic",
                 subtitle: insertBasinDimensionsText["600"].ceramic,
-                image: "images/insert-basin/ceramic-helios.webp",
+                image: "/images/insert-basin/ceramic-helios.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -976,7 +976,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-hybrid-glass-black-600mm",
                 title: "Hybrid Black Glass",
                 subtitle: insertBasinDimensionsText["600"].glass,
-                image: "images/insert-basin/glass-black.webp",
+                image: "/images/insert-basin/glass-black.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -999,7 +999,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-hybrid-glass-white-600mm",
                 title: "Hybrid White Glass",
                 subtitle: insertBasinDimensionsText["600"].glass,
-                image: "images/insert-basin/glass-white.webp",
+                image: "/images/insert-basin/glass-white.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1031,7 +1031,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-hybrid-ceramic-800mm",
                 title: "Hybrid White Ceramic",
                 subtitle: insertBasinDimensionsText["800"].ceramic,
-                image: "images/insert-basin/ceramic-helios.webp",
+                image: "/images/insert-basin/ceramic-helios.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1054,7 +1054,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-hybrid-glass-black-800mm",
                 title: "Hybrid Black Glass",
                 subtitle: insertBasinDimensionsText["800"].glass,
-                image: "images/insert-basin/glass-black.webp",
+                image: "/images/insert-basin/glass-black.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1077,7 +1077,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "insert-basin-hybrid-glass-white-800mm",
                 title: "Hybrid White Glass",
                 subtitle: insertBasinDimensionsText["800"].glass,
-                image: "images/insert-basin/glass-white.webp",
+                image: "/images/insert-basin/glass-white.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1123,7 +1123,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "counter-top-birch-600mm",
                 title: "Birch",
                 subtitle: countertopDimensionsText["600"],
-                image: "images/counter-top/countertop-birch.webp",
+                image: "/images/counter-top/countertop-birch.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1136,7 +1136,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "counter-top-brownstone-600mm",
                 title: "Brownstone",
                 subtitle: countertopDimensionsText["600"],
-                image: "images/counter-top/countertop-brownstone.webp",
+                image: "/images/counter-top/countertop-brownstone.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1149,7 +1149,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "counter-top-charcoal-ash-600mm",
                 title: "Charcoal Ash",
                 subtitle: countertopDimensionsText["600"],
-                image: "images/counter-top/countertop-charcoal-ash.webp",
+                image: "/images/counter-top/countertop-charcoal-ash.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1162,7 +1162,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "counter-top-oakwood-600mm",
                 title: "Oakwood",
                 subtitle: countertopDimensionsText["600"],
-                image: "images/counter-top/countertop-oakwood.webp",
+                image: "/images/counter-top/countertop-oakwood.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1175,7 +1175,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "counter-top-black-600mm",
                 title: "Black Quartz",
                 subtitle: countertopDimensionsText["600"],
-                image: "images/counter-top/countertop-black.webp",
+                image: "/images/counter-top/countertop-black.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1188,7 +1188,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "counter-top-white-600mm",
                 title: "White Quartz",
                 subtitle: countertopDimensionsText["600"],
-                image: "images/counter-top/countertop-white.webp",
+                image: "/images/counter-top/countertop-white.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1207,7 +1207,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "counter-top-birch-800mm",
                 title: "Birch",
                 subtitle: countertopDimensionsText["800"],
-                image: "images/counter-top/countertop-birch.webp",
+                image: "/images/counter-top/countertop-birch.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1220,7 +1220,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "counter-top-brownstone-800mm",
                 title: "Brownstone",
                 subtitle: countertopDimensionsText["800"],
-                image: "images/counter-top/countertop-brownstone.webp",
+                image: "/images/counter-top/countertop-brownstone.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1233,7 +1233,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "counter-top-charcoal-ash-800mm",
                 title: "Charcoal Ash",
                 subtitle: countertopDimensionsText["800"],
-                image: "images/counter-top/countertop-charcoal-ash.webp",
+                image: "/images/counter-top/countertop-charcoal-ash.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1246,7 +1246,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "counter-top-oakwood-800mm",
                 title: "Oakwood",
                 subtitle: countertopDimensionsText["800"],
-                image: "images/counter-top/countertop-oakwood.webp",
+                image: "/images/counter-top/countertop-oakwood.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1259,7 +1259,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "counter-top-black-800mm",
                 title: "Black Quartz",
                 subtitle: countertopDimensionsText["800"],
-                image: "images/counter-top/countertop-black.webp",
+                image: "/images/counter-top/countertop-black.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1272,7 +1272,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
                 value: "counter-top-white-800mm",
                 title: "White Quartz",
                 subtitle: countertopDimensionsText["800"],
-                image: "images/counter-top/countertop-white.webp",
+                image: "/images/counter-top/countertop-white.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1310,30 +1310,31 @@ const PopUpInfos: Record<string, PopUpInfo> = {
           {
             value: "basin-overflow-ring-chrome",
             title: "Chrome",
-            image: "images/basin-overflow-ring/basin-overflow-ring-chrome.webp",
+            image:
+              "/images/basin-overflow-ring/basin-overflow-ring-chrome.webp",
           },
           {
             value: "basin-overflow-ring-gold",
             title: "Gold",
-            image: "images/basin-overflow-ring/basin-overflow-ring-gold.webp",
+            image: "/images/basin-overflow-ring/basin-overflow-ring-gold.webp",
           },
           {
             value: "basin-overflow-ring-gun-metal",
             title: "Gun Metal",
             image:
-              "images/basin-overflow-ring/basin-overflow-ring-gun-metal.webp",
+              "/images/basin-overflow-ring/basin-overflow-ring-gun-metal.webp",
           },
           {
             value: "basin-overflow-ring-matt-black",
             title: "Matt Black",
             image:
-              "images/basin-overflow-ring/basin-overflow-ring-matt-black.webp",
+              "/images/basin-overflow-ring/basin-overflow-ring-matt-black.webp",
           },
           {
             value: "basin-overflow-ring-rose-gold",
             title: "Rose Gold",
             image:
-              "images/basin-overflow-ring/basin-overflow-ring-rose-gold.webp",
+              "/images/basin-overflow-ring/basin-overflow-ring-rose-gold.webp",
           },
         ],
       },
@@ -1355,27 +1356,27 @@ const PopUpInfos: Record<string, PopUpInfo> = {
           {
             value: "popup-chrome",
             title: "Chrome",
-            image: "images/popup/popup-chrome.webp",
+            image: "/images/popup/popup-chrome.webp",
           },
           {
             value: "popup-gold",
             title: "Gold",
-            image: "images/popup/popup-gold.webp",
+            image: "/images/popup/popup-gold.webp",
           },
           {
             value: "popup-gun-metal",
             title: "Gun Metal",
-            image: "images/popup/popup-gun-metal.webp",
+            image: "/images/popup/popup-gun-metal.webp",
           },
           {
             value: "popup-matt-black",
             title: "Matt Black",
-            image: "images/popup/popup-matt-black.webp",
+            image: "/images/popup/popup-matt-black.webp",
           },
           {
             value: "popup-rose-gold",
             title: "Rose Gold",
-            image: "images/popup/popup-rose-gold.webp",
+            image: "/images/popup/popup-rose-gold.webp",
           },
         ],
       },
@@ -1398,106 +1399,106 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             value: "basin-rectangular-ceramic-blush",
             title: "Blush Rectangular Ceramic",
             subtitle: basinDimensionsText.rectangular,
-            image: "images/basin/hera-rectangular-ceramic-basin-blush.webp",
+            image: "/images/basin/hera-rectangular-ceramic-basin-blush.webp",
           },
           {
             value: "basin-rectangular-ceramic-eclair",
             title: "Eclair Rectangular Ceramic",
             subtitle: basinDimensionsText.rectangular,
-            image: "images/basin/hera-rectangular-ceramic-basin-eclair.webp",
+            image: "/images/basin/hera-rectangular-ceramic-basin-eclair.webp",
           },
           {
             value: "basin-rectangular-ceramic-matt-black",
             title: "Matt Black Rectangular Ceramic",
             subtitle: basinDimensionsText.rectangular,
             image:
-              "images/basin/hera-rectangular-ceramic-basin-matt-black.webp",
+              "/images/basin/hera-rectangular-ceramic-basin-matt-black.webp",
           },
           {
             value: "basin-rectangular-ceramic-matt-white",
             title: "Matt White Rectangular Ceramic",
             subtitle: basinDimensionsText.rectangular,
             image:
-              "images/basin/hera-rectangular-ceramic-basin-matt-white.webp",
+              "/images/basin/hera-rectangular-ceramic-basin-matt-white.webp",
           },
           {
             value: "basin-rectangular-ceramic-mocha",
             title: "Mocha Rectangular Ceramic",
             subtitle: basinDimensionsText.rectangular,
-            image: "images/basin/hera-rectangular-ceramic-basin-mocha.webp",
+            image: "/images/basin/hera-rectangular-ceramic-basin-mocha.webp",
           },
           {
             value: "basin-rectangular-ceramic-moss",
             title: "Moss Rectangular Ceramic",
             subtitle: basinDimensionsText.rectangular,
-            image: "images/basin/hera-rectangular-ceramic-basin-moss.webp",
+            image: "/images/basin/hera-rectangular-ceramic-basin-moss.webp",
           },
           {
             value: "basin-rectangular-ceramic-slate-grey",
             title: "Slate Grey Rectangular Ceramic",
             subtitle: basinDimensionsText.rectangular,
             image:
-              "images/basin/hera-rectangular-ceramic-basin-slate-grey.webp",
+              "/images/basin/hera-rectangular-ceramic-basin-slate-grey.webp",
           },
           {
             value: "basin-rectangular-ceramic-storm",
             title: "Storm Rectangular Ceramic",
             subtitle: basinDimensionsText.rectangular,
-            image: "images/basin/hera-rectangular-ceramic-basin-storm.webp",
+            image: "/images/basin/hera-rectangular-ceramic-basin-storm.webp",
           },
           {
             value: "basin-rectangular-ceramic-teal",
             title: "Teal Rectangular Ceramic",
             subtitle: basinDimensionsText.rectangular,
-            image: "images/basin/hera-rectangular-ceramic-basin-teal.webp",
+            image: "/images/basin/hera-rectangular-ceramic-basin-teal.webp",
           },
           {
             value: "basin-round-ceramic-blush",
             title: "Blush Round Ceramic",
             subtitle: basinDimensionsText.round,
-            image: "images/basin/hera-round-ceramic-basin-blush.webp",
+            image: "/images/basin/hera-round-ceramic-basin-blush.webp",
           },
           {
             value: "basin-round-ceramic-matt-black",
             title: "Matt Black Round Ceramic",
             subtitle: basinDimensionsText.round,
-            image: "images/basin/hera-round-ceramic-basin-matt-black.webp",
+            image: "/images/basin/hera-round-ceramic-basin-matt-black.webp",
           },
           {
             value: "basin-round-ceramic-matt-white",
             title: "Matt White Round Ceramic",
             subtitle: basinDimensionsText.round,
-            image: "images/basin/hera-round-ceramic-basin-matt-white.webp",
+            image: "/images/basin/hera-round-ceramic-basin-matt-white.webp",
           },
           {
             value: "basin-round-ceramic-mint",
             title: "Mint Round Ceramic",
             subtitle: basinDimensionsText.round,
-            image: "images/basin/hera-round-ceramic-basin-mint.webp",
+            image: "/images/basin/hera-round-ceramic-basin-mint.webp",
           },
           {
             value: "basin-round-ceramic-mocha",
             title: "Mocha Round Ceramic",
             subtitle: basinDimensionsText.round,
-            image: "images/basin/hera-round-ceramic-basin-mocha.webp",
+            image: "/images/basin/hera-round-ceramic-basin-mocha.webp",
           },
           {
             value: "basin-round-ceramic-slate-grey",
             title: "Slate Grey Round Ceramic",
             subtitle: basinDimensionsText.round,
-            image: "images/basin/hera-round-ceramic-basin-slate-grey.webp",
+            image: "/images/basin/hera-round-ceramic-basin-slate-grey.webp",
           },
           {
             value: "basin-round-ceramic-stone-grey",
             title: "Stone Grey Round Ceramic",
             subtitle: basinDimensionsText.round,
-            image: "images/basin/hera-round-ceramic-basin-stone-grey.webp",
+            image: "/images/basin/hera-round-ceramic-basin-stone-grey.webp",
           },
           {
             value: "basin-round-ceramic-tangerine",
             title: "Tangerine Round Ceramic",
             subtitle: basinDimensionsText.round,
-            image: "images/basin/hera-round-ceramic-basin-tangerine.webp",
+            image: "/images/basin/hera-round-ceramic-basin-tangerine.webp",
           },
         ],
       },
@@ -1514,168 +1515,168 @@ const PopUpInfos: Record<string, PopUpInfo> = {
           {
             title: "Chrome 8101",
             value: "tap-chrome-8101",
-            image: "images/tap/tap-chrome-8101-small.webp",
+            image: "/images/tap/tap-chrome-8101-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Chrome 8102",
             value: "tap-chrome-8102",
-            image: "images/tap/tap-chrome-8102-large.webp",
+            image: "/images/tap/tap-chrome-8102-large.webp",
           },
           {
             title: "Chrome 8201",
             value: "tap-chrome-8201",
-            image: "images/tap/tap-chrome-8201-small.webp",
+            image: "/images/tap/tap-chrome-8201-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Chrome 8202",
             value: "tap-chrome-8202",
-            image: "images/tap/tap-chrome-8202-large.webp",
+            image: "/images/tap/tap-chrome-8202-large.webp",
           },
           {
             title: "Chrome 8301",
             value: "tap-chrome-8301",
-            image: "images/tap/tap-chrome-8301-small.webp",
+            image: "/images/tap/tap-chrome-8301-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Chrome 8302",
             value: "tap-chrome-8302",
-            image: "images/tap/tap-chrome-8302-large.webp",
+            image: "/images/tap/tap-chrome-8302-large.webp",
           },
           {
             title: "Gun Metal 8101",
             value: "tap-gun-metal-8101",
-            image: "images/tap/tap-gun-metal-8101-small.webp",
+            image: "/images/tap/tap-gun-metal-8101-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Gun Metal 8102",
             value: "tap-gun-metal-8102",
-            image: "images/tap/tap-gun-metal-8102-large.webp",
+            image: "/images/tap/tap-gun-metal-8102-large.webp",
           },
           {
             title: "Gun Metal 8201",
             value: "tap-gun-metal-8201",
-            image: "images/tap/tap-gun-metal-8201-small.webp",
+            image: "/images/tap/tap-gun-metal-8201-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Gun Metal 8202",
             value: "tap-gun-metal-8202",
-            image: "images/tap/tap-gun-metal-8202-large.webp",
+            image: "/images/tap/tap-gun-metal-8202-large.webp",
           },
           {
             title: "Gun Metal 8301",
             value: "tap-gun-metal-8301",
-            image: "images/tap/tap-gun-metal-8301-small.webp",
+            image: "/images/tap/tap-gun-metal-8301-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Gun Metal 8302",
             value: "tap-gun-metal-8302",
-            image: "images/tap/tap-gun-metal-8302-large.webp",
+            image: "/images/tap/tap-gun-metal-8302-large.webp",
           },
           {
             title: "Matt Black 8101",
             value: "tap-matt-black-8101",
-            image: "images/tap/tap-matt-black-8101-small.webp",
+            image: "/images/tap/tap-matt-black-8101-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Black 8102",
             value: "tap-matt-black-8102",
-            image: "images/tap/tap-matt-black-8102-large.webp",
+            image: "/images/tap/tap-matt-black-8102-large.webp",
           },
           {
             title: "Matt Black 8201",
             value: "tap-matt-black-8201",
-            image: "images/tap/tap-matt-black-8201-small.webp",
+            image: "/images/tap/tap-matt-black-8201-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Black 8202",
             value: "tap-matt-black-8202",
-            image: "images/tap/tap-matt-black-8202-large.webp",
+            image: "/images/tap/tap-matt-black-8202-large.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Black 8301",
             value: "tap-matt-black-8301",
-            image: "images/tap/tap-matt-black-8301-small.webp",
+            image: "/images/tap/tap-matt-black-8301-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Black 8302",
             value: "tap-matt-black-8302",
-            image: "images/tap/tap-matt-black-8302-large.webp",
+            image: "/images/tap/tap-matt-black-8302-large.webp",
           },
           {
             title: "Matt Gold 8101",
             value: "tap-matt-gold-8101",
-            image: "images/tap/tap-matt-gold-8101-small.webp",
+            image: "/images/tap/tap-matt-gold-8101-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Gold 8102",
             value: "tap-matt-gold-8102",
-            image: "images/tap/tap-matt-gold-8102-large.webp",
+            image: "/images/tap/tap-matt-gold-8102-large.webp",
           },
           {
             title: "Matt Gold 8201",
             value: "tap-matt-gold-8201",
-            image: "images/tap/tap-matt-gold-8201-small.webp",
+            image: "/images/tap/tap-matt-gold-8201-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Gold 8202",
             value: "tap-matt-gold-8202",
-            image: "images/tap/tap-matt-gold-8202-large.webp",
+            image: "/images/tap/tap-matt-gold-8202-large.webp",
           },
           {
             title: "Matt Gold 8301",
             value: "tap-matt-gold-8301",
-            image: "images/tap/tap-matt-gold-8301-small.webp",
+            image: "/images/tap/tap-matt-gold-8301-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Gold 8302",
             value: "tap-matt-gold-8302",
-            image: "images/tap/tap-matt-gold-8302-large.webp",
+            image: "/images/tap/tap-matt-gold-8302-large.webp",
           },
           {
             title: "Rose Gold 8101",
             value: "tap-rose-gold-8101",
-            image: "images/tap/tap-rose-gold-8101-small.webp",
+            image: "/images/tap/tap-rose-gold-8101-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Rose Gold 8102",
             value: "tap-rose-gold-8102",
-            image: "images/tap/tap-rose-gold-8102-large.webp",
+            image: "/images/tap/tap-rose-gold-8102-large.webp",
           },
           {
             title: "Rose Gold 8201",
             value: "tap-rose-gold-8201",
-            image: "images/tap/tap-rose-gold-8201-small.webp",
+            image: "/images/tap/tap-rose-gold-8201-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Rose Gold 8202",
             value: "tap-rose-gold-8202",
-            image: "images/tap/tap-rose-gold-8202-large.webp",
+            image: "/images/tap/tap-rose-gold-8202-large.webp",
           },
           {
             title: "Rose Gold 8301",
             value: "tap-rose-gold-8301",
-            image: "images/tap/tap-rose-gold-8301-small.webp",
+            image: "/images/tap/tap-rose-gold-8301-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Rose Gold 8302",
             value: "tap-rose-gold-8302",
-            image: "images/tap/tap-rose-gold-8302-large.webp",
+            image: "/images/tap/tap-rose-gold-8302-large.webp",
           },
         ],
       },
@@ -1688,7 +1689,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             value: null,
             preserveSelection: true,
             title: "No handle",
-            image: "images/nil-selection.webp",
+            image: "/images/nil-selection.webp",
           },
         ],
         groupChoices: [
@@ -1699,7 +1700,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-chrome-50cm",
                 title: "Chrome",
-                image: "images/handle/vanity-cabinet-handle-chrome.webp",
+                image: "/images/handle/vanity-cabinet-handle-chrome.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1716,7 +1717,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-gold-50cm",
                 title: "Gold",
-                image: "images/handle/vanity-cabinet-handle-gold.webp",
+                image: "/images/handle/vanity-cabinet-handle-gold.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1733,7 +1734,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-gun-metal-50cm",
                 title: "Gun Metal",
-                image: "images/handle/vanity-cabinet-handle-gun-metal.webp",
+                image: "/images/handle/vanity-cabinet-handle-gun-metal.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1750,7 +1751,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-matt-black-50cm",
                 title: "Matt Black",
-                image: "images/handle/vanity-cabinet-handle-matt-black.webp",
+                image: "/images/handle/vanity-cabinet-handle-matt-black.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1767,7 +1768,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-rose-gold-50cm",
                 title: "Rose Gold",
-                image: "images/handle/vanity-cabinet-handle-rose-gold.webp",
+                image: "/images/handle/vanity-cabinet-handle-rose-gold.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1790,7 +1791,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-chrome-60cm",
                 title: "Chrome",
-                image: "images/handle/vanity-cabinet-handle-chrome.webp",
+                image: "/images/handle/vanity-cabinet-handle-chrome.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1807,7 +1808,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-gold-60cm",
                 title: "Gold",
-                image: "images/handle/vanity-cabinet-handle-gold.webp",
+                image: "/images/handle/vanity-cabinet-handle-gold.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1824,7 +1825,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-gun-metal-60cm",
                 title: "Gun Metal",
-                image: "images/handle/vanity-cabinet-handle-gun-metal.webp",
+                image: "/images/handle/vanity-cabinet-handle-gun-metal.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1841,7 +1842,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-matt-black-60cm",
                 title: "Matt Black",
-                image: "images/handle/vanity-cabinet-handle-matt-black.webp",
+                image: "/images/handle/vanity-cabinet-handle-matt-black.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1858,7 +1859,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-rose-gold-60cm",
                 title: "Rose Gold",
-                image: "images/handle/vanity-cabinet-handle-rose-gold.webp",
+                image: "/images/handle/vanity-cabinet-handle-rose-gold.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1881,7 +1882,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-chrome-80cm",
                 title: "Chrome",
-                image: "images/handle/vanity-cabinet-handle-chrome.webp",
+                image: "/images/handle/vanity-cabinet-handle-chrome.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1898,7 +1899,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-gold-80cm",
                 title: "Gold",
-                image: "images/handle/vanity-cabinet-handle-gold.webp",
+                image: "/images/handle/vanity-cabinet-handle-gold.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1915,7 +1916,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-gun-metal-80cm",
                 title: "Gun Metal",
-                image: "images/handle/vanity-cabinet-handle-gun-metal.webp",
+                image: "/images/handle/vanity-cabinet-handle-gun-metal.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1932,7 +1933,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-matt-black-80cm",
                 title: "Matt Black",
-                image: "images/handle/vanity-cabinet-handle-matt-black.webp",
+                image: "/images/handle/vanity-cabinet-handle-matt-black.webp",
                 transition: [
                   {
                     eventType: "width",
@@ -1949,7 +1950,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
               {
                 value: "handle-rose-gold-80cm",
                 title: "Rose Gold",
-                image: "images/handle/vanity-cabinet-handle-rose-gold.webp",
+                image: "/images/handle/vanity-cabinet-handle-rose-gold.webp",
                 transition: [
                   {
                     eventType: "width",

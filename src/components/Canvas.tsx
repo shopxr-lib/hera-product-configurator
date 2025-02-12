@@ -32,7 +32,7 @@ const Canvas: React.FC = () => {
       />
       <color attach="background" args={["#C7C3C6"]} />
 
-      <Environment files={["hdri/bathroom.jpg"]} />
+      <Environment files={["/hdri/bathroom.jpg"]} />
 
       <Room />
       <OrbitControls
