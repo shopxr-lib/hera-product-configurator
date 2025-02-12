@@ -126,21 +126,6 @@ export type ChoiceType = VanityCabinetChoice["type"];
 export type Choice = VanityCabinetChoice;
 export type ChoiceMap = Partial<Record<ChoiceType, Choice>>;
 
-const validChoiceTypes: ChoiceType[] = [
-  "width",
-  "breadth",
-  "vanity-color",
-  "top",
-  "insert-basin",
-  "counter-top",
-  "basin",
-  "overflow-ring",
-  "popup",
-  "tap",
-  "handle",
-  "stand",
-];
-
 export type FurnitureMap = Partial<
   Record<FurnitureType, Omit<Furniture, "price">>
 >;
@@ -1706,18 +1691,6 @@ const defaultChoiceMap = {
 
 function isFurnitureType(key: any): key is keyof typeof defaultFurnitures {
   return Object.keys(defaultFurnitures).includes(key);
-}
-
-export function isChoiceMap(obj: Record<string, any>): obj is ChoiceMap {
-  return Object.keys(obj).every((key) => {
-    return Object.values(validChoiceTypes).includes(key as ChoiceType);
-  });
-}
-
-export function isFurnitureMap(obj: Record<string, any>): obj is FurnitureMap {
-  return Object.keys(obj).every((key) => {
-    return Object.values(FurnitureType).includes(Number(key));
-  });
 }
 
 const useStore = create<StoreState>()(
