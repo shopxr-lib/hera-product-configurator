@@ -1,4 +1,4 @@
-import { Divider, Drawer, Title } from "@mantine/core";
+import { Button, Divider, Drawer, Modal, Title } from "@mantine/core";
 import useStore, {
   allFees,
   installationFee,
@@ -6,11 +6,22 @@ import useStore, {
   useTotalPrice,
 } from "../store/useStore";
 import { Checkbox } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import SaveDesignForm from "./SaveDesignForm";
+import { useMutation } from "@tanstack/react-query";
+import { useService } from "../lib/hooks/useService";
+import { Contact } from "../lib/services/configuration_session";
+import { useParams } from "react-router";
+import { notifications } from "@mantine/notifications";
+
+const tempProductSetId = 1; // temporary
 
 const ShoppingCartPopUp = () => {
-  const opened = useStore((state) => state.modals.shoppingCart);
+  const popupOpened = useStore((state) => state.modals.shoppingCart);
   const setModal = useStore((state) => state.setModal);
-  const close = () => setModal("shoppingCart", false);
+  const closePopUp = () => setModal("shoppingCart", false);
+
+  const [modalOpened, { open, close }] = useDisclosure(false);
 
   const totalPrice = useTotalPrice();
   const cartItems = useCartItems();
@@ -23,10 +34,48 @@ const ShoppingCartPopUp = () => {
     (fee) => fee.type === "installation",
   );
 
+  const { productSetId } = useParams<{ productSetId: string }>();
+
+  const config = useStore((state) => state.config);
+
+  const service = useService();
+  const { mutate: createConfigurationSession } = useMutation({
+    mutationFn: async (contact: Contact) => {
+      const err = await service.configurationSession.create({
+        product_set_id: productSetId ? Number(productSetId) : tempProductSetId,
+        config,
+        contact,
+      });
+      if (err) {
+        throw err;
+      }
+    },
+    onSuccess() {
+      notifications.show({
+        title: "Success",
+        message:
+          "Design saved successfully. We have sent you a unique link to your email.",
+        withCloseButton: true,
+        color: "teal",
+      });
+    },
+    onError() {
+      notifications.show({
+        title: "Error",
+        message: "Failed to save design. Please try again later.",
+        withCloseButton: true,
+        color: "red",
+      });
+    },
+    onSettled() {
+      close();
+    },
+  });
+
   return (
     <Drawer
-      opened={opened}
-      onClose={close}
+      opened={popupOpened}
+      onClose={closePopUp}
       title={<p className="text-xl font-bold">Your Cart</p>}
       position="right"
       padding="xl"
@@ -134,7 +183,15 @@ const ShoppingCartPopUp = () => {
             </p>
           </div>
         </div>
+
+        <Button onClick={open}>Save Design</Button>
       </div>
+
+      <Modal opened={modalOpened} onClose={close} title="Save Design" centered>
+        <SaveDesignForm
+          onSubmit={(values) => createConfigurationSession(values)}
+        />
+      </Modal>
     </Drawer>
   );
 };

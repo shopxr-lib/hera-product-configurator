@@ -8,7 +8,7 @@ export class ProductSetService {
     request: GetProductSetRequest,
   ): Promise<[GetProductSetResponse | null, Error | null]> {
     const [res, err] = await to(
-      this._axios.post<GetProductSetResponse>("/product-set/get", request),
+      this._axios.post<GetProductSetResponse>("/v1/product-set/get", request),
     );
     if (err) {
       return [null, err];

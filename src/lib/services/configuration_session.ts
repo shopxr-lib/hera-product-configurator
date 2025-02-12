@@ -10,7 +10,7 @@ export class ConfigurationSession {
   ): Promise<[ParsedGetConfigurationSessionResponse | null, Error | null]> {
     const [res, err] = await to(
       this._axios.post<GetConfigurationSessionResponse>(
-        `/configuration-session/get`,
+        `/v1/configuration-session/get`,
         request,
       ),
     );
@@ -42,14 +42,29 @@ export class ConfigurationSession {
   async update(
     request: UpdateConfigurationSessionRequest,
   ): Promise<Error | null> {
-    const parsedRequest = {
-      session_key: request.session_key,
-      product_set_id: request.product_set_id,
-      config: JSON.stringify(request.config),
-    } satisfies ParsedUpdateConfigurationSessionRequest;
-
     const [, err] = await to(
-      this._axios.post(`/configuration-session/update`, parsedRequest),
+      this._axios.post(`/v1/configuration-session/update`, {
+        session_key: request.session_key,
+        product_set_id: request.product_set_id,
+        config: JSON.stringify(request.config),
+      }),
+    );
+
+    if (err) {
+      return err;
+    }
+    return null;
+  }
+
+  async create(
+    request: CreateConfigurationSessionRequest,
+  ): Promise<Error | null> {
+    const [, err] = await to(
+      this._axios.post(`/v1/configuration-session/create`, {
+        product_set_id: request.product_set_id,
+        config: JSON.stringify(request.config),
+        contact: request.contact,
+      }),
     );
 
     if (err) {
@@ -87,8 +102,14 @@ type UpdateConfigurationSessionRequest = {
   config: ConfigurationSessionConfig;
 };
 
-type ParsedUpdateConfigurationSessionRequest = {
-  session_key: string;
+export type CreateConfigurationSessionRequest = {
   product_set_id: number;
-  config: string;
+  config: ConfigurationSessionConfig;
+  contact: Contact;
+};
+
+export type Contact = {
+  name: string;
+  email: string;
+  phone: string;
 };
