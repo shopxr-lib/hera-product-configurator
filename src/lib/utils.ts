@@ -2,22 +2,22 @@ export const packageTiers = ["default", "enhanced", "premium", "luxury"];
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-export const isPackageTierSufficient = (
-  minPackageTier: string,
-  selectedPackage: string,
-) => {
-  for (let i = 0; i < packageTiers.length; i++) {
-    if (packageTiers[i] === minPackageTier) {
-      return true;
-    }
-    if (packageTiers[i] === selectedPackage) {
-      return false;
-    }
-  }
-
-  return false;
-};
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+/**
+ * Utility function to handle errors in a Go-like style.
+ * @param promise - The promise to handle.
+ * @returns A tuple containing the result and the error.
+ */
+export async function to<T, E = Error>(
+  promise: Promise<T>,
+): Promise<[T | null, E | null]> {
+  try {
+    const result = await promise;
+    return [result, null];
+  } catch (error) {
+    return [null, error as E];
+  }
 }

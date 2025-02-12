@@ -10,7 +10,12 @@ import ShoppingCartFloating from "./components/ShoppingCartFloating";
 import { Notifications } from "@mantine/notifications";
 import ShoppingCartDrawer from "./components/ShoppingCartDrawer";
 import Branding from "./components/Branding";
+import ServerSync from "./components/ServerSync";
 import { Leva } from "leva";
+import { ServiceProvider } from "./lib/context/provider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
@@ -33,23 +38,28 @@ function App() {
         primaryColor: "brand",
       }}
     >
-      <div className="absolute top-4 right-48 z-50">
-        <Leva
-          fill
-          collapsed={false}
-          hideCopyButton
-          titleBar={{
-            title: "Customize",
-          }}
-        />
-      </div>
-      <Notifications />
-      <Canvas />
-      <Customize />
-      <CustomizePopUp />
-      <ShoppingCartFloating />
-      <ShoppingCartDrawer />
-      <Branding />
+      <QueryClientProvider client={queryClient}>
+        <ServiceProvider>
+          <div className="absolute top-4 right-48 z-50">
+            <Leva
+              fill
+              collapsed={false}
+              hideCopyButton
+              titleBar={{
+                title: "Customize",
+              }}
+            />
+          </div>
+          <Notifications />
+          <ServerSync />
+          <Canvas />
+          <Customize />
+          <CustomizePopUp />
+          <ShoppingCartFloating />
+          <ShoppingCartDrawer />
+          <Branding />
+        </ServiceProvider>
+      </QueryClientProvider>
     </MantineProvider>
   );
 }

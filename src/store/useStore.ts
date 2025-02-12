@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { devtools, subscribeWithSelector } from "zustand/middleware";
 
 export enum FurnitureType {
   Basin = 1,
@@ -24,11 +24,9 @@ export type Furniture = {
   size?: number;
   dimensions: Triplet;
   position?: Triplet;
-  minPackageTier?: PackageType;
   textureMap?: Partial<TextureMap>;
   materials?: Partial<MaterialMap>;
   variant?: Partial<FurnitureVariant>;
-  price: number;
 };
 
 export type FurnitureVariant = {
@@ -62,11 +60,7 @@ type TextureObject = {
   baseColor?: string;
 };
 
-type TextureObjectType = "floor" | "wall" | "ceiling";
-
 type ModalType = "shoppingCart" | "customize";
-
-type PackageType = "default" | "enhanced" | "premium" | "luxury";
 
 export type VanityCabinetChoice =
   | {
@@ -132,18 +126,26 @@ export type ChoiceType = VanityCabinetChoice["type"];
 export type Choice = VanityCabinetChoice;
 export type ChoiceMap = Partial<Record<ChoiceType, Choice>>;
 
-type FurnitureMap = Partial<Record<FurnitureType, Omit<Furniture, "price">>>;
+const validChoiceTypes: ChoiceType[] = [
+  "width",
+  "breadth",
+  "vanity-color",
+  "top",
+  "insert-basin",
+  "counter-top",
+  "basin",
+  "overflow-ring",
+  "popup",
+  "tap",
+  "handle",
+  "stand",
+];
+
+export type FurnitureMap = Partial<
+  Record<FurnitureType, Omit<Furniture, "price">>
+>;
 
 type StoreState = {
-  package: PackageType;
-  setPackage: (p: string) => void;
-  roomDimensions: {
-    depth: number;
-    length: number;
-    height: number;
-  };
-  textures: { [key in TextureObjectType]: TextureObject };
-
   modals: Record<ModalType, boolean>;
   setModal: (modal: ModalType, open: boolean) => void;
   cartItems: Omit<Furniture, "position" | "dimensions">[];
@@ -152,6 +154,7 @@ type StoreState = {
   clearCart: () => void;
 
   furnitureMap: FurnitureMap;
+  setFurnitureMap: (map: FurnitureMap) => void;
   setFurnitureDimensions: (type: FurnitureType, dimensions: Triplet) => void;
   setFurniturePosition: (type: FurnitureType, position: Triplet) => void;
 
@@ -159,6 +162,7 @@ type StoreState = {
   setCustomizePopUpKey: (key: string) => void;
 
   choiceMap: ChoiceMap;
+  setChoiceMap: (map: ChoiceMap) => void;
   addChoice: (
     choice: {
       type: Choice["type"];
@@ -245,11 +249,9 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-600mm.glb",
     size: 600,
-    minPackageTier: "enhanced",
     textureMap: {
       map: "images/maps/vanity-cabinet/Birch.png",
     },
-    price: 0,
   },
   {
     key: "counter-top-brownstone-600mm",
@@ -257,11 +259,9 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-600mm.glb",
     size: 600,
-    minPackageTier: "enhanced",
     textureMap: {
       map: "images/maps/vanity-cabinet/Brown-Stone.png",
     },
-    price: 0,
   },
   {
     key: "counter-top-charcoal-ash-600mm",
@@ -269,11 +269,9 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-600mm.glb",
     size: 600,
-    minPackageTier: "enhanced",
     textureMap: {
       map: "images/maps/vanity-cabinet/Charcoal-Ash.png",
     },
-    price: 0,
   },
   {
     key: "counter-top-oakwood-600mm",
@@ -281,11 +279,9 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-600mm.glb",
     size: 600,
-    minPackageTier: "enhanced",
     textureMap: {
       map: "images/maps/vanity-cabinet/Oakwood.png",
     },
-    price: 0,
   },
   {
     key: "counter-top-black-600mm",
@@ -293,12 +289,10 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.BasinCounterTop,
     path: "models/Quartzstone-countertop-lightcolour-600mm.glb",
     size: 600,
-    minPackageTier: "enhanced",
     textureMap: {
       map: "images/maps/black-quartz-600mm-countertop-diffused.webp",
       roughnessMap: "images/maps/black-quartz-600mm-countertop-roughness.webp",
     },
-    price: 0,
   },
   {
     key: "counter-top-white-600mm",
@@ -306,12 +300,10 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.BasinCounterTop,
     path: "models/Quartzstone-countertop-lightcolour-600mm.glb",
     size: 600,
-    minPackageTier: "enhanced",
     textureMap: {
       map: "images/maps/white-quartz-600mm-countertop-diffused.webp",
       roughnessMap: "images/maps/white-quartz-600mm-countertop-roughness.webp",
     },
-    price: 0,
   },
 
   {
@@ -320,11 +312,9 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-800mm.glb",
     size: 800,
-    minPackageTier: "enhanced",
     textureMap: {
       map: "images/maps/vanity-cabinet/Birch.png",
     },
-    price: 0,
   },
   {
     key: "counter-top-brownstone-800mm",
@@ -332,11 +322,9 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-800mm.glb",
     size: 800,
-    minPackageTier: "enhanced",
     textureMap: {
       map: "images/maps/vanity-cabinet/Brown-Stone.png",
     },
-    price: 0,
   },
   {
     key: "counter-top-charcoal-ash-800mm",
@@ -344,11 +332,10 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-800mm.glb",
     size: 800,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Charcoal-Ash.png",
     },
-    price: 0,
   },
   {
     key: "counter-top-oakwood-800mm",
@@ -356,11 +343,10 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.BasinCounterTop,
     path: "models/counter-top/countertop-800mm.glb",
     size: 800,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Oakwood.png",
     },
-    price: 0,
   },
   {
     key: "counter-top-black-800mm",
@@ -368,12 +354,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.BasinCounterTop,
     path: "models/Quartzstone-countertop-lightcolour-800mm.glb",
     size: 800,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/black-quartz-800mm-countertop-diffused.webp",
       roughnessMap: "images/maps/black-quartz-800mm-countertop-roughness.webp",
     },
-    price: 0,
   },
   {
     key: "counter-top-white-800mm",
@@ -381,12 +366,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.BasinCounterTop,
     path: "models/Quartzstone-countertop-lightcolour-800mm.glb",
     size: 800,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/white-quartz-800mm-countertop-diffused.webp",
       roughnessMap: "images/maps/white-quartz-800mm-countertop-roughness.webp",
     },
-    price: 0,
   },
 
   // Vanity Cabinet
@@ -396,11 +380,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
     size: 600,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Birch.png",
     },
-    price: 0,
+
     variant: {
       isHybrid: false,
     },
@@ -411,11 +395,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
     size: 600,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Blanco.png",
     },
-    price: 0,
+
     variant: {
       isHybrid: false,
     },
@@ -426,11 +410,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
     size: 600,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Brown-Stone.png",
     },
-    price: 0,
+
     variant: {
       isHybrid: false,
     },
@@ -441,11 +425,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
     size: 600,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Charcoal-Ash.png",
     },
-    price: 0,
+
     variant: {
       isHybrid: false,
     },
@@ -456,11 +440,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
     size: 600,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Matt-Black.png",
     },
-    price: 0,
+
     variant: {
       isHybrid: false,
     },
@@ -471,11 +455,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
     size: 600,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Graphite.png",
     },
-    price: 0,
+
     variant: {
       isHybrid: false,
     },
@@ -486,11 +470,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
     size: 600,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Oakwood.png",
     },
-    price: 0,
+
     variant: {
       isHybrid: false,
     },
@@ -501,11 +485,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-800mm.glb",
     size: 800,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Birch.png",
     },
-    price: 0,
+
     variant: {
       isHybrid: false,
     },
@@ -516,11 +500,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-800mm.glb",
     size: 800,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Blanco.png",
     },
-    price: 0,
+
     variant: {
       isHybrid: false,
     },
@@ -531,11 +515,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-800mm.glb",
     size: 800,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Brown-Stone.png",
     },
-    price: 0,
+
     variant: {
       isHybrid: false,
     },
@@ -546,11 +530,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-800mm.glb",
     size: 800,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Charcoal-Ash.png",
     },
-    price: 0,
+
     variant: {
       isHybrid: false,
     },
@@ -561,11 +545,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-800mm.glb",
     size: 800,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Graphite.png",
     },
-    price: 0,
+
     variant: {
       isHybrid: false,
     },
@@ -576,11 +560,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-800mm.glb",
     size: 800,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Matt-Black.png",
     },
-    price: 0,
+
     variant: {
       isHybrid: false,
     },
@@ -591,11 +575,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.VanityCabinet,
     path: "models/vanity-cabinet/Vanity-Cabinet-800mm.glb",
     size: 800,
-    minPackageTier: "enhanced",
+
     textureMap: {
       map: "images/maps/vanity-cabinet/Oakwood.png",
     },
-    price: 0,
+
     variant: {
       isHybrid: false,
     },
@@ -612,8 +596,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
     },
     textureMap: {},
-    minPackageTier: "enhanced",
-    price: 0,
+
     position: [0, 0, 0],
   },
   {
@@ -626,8 +609,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
     },
     textureMap: {},
-    minPackageTier: "enhanced",
-    price: 0,
+
     position: [0, 0, 0],
   },
   {
@@ -640,8 +622,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
     },
     textureMap: {},
-    minPackageTier: "enhanced",
-    price: 0,
+
     position: [0, 0, 0],
   },
   {
@@ -654,8 +635,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
     },
     textureMap: {},
-    minPackageTier: "enhanced",
-    price: 0,
+
     position: [0, 0, 0],
   },
   {
@@ -668,8 +648,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
     },
     textureMap: {},
-    minPackageTier: "enhanced",
-    price: 0,
+
     position: [0, 0, 0],
   },
   {
@@ -682,8 +661,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
     },
     textureMap: {},
-    minPackageTier: "enhanced",
-    price: 0,
+
     position: [0, 0, 0],
   },
 
@@ -697,8 +675,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
     },
     textureMap: {},
-    minPackageTier: "enhanced",
-    price: 0,
+
     position: [0, 0, 0],
   },
   {
@@ -711,8 +688,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
     },
     textureMap: {},
-    minPackageTier: "enhanced",
-    price: 0,
+
     position: [0, 0, 0],
   },
   {
@@ -725,8 +701,7 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
     },
     textureMap: {},
-    minPackageTier: "enhanced",
-    price: 0,
+
     position: [0, 0, 0],
   },
 
@@ -741,8 +716,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: false,
       insertBasinThickness: "thin",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
   {
     key: "insert-basin-glass-black-600mm",
@@ -754,8 +727,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: false,
       insertBasinThickness: "thick",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
   {
     key: "insert-basin-glass-white-600mm",
@@ -767,8 +738,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: false,
       insertBasinThickness: "thick",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
   {
     key: "insert-basin-ceramic-800mm",
@@ -780,8 +749,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: false,
       insertBasinThickness: "thin",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
   {
     key: "insert-basin-glass-black-800mm",
@@ -793,8 +760,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: false,
       insertBasinThickness: "thick",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
   {
     key: "insert-basin-glass-white-800mm",
@@ -806,8 +771,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: false,
       insertBasinThickness: "thick",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
 
   // hybrid insert basin
@@ -821,8 +784,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
       insertBasinThickness: "thick",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
   {
     key: "insert-basin-hybrid-glass-black-500mm",
@@ -834,8 +795,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
       insertBasinThickness: "thin",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
   {
     key: "insert-basin-hybrid-glass-white-500mm",
@@ -847,8 +806,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
       insertBasinThickness: "thin",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
   {
     key: "insert-basin-hybrid-ceramic-600mm",
@@ -860,8 +817,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
       insertBasinThickness: "thick",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
   {
     key: "insert-basin-hybrid-glass-black-600mm",
@@ -873,8 +828,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
       insertBasinThickness: "thin",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
   {
     key: "insert-basin-hybrid-glass-white-600mm",
@@ -886,8 +839,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
       insertBasinThickness: "thin",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
   {
     key: "insert-basin-hybrid-ceramic-800mm",
@@ -899,8 +850,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
       insertBasinThickness: "thick",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
   {
     key: "insert-basin-hybrid-glass-black-800mm",
@@ -912,8 +861,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
       insertBasinThickness: "thin",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
   {
     key: "insert-basin-hybrid-glass-white-800mm",
@@ -925,8 +872,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       isHybrid: true,
       insertBasinThickness: "thin",
     },
-    minPackageTier: "enhanced",
-    price: 0,
   },
 
   // basin
@@ -938,7 +883,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Blush.png",
     },
-    price: 0,
   },
   {
     key: "basin-rectangular-ceramic-eclair",
@@ -948,7 +892,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Eclair.png",
     },
-    price: 0,
   },
   {
     key: "basin-rectangular-ceramic-matt-black",
@@ -958,7 +901,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Matt-Black.png",
     },
-    price: 0,
   },
   {
     key: "basin-rectangular-ceramic-matt-white",
@@ -968,7 +910,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Matt-White.png",
     },
-    price: 0,
   },
   {
     key: "basin-rectangular-ceramic-mocha",
@@ -978,7 +919,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Mocha.png",
     },
-    price: 0,
   },
   {
     key: "basin-rectangular-ceramic-moss",
@@ -988,7 +928,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Moss.png",
     },
-    price: 0,
   },
   {
     key: "basin-rectangular-ceramic-slate-grey",
@@ -998,7 +937,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Slate-Grey.png",
     },
-    price: 0,
   },
   {
     key: "basin-rectangular-ceramic-storm",
@@ -1008,7 +946,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Storm.png",
     },
-    price: 0,
   },
   {
     key: "basin-rectangular-ceramic-teal",
@@ -1018,7 +955,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Teal.png",
     },
-    price: 0,
   },
   {
     key: "basin-round-ceramic-blush",
@@ -1028,7 +964,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Blush.png",
     },
-    price: 0,
   },
   {
     key: "basin-round-ceramic-matt-black",
@@ -1038,7 +973,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Matt-Black.png",
     },
-    price: 0,
   },
   {
     key: "basin-round-ceramic-matt-white",
@@ -1048,7 +982,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Matt-White.png",
     },
-    price: 0,
   },
   {
     key: "basin-round-ceramic-mint",
@@ -1058,7 +991,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Mint.png",
     },
-    price: 0,
   },
   {
     key: "basin-round-ceramic-mocha",
@@ -1068,7 +1000,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Mocha.png",
     },
-    price: 0,
   },
   {
     key: "basin-round-ceramic-slate-grey",
@@ -1078,7 +1009,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Slate-Grey.png",
     },
-    price: 0,
   },
   {
     key: "basin-round-ceramic-stone-grey",
@@ -1088,7 +1018,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Stone-Grey.png",
     },
-    price: 0,
   },
   {
     key: "basin-round-ceramic-tangerine",
@@ -1098,7 +1027,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "images/maps/basin/Basin-Tangerine.png",
     },
-    price: 0,
   },
 
   // overflow-ring
@@ -1112,7 +1040,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "basin-overflow-ring-gold",
@@ -1124,7 +1051,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "basin-overflow-ring-gun-metal",
@@ -1136,7 +1062,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "basin-overflow-ring-matt-black",
@@ -1148,7 +1073,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "basin-overflow-ring-rose-gold",
@@ -1160,7 +1084,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
 
   // popup
@@ -1174,7 +1097,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "popup-gold",
@@ -1186,7 +1108,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "popup-gun-metal",
@@ -1198,7 +1119,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "popup-matt-black",
@@ -1210,7 +1130,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "popup-rose-gold",
@@ -1222,7 +1141,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
 
   // tap
@@ -1236,7 +1154,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-chrome-8102",
@@ -1248,7 +1165,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-chrome-8201",
@@ -1260,7 +1176,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-chrome-8202",
@@ -1272,7 +1187,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-chrome-8301",
@@ -1284,7 +1198,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-chrome-8302",
@@ -1296,7 +1209,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-gun-metal-8101",
@@ -1308,7 +1220,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-gun-metal-8102",
@@ -1320,7 +1231,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-gun-metal-8201",
@@ -1332,7 +1242,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-gun-metal-8202",
@@ -1344,7 +1253,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-gun-metal-8301",
@@ -1356,7 +1264,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-gun-metal-8302",
@@ -1368,7 +1275,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-matt-black-8101",
@@ -1380,7 +1286,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-matt-black-8102",
@@ -1392,7 +1297,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-matt-black-8201",
@@ -1404,7 +1308,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-matt-black-8202",
@@ -1416,7 +1319,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-matt-black-8301",
@@ -1428,7 +1330,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-matt-black-8302",
@@ -1440,7 +1341,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-matt-gold-8101",
@@ -1452,7 +1352,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-matt-gold-8102",
@@ -1464,7 +1363,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-matt-gold-8201",
@@ -1476,7 +1374,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-matt-gold-8202",
@@ -1488,7 +1385,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-matt-gold-8301",
@@ -1500,7 +1396,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-matt-gold-8302",
@@ -1512,7 +1407,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-rose-gold-8101",
@@ -1524,7 +1418,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-rose-gold-8102",
@@ -1536,7 +1429,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-rose-gold-8201",
@@ -1548,7 +1440,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-rose-gold-8202",
@@ -1560,7 +1451,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-rose-gold-8301",
@@ -1572,7 +1462,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "tap-rose-gold-8302",
@@ -1584,7 +1473,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
 
   // handle
@@ -1598,7 +1486,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "handle-gold-50cm",
@@ -1610,7 +1497,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "handle-gun-metal-50cm",
@@ -1622,7 +1508,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "handle-matt-black-50cm",
@@ -1634,7 +1519,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "handle-rose-gold-50cm",
@@ -1646,7 +1530,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "handle-chrome-60cm",
@@ -1658,7 +1541,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "handle-gold-60cm",
@@ -1670,7 +1552,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "handle-gun-metal-60cm",
@@ -1682,7 +1563,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "handle-matt-black-60cm",
@@ -1694,7 +1574,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "handle-rose-gold-60cm",
@@ -1706,7 +1585,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "handle-chrome-80cm",
@@ -1718,7 +1596,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "handle-gold-80cm",
@@ -1730,7 +1607,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "handle-gun-metal-80cm",
@@ -1742,7 +1618,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "handle-matt-black-80cm",
@@ -1754,7 +1629,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
   {
     key: "handle-rose-gold-80cm",
@@ -1766,7 +1640,6 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
       metalness: 1,
       roughness: 0.087,
     },
-    price: 0,
   },
 
   // stand
@@ -1775,14 +1648,12 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     name: "Stand 60cm",
     type: FurnitureType.Stand,
     path: "models/stand/Vanity-Cabinet-Stand-600mm.glb",
-    price: 0,
   },
   {
     key: "stand-80cm",
     name: "Stand 80cm",
     type: FurnitureType.Stand,
     path: "models/stand/Vanity-Cabinet-Stand-800mm.glb",
-    price: 0,
   },
 ];
 
@@ -1796,223 +1667,239 @@ const defaultFurnitures = {
   [FurnitureType.Stand]: "stand-60cm",
 };
 
-const roomDimensions = {
-  depth: 1.7,
-  height: 2.0,
-  length: 1.8,
-};
+const defaultChoiceMap = {
+  breadth: { type: "breadth", value: 46 },
+  width: { type: "width", value: 60 },
+  "vanity-color": {
+    type: "vanity-color",
+    value: defaultFurnitures[FurnitureType.VanityCabinet],
+  },
+  top: {
+    type: "top",
+    value: "insert-basin",
+  },
+  "insert-basin": {
+    type: "insert-basin",
+    value: defaultFurnitures[FurnitureType.InsertBasin],
+  },
+  "overflow-ring": {
+    type: "overflow-ring",
+    value: defaultFurnitures[FurnitureType.OverflowRing],
+  },
+  popup: {
+    type: "popup",
+    value: defaultFurnitures[FurnitureType.Popup],
+  },
+  tap: {
+    type: "tap",
+    value: defaultFurnitures[FurnitureType.BasinTap],
+  },
+  handle: {
+    type: "handle",
+    value: defaultFurnitures[FurnitureType.Handle],
+  },
+  stand: {
+    type: "stand",
+    value: defaultFurnitures[FurnitureType.Stand],
+  },
+} satisfies ChoiceMap;
 
 function isFurnitureType(key: any): key is keyof typeof defaultFurnitures {
   return Object.keys(defaultFurnitures).includes(key);
 }
 
-const useStore = create(
-  devtools<StoreState>((set, get) => ({
-    roomDimensions,
-    package: "default",
-    setPackage: (p: string) => set({ package: p as PackageType }),
-    textures: {
-      floor: allFloorsTextures[0],
-      wall: allWallTextures[0],
-      ceiling: allCeilingTextures[0],
-    },
-    modals: {
-      shoppingCart: false,
-      customize: false,
-    },
-    cartItems: [],
-    addToCart: (id: string) => {
-      const furniture = allFurnitures.find((furniture) => furniture.key === id);
-      if (!furniture) {
-        return;
-      }
+export function isChoiceMap(obj: Record<string, any>): obj is ChoiceMap {
+  return Object.keys(obj).every((key) => {
+    return Object.values(validChoiceTypes).includes(key as ChoiceType);
+  });
+}
 
-      set((state) => {
-        return {
-          ...state,
-          cartItems: [...state.cartItems, furniture],
-        };
-      });
-    },
-    removeFromCart: (type: FurnitureType) => {
-      set((state) => {
-        return {
-          ...state,
-          cartItems: state.cartItems.filter((item) => item.type !== type),
-        };
-      });
-    },
-    clearCart: () => set({ cartItems: [] }),
-    setModal: (modal: string, open: boolean) => {
-      set((state) => {
-        return {
-          ...state,
-          modals: {
-            ...state.modals,
-            [modal]: open,
-          },
-        };
-      });
-    },
-    furnitureMap: Object.keys(defaultFurnitures).reduce<
-      StoreState["furnitureMap"]
-    >((acc, type) => {
-      const furniture = allFurnitures.find((furniture) => {
-        if (!isFurnitureType(type)) {
-          return false;
-        }
+export function isFurnitureMap(obj: Record<string, any>): obj is FurnitureMap {
+  return Object.keys(obj).every((key) => {
+    return Object.values(FurnitureType).includes(Number(key));
+  });
+}
 
-        return furniture.key === defaultFurnitures[type];
-      });
-
-      return {
-        ...acc,
-        [type]: {
-          ...{ dimensions: [0, 0, 0] as Triplet },
-          ...furniture,
-        },
-      };
-    }, {}),
-
-    setFurnitureDimensions: (type, dimensions) => {
-      set(
-        (state) => {
-          return {
-            furnitureMap: {
-              ...state.furnitureMap,
-              [type]: {
-                ...state.furnitureMap[type],
-                dimensions,
-              },
-            },
-          };
-        },
-        undefined,
-        { type: "setFurnitureDimensions", payload: { type, dimensions } },
-      );
-    },
-    setFurniturePosition: (type, position) => {
-      set(
-        (state) => {
-          return {
-            furnitureMap: {
-              ...state.furnitureMap,
-              [type]: {
-                ...state.furnitureMap[type],
-                position,
-              },
-            },
-          };
-        },
-        undefined,
-        {
-          type: "setFurniturePosition",
-          payload: { type, position },
-        },
-      );
-    },
-
-    customizePopUpKey: "",
-    setCustomizePopUpKey: (key: string) => set({ customizePopUpKey: key }),
-
-    choiceMap: {
-      breadth: { type: "breadth", value: 46 },
-      width: { type: "width", value: 60 },
-      "vanity-color": {
-        type: "vanity-color",
-        value: defaultFurnitures[FurnitureType.VanityCabinet],
+const useStore = create<StoreState>()(
+  devtools(
+    subscribeWithSelector((set, get) => ({
+      modals: {
+        shoppingCart: false,
+        customize: false,
       },
-      top: {
-        type: "top",
-        value: "insert-basin",
-      },
-      "insert-basin": {
-        type: "insert-basin",
-        value: defaultFurnitures[FurnitureType.InsertBasin],
-      },
-      "overflow-ring": {
-        type: "overflow-ring",
-        value: defaultFurnitures[FurnitureType.OverflowRing],
-      },
-      popup: {
-        type: "popup",
-        value: defaultFurnitures[FurnitureType.Popup],
-      },
-      tap: {
-        type: "tap",
-        value: defaultFurnitures[FurnitureType.BasinTap],
-      },
-      handle: {
-        type: "handle",
-        value: defaultFurnitures[FurnitureType.Handle],
-      },
-      stand: {
-        type: "stand",
-        value: defaultFurnitures[FurnitureType.Stand],
-      },
-    } as ChoiceMap,
-    addChoice: (choice, source: string = "") => {
-      eventSystem.dispatch(choice.type, choice.value);
-
-      const furnitureType = choiceTypeToFurnitureTypeMap[choice.type];
-      const currentState = get();
-      const newFurnitureMap = { ...currentState.furnitureMap };
-      const newChoiceMap = { ...currentState.choiceMap };
-
-      if (furnitureType) {
+      cartItems: [],
+      addToCart: (id: string) => {
         const furniture = allFurnitures.find(
-          (furniture) => furniture.key === choice.value,
+          (furniture) => furniture.key === id,
         );
-        if (choice.value === null) {
-          delete newFurnitureMap[furnitureType];
-        } else if (furniture) {
-          newFurnitureMap[furnitureType] = {
-            ...{ dimensions: [0, 0, 0] as Triplet },
-            ...currentState.furnitureMap[furnitureType],
-            ...furniture,
-          };
-        } else {
-          console.warn("Furniture not found", choice.value);
+        if (!furniture) {
+          return;
         }
-      }
 
-      if (choice.value === null && !choice.preserveSelection) {
-        delete newChoiceMap[choice.type];
-      } else {
-        newChoiceMap[choice.type] = {
-          type: choice.type,
-          value: choice.value,
-        };
-      }
-
-      set(
-        {
-          furnitureMap: newFurnitureMap,
-          choiceMap: newChoiceMap,
-        },
-        undefined,
-        { type: "addChoice", payload: { choice, source } },
-      );
-    },
-    fees: [],
-    addFee: (fee: Fee) => {
-      const feeByType = new Map(get().fees.map((fee) => [fee.type, fee]));
-      if (!feeByType.has(fee.type)) {
         set((state) => {
           return {
-            fees: [...state.fees, fee],
+            ...state,
+            cartItems: [...state.cartItems, furniture],
           };
         });
-      }
-    },
-    removeFee: (type: FeeType) => {
-      set((state) => {
+      },
+      removeFromCart: (type: FurnitureType) => {
+        set((state) => {
+          return {
+            ...state,
+            cartItems: state.cartItems.filter((item) => item.type !== type),
+          };
+        });
+      },
+      clearCart: () => set({ cartItems: [] }),
+      setModal: (modal: string, open: boolean) => {
+        set((state) => {
+          return {
+            ...state,
+            modals: {
+              ...state.modals,
+              [modal]: open,
+            },
+          };
+        });
+      },
+      furnitureMap: Object.keys(defaultFurnitures).reduce<
+        StoreState["furnitureMap"]
+      >((acc, type) => {
+        const furniture = allFurnitures.find((furniture) => {
+          if (!isFurnitureType(type)) {
+            return false;
+          }
+
+          return furniture.key === defaultFurnitures[type];
+        });
+
         return {
-          fees: state.fees.filter((fee) => fee.type !== type),
+          ...acc,
+          [type]: {
+            ...{ dimensions: [0, 0, 0] as Triplet },
+            ...furniture,
+          },
         };
-      });
-    },
-  })),
+      }, {}),
+      setFurnitureMap: (furnitureMap) => {
+        set({ furnitureMap }, undefined, {
+          type: "setFurnitureMap",
+          payload: furnitureMap,
+        });
+      },
+
+      setFurnitureDimensions: (type, dimensions) => {
+        set(
+          (state) => {
+            return {
+              furnitureMap: {
+                ...state.furnitureMap,
+                [type]: {
+                  ...state.furnitureMap[type],
+                  dimensions,
+                },
+              },
+            };
+          },
+          undefined,
+          { type: "setFurnitureDimensions", payload: { type, dimensions } },
+        );
+      },
+      setFurniturePosition: (type, position) => {
+        set(
+          (state) => {
+            return {
+              furnitureMap: {
+                ...state.furnitureMap,
+                [type]: {
+                  ...state.furnitureMap[type],
+                  position,
+                },
+              },
+            };
+          },
+          undefined,
+          {
+            type: "setFurniturePosition",
+            payload: { type, position },
+          },
+        );
+      },
+
+      customizePopUpKey: "",
+      setCustomizePopUpKey: (key: string) => set({ customizePopUpKey: key }),
+
+      choiceMap: defaultChoiceMap,
+      setChoiceMap: (choiceMap) => {
+        set({ choiceMap }, undefined, {
+          type: "setChoiceMap",
+          payload: choiceMap,
+        });
+      },
+      addChoice: (choice, source: string = "") => {
+        eventSystem.dispatch(choice.type, choice.value);
+
+        const furnitureType = choiceTypeToFurnitureTypeMap[choice.type];
+        const currentState = get();
+        const newFurnitureMap = { ...currentState.furnitureMap };
+        const newChoiceMap = { ...currentState.choiceMap };
+
+        if (furnitureType) {
+          const furniture = allFurnitures.find(
+            (furniture) => furniture.key === choice.value,
+          );
+          if (choice.value === null) {
+            delete newFurnitureMap[furnitureType];
+          } else if (furniture) {
+            newFurnitureMap[furnitureType] = {
+              ...{ dimensions: [0, 0, 0] as Triplet },
+              ...currentState.furnitureMap[furnitureType],
+              ...furniture,
+            };
+          } else {
+            console.warn("Furniture not found", choice.value);
+          }
+        }
+
+        if (choice.value === null && !choice.preserveSelection) {
+          delete newChoiceMap[choice.type];
+        } else {
+          newChoiceMap[choice.type] = {
+            type: choice.type,
+            value: choice.value,
+          };
+        }
+
+        set(
+          {
+            furnitureMap: newFurnitureMap,
+            choiceMap: newChoiceMap,
+          },
+          undefined,
+          { type: "addChoice", payload: { choice, source } },
+        );
+      },
+      fees: [],
+      addFee: (fee: Fee) => {
+        const feeByType = new Map(get().fees.map((fee) => [fee.type, fee]));
+        if (!feeByType.has(fee.type)) {
+          set((state) => {
+            return {
+              fees: [...state.fees, fee],
+            };
+          });
+        }
+      },
+      removeFee: (type: FeeType) => {
+        set((state) => {
+          return {
+            fees: state.fees.filter((fee) => fee.type !== type),
+          };
+        });
+      },
+    })),
+  ),
 );
 
 export type EventCallback = (event: ChoiceType, value: any) => void;
