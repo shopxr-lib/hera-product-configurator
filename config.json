@@ -1,0 +1,145 @@
+{
+  "choiceMap": {
+    "tap": {
+      "type": "tap",
+      "value": "tap-chrome-8101"
+    },
+    "top": {
+      "type": "top",
+      "value": "insert-basin"
+    },
+    "popup": {
+      "type": "popup",
+      "value": "popup-chrome"
+    },
+    "stand": {
+      "type": "stand",
+      "value": "stand-60cm"
+    },
+    "width": {
+      "type": "width",
+      "value": 60
+    },
+    "handle": {
+      "type": "handle",
+      "value": "handle-chrome-60cm"
+    },
+    "breadth": {
+      "type": "breadth",
+      "value": 46
+    },
+    "insert-basin": {
+      "type": "insert-basin",
+      "value": "insert-basin-ceramic-600mm"
+    },
+    "vanity-color": {
+      "type": "vanity-color",
+      "value": "vanity-cabinet-birch-600mm"
+    },
+    "overflow-ring": {
+      "type": "overflow-ring",
+      "value": "basin-overflow-ring-chrome"
+    }
+  },
+  "furnitureMap": {
+    "2": {
+      "key": "tap-chrome-8101",
+      "name": "Tap Chrome 8101",
+      "path": "models/tap/tap-8101.glb",
+      "type": 2,
+      "price": 0,
+      "position": [0, 0.194, -0.14200000000000002],
+      "materials": {
+        "color": 13158600,
+        "metalness": 1,
+        "roughness": 0.087
+      },
+      "dimensions": [0, 0, 0]
+    },
+    "4": {
+      "key": "vanity-cabinet-birch-600mm",
+      "name": "Vanity Cabinet Birch 60cm",
+      "path": "models/vanity-cabinet/Vanity-Cabinet-600mm.glb",
+      "size": 600,
+      "type": 4,
+      "price": 0,
+      "variant": {
+        "isHybrid": false
+      },
+      "position": [0, -0.1, 0],
+      "dimensions": [0.595831960439682, 0.4500000476837158, 0.460000216960907],
+      "textureMap": {
+        "map": "images/maps/vanity-cabinet/Birch.png"
+      },
+      "minPackageTier": "enhanced"
+    },
+    "5": {
+      "key": "insert-basin-ceramic-600mm",
+      "name": "Insert Basin Ceramic 60cm",
+      "path": "models/insert-basin/Insert-Basin-Ceramic-600mm.glb",
+      "size": 600,
+      "type": 5,
+      "price": 0,
+      "variant": {
+        "isHybrid": false,
+        "insertBasinThickness": "thin"
+      },
+      "position": [0, 0.0800000238418579, -0.04],
+      "dimensions": [
+        0.6083675622940063, 0.1250649094581604, 0.4600876569747925
+      ],
+      "minPackageTier": "enhanced"
+    },
+    "6": {
+      "key": "basin-overflow-ring-chrome",
+      "name": "Overflow Ring Chrome",
+      "path": "models/overflow-ring/overflow-ring.glb",
+      "type": 6,
+      "price": 0,
+      "position": [0, 0.03, -0.055],
+      "materials": {
+        "color": 13158600,
+        "metalness": 1,
+        "roughness": 0.087
+      },
+      "dimensions": [0, 0, 0]
+    },
+    "7": {
+      "key": "popup-chrome",
+      "name": "Popup Chrome",
+      "path": "models/popup/popup.glb",
+      "type": 7,
+      "price": 0,
+      "position": [0, 0.0930000238418579, -0.045],
+      "materials": {
+        "color": 13158600,
+        "metalness": 1,
+        "roughness": 0.087
+      },
+      "dimensions": [0, 0, 0]
+    },
+    "8": {
+      "key": "handle-chrome-60cm",
+      "name": "Handle Chrome",
+      "path": "models/handle/Vanity-Cabinet-Handle-600mm.glb",
+      "type": 8,
+      "price": 0,
+      "position": [0, 0.11, 0.19000010848045348],
+      "materials": {
+        "color": 13158600,
+        "metalness": 1,
+        "roughness": 0.087
+      },
+      "dimensions": [0, 0, 0]
+    },
+    "9": {
+      "key": "stand-60cm",
+      "name": "Stand 60cm",
+      "path": "models/stand/Vanity-Cabinet-Stand-600mm.glb",
+      "type": 9,
+      "price": 0,
+      "position": [0, -0.6700000476837158, -0.04],
+      "dimensions": [0, 0, 0]
+    }
+  }
+}
