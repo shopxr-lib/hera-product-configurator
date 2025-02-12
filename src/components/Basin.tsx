@@ -37,7 +37,7 @@ const Basin: React.FC<Props> = ({ path, textureMap, ...props }) => {
     (state) => state.setFurnitureDimensions,
   );
 
-  const furnitureMap = useStore((state) => state.furnitureMap);
+  const furnitureMap = useStore((state) => state.config.furnitureMap);
   const self = furnitureMap[FurnitureType.Basin];
   const counterTop = furnitureMap[FurnitureType.BasinCounterTop];
 

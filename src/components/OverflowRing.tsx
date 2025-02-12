@@ -20,7 +20,7 @@ const OverflowRing: React.FC<Props> = ({ materials, path, ...rest }) => {
 
   const copiedScene = useMemo(() => scene.clone(), [scene]);
 
-  const furnitureMap = useStore((state) => state.furnitureMap);
+  const furnitureMap = useStore((state) => state.config.furnitureMap);
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
 
   const insertBasin = furnitureMap[FurnitureType.InsertBasin];

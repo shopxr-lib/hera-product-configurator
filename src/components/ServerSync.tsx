@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useService } from "../lib/hooks/useService";
-import useStore, { ChoiceMap, FurnitureMap } from "../store/useStore";
+import useStore from "../store/useStore";
 import { useEffect } from "react";
 import { shallow } from "zustand/shallow";
 import { ConfigurationSessionConfig } from "../lib/services/configuration_session";
@@ -55,12 +55,9 @@ const ServerSync = () => {
 
   useEffect(() => {
     return useStore.subscribe(
-      (state) => [state.furnitureMap, state.choiceMap],
-      ([furnitureMap, choiceMap]) => {
-        debouncedUpdateConfig({
-          furnitureMap: furnitureMap as FurnitureMap,
-          choiceMap: choiceMap as ChoiceMap,
-        });
+      (state) => state.config,
+      (config) => {
+        debouncedUpdateConfig(config);
       },
       {
         equalityFn: shallow,

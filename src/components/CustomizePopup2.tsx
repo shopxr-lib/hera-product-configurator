@@ -13,7 +13,7 @@ const CustomizePopUp: React.FC = () => {
   const opened = useStore((state) => state.modals.customize);
   const setModal = useStore((state) => state.setModal);
 
-  const choiceMap = useStore((state) => state.choiceMap);
+  const choiceMap = useStore((state) => state.config.choiceMap);
   const addChoice = useStore((state) => state.addChoice);
 
   const popUpInfo = PopUpInfos[customizePopUpKey];
@@ -2106,7 +2106,8 @@ function createCallbackFunction(
       event === transition.eventType &&
       (!transition.value || new RegExp(`${transition.value}`).test(value))
     ) {
-      const { choiceMap, addChoice } = useStore.getState();
+      const { addChoice, config } = useStore.getState();
+      const { choiceMap } = config;
 
       const eventSource = choice?.value || section.type;
 

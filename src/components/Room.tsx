@@ -15,7 +15,7 @@ import { HtmlProps } from "@react-three/drei/web/Html";
 import { useControls } from "leva";
 
 const Room = () => {
-  const furnitureMap = useStore((state) => state.furnitureMap);
+  const furnitureMap = useStore((state) => state.config.furnitureMap);
   const groupRef = useRef<THREE.Group>(null);
   const [dimensions, setDimensions] = useState<[number, number, number]>([
     0, 0, 0,

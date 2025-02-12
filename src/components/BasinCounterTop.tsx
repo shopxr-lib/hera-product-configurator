@@ -37,7 +37,7 @@ const BasinCounterTop: React.FC<Props> = ({
 
   const ref = useRef<THREE.Group>(null);
 
-  const furnitureMap = useStore((state) => state.furnitureMap);
+  const furnitureMap = useStore((state) => state.config.furnitureMap);
 
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
   const setFurnitureDimensions = useStore(

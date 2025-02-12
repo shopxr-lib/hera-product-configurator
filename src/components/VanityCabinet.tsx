@@ -42,7 +42,7 @@ const VanityCabinet = ({ path, textureMap, variant, ...props }: Props) => {
 
   const ref = useRef<THREE.Group>(null);
 
-  const furnitureMap = useStore((state) => state.furnitureMap);
+  const furnitureMap = useStore((state) => state.config.furnitureMap);
   const setFurnitureDimensions = useStore(
     (state) => state.setFurnitureDimensions,
   );

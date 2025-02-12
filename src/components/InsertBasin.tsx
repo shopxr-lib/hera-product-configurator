@@ -13,7 +13,7 @@ const InsertBasin: React.FC<Props> = ({ path, ...props }) => {
   const model = useGLTF(path);
   const ref = useRef<THREE.Group>(null);
 
-  const furnitureMap = useStore((state) => state.furnitureMap);
+  const furnitureMap = useStore((state) => state.config.furnitureMap);
   const cabinet = furnitureMap[FurnitureType.VanityCabinet];
   const self = furnitureMap[FurnitureType.InsertBasin];
 

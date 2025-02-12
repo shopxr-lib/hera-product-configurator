@@ -18,7 +18,7 @@ const Tap: React.FC<Props> = ({ materials, path, ...rest }) => {
   const copiedScene = useMemo(() => scene.clone(), [scene]);
 
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
-  const furnitureMap = useStore((state) => state.furnitureMap);
+  const furnitureMap = useStore((state) => state.config.furnitureMap);
   const insertBasin = furnitureMap[FurnitureType.InsertBasin];
   const self = furnitureMap[FurnitureType.BasinTap];
 

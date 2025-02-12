@@ -126,9 +126,12 @@ export type ChoiceType = VanityCabinetChoice["type"];
 export type Choice = VanityCabinetChoice;
 export type ChoiceMap = Partial<Record<ChoiceType, Choice>>;
 
-export type FurnitureMap = Partial<
-  Record<FurnitureType, Omit<Furniture, "price">>
->;
+export type Config = {
+  furnitureMap: FurnitureMap;
+  choiceMap: ChoiceMap;
+};
+
+export type FurnitureMap = Partial<Record<FurnitureType, Furniture>>;
 
 type StoreState = {
   modals: Record<ModalType, boolean>;
@@ -138,7 +141,9 @@ type StoreState = {
   removeFromCart: (type: FurnitureType) => void;
   clearCart: () => void;
 
-  furnitureMap: FurnitureMap;
+  config: Config;
+  setConfig: (config: Config) => void;
+
   setFurnitureMap: (map: FurnitureMap) => void;
   setFurnitureDimensions: (type: FurnitureType, dimensions: Triplet) => void;
   setFurniturePosition: (type: FurnitureType, position: Triplet) => void;
@@ -146,7 +151,6 @@ type StoreState = {
   customizePopUpKey: string;
   setCustomizePopUpKey: (key: string) => void;
 
-  choiceMap: ChoiceMap;
   setChoiceMap: (map: ChoiceMap) => void;
   addChoice: (
     choice: {
@@ -1736,41 +1740,60 @@ const useStore = create<StoreState>()(
           };
         });
       },
-      furnitureMap: Object.keys(defaultFurnitures).reduce<
-        StoreState["furnitureMap"]
-      >((acc, type) => {
-        const furniture = allFurnitures.find((furniture) => {
-          if (!isFurnitureType(type)) {
-            return false;
-          }
+      config: {
+        furnitureMap: Object.keys(defaultFurnitures).reduce<FurnitureMap>(
+          (acc, type) => {
+            const furniture = allFurnitures.find((furniture) => {
+              if (!isFurnitureType(type)) {
+                return false;
+              }
 
-          return furniture.key === defaultFurnitures[type];
-        });
+              return furniture.key === defaultFurnitures[type];
+            });
 
-        return {
-          ...acc,
-          [type]: {
-            ...{ dimensions: [0, 0, 0] as Triplet },
-            ...furniture,
+            return {
+              ...acc,
+              [type]: {
+                ...{ dimensions: [0, 0, 0] as Triplet },
+                ...furniture,
+              },
+            };
           },
-        };
-      }, {}),
+          {},
+        ),
+        choiceMap: defaultChoiceMap,
+      },
+      setConfig: (config) => {
+        set({ config }, undefined, { type: "setConfig", payload: config });
+      },
       setFurnitureMap: (furnitureMap) => {
-        set({ furnitureMap }, undefined, {
-          type: "setFurnitureMap",
-          payload: furnitureMap,
-        });
+        set(
+          {
+            config: {
+              ...get().config,
+              furnitureMap,
+            },
+          },
+          undefined,
+          {
+            type: "setFurnitureMap",
+            payload: furnitureMap,
+          },
+        );
       },
 
       setFurnitureDimensions: (type, dimensions) => {
         set(
           (state) => {
             return {
-              furnitureMap: {
-                ...state.furnitureMap,
-                [type]: {
-                  ...state.furnitureMap[type],
-                  dimensions,
+              config: {
+                ...state.config,
+                furnitureMap: {
+                  ...state.config.furnitureMap,
+                  [type]: {
+                    ...state.config.furnitureMap[type],
+                    dimensions,
+                  },
                 },
               },
             };
@@ -1783,11 +1806,14 @@ const useStore = create<StoreState>()(
         set(
           (state) => {
             return {
-              furnitureMap: {
-                ...state.furnitureMap,
-                [type]: {
-                  ...state.furnitureMap[type],
-                  position,
+              config: {
+                ...state.config,
+                furnitureMap: {
+                  ...state.config.furnitureMap,
+                  [type]: {
+                    ...state.config.furnitureMap[type],
+                    position,
+                  },
                 },
               },
             };
@@ -1803,20 +1829,28 @@ const useStore = create<StoreState>()(
       customizePopUpKey: "",
       setCustomizePopUpKey: (key: string) => set({ customizePopUpKey: key }),
 
-      choiceMap: defaultChoiceMap,
       setChoiceMap: (choiceMap) => {
-        set({ choiceMap }, undefined, {
-          type: "setChoiceMap",
-          payload: choiceMap,
-        });
+        set(
+          {
+            config: {
+              ...get().config,
+              choiceMap,
+            },
+          },
+          undefined,
+          {
+            type: "setChoiceMap",
+            payload: choiceMap,
+          },
+        );
       },
       addChoice: (choice, source: string = "") => {
         eventSystem.dispatch(choice.type, choice.value);
 
         const furnitureType = choiceTypeToFurnitureTypeMap[choice.type];
         const currentState = get();
-        const newFurnitureMap = { ...currentState.furnitureMap };
-        const newChoiceMap = { ...currentState.choiceMap };
+        const newFurnitureMap = { ...currentState.config.furnitureMap };
+        const newChoiceMap = { ...currentState.config.choiceMap };
 
         if (furnitureType) {
           const furniture = allFurnitures.find(
@@ -1827,7 +1861,7 @@ const useStore = create<StoreState>()(
           } else if (furniture) {
             newFurnitureMap[furnitureType] = {
               ...{ dimensions: [0, 0, 0] as Triplet },
-              ...currentState.furnitureMap[furnitureType],
+              ...currentState.config.furnitureMap[furnitureType],
               ...furniture,
             };
           } else {
@@ -1846,8 +1880,10 @@ const useStore = create<StoreState>()(
 
         set(
           {
-            furnitureMap: newFurnitureMap,
-            choiceMap: newChoiceMap,
+            config: {
+              furnitureMap: newFurnitureMap,
+              choiceMap: newChoiceMap,
+            },
           },
           undefined,
           { type: "addChoice", payload: { choice, source } },
@@ -1903,7 +1939,7 @@ class EventSystem {
 export const eventSystem = new EventSystem();
 
 export const useCartItems = () => {
-  const { choiceMap, furnitureMap } = useStore();
+  const { choiceMap, furnitureMap } = useStore((state) => state.config);
 
   const furnitureTypeIncluded = new Map<FurnitureType, boolean>();
   const cartItems: CartItem[] = [];
@@ -1986,14 +2022,14 @@ export const useCartItems = () => {
 };
 
 export const useTotalPrice = () => {
-  const { choiceMap, fees } = useStore();
-  const itemPrice = calculatePrice(choiceMap, 0);
+  const { config, fees } = useStore();
+  const itemPrice = calculatePrice(config.choiceMap, 0);
   const feePrice = fees.reduce((acc, fee) => acc + fee.price, 0);
   return itemPrice + feePrice;
 };
 
 function calculatePrice(
-  choiceMap: StoreState["choiceMap"],
+  choiceMap: StoreState["config"]["choiceMap"],
   furnitureTypeBitMask: number,
 ) {
   let price = 0;
