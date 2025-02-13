@@ -5,15 +5,21 @@ import useStore, {
   ChoiceType,
   EventCallback,
   eventSystem,
+  VanityCabinetProductSetId,
 } from "../store/useStore";
 import { Modal, Text, Title } from "@mantine/core";
+import { useParams } from "react-router";
 
 const CustomizePopUp: React.FC = () => {
   const customizePopUpKey = useStore((state) => state.customizePopUpKey);
   const opened = useStore((state) => state.modals.customize);
   const setModal = useStore((state) => state.setModal);
 
-  const choiceMap = useStore((state) => state.config.choiceMap);
+  const { productSetId } = useParams<{ productSetId: string }>();
+
+  const choiceMap = useStore(
+    (state) => state.config[Number(productSetId)].choiceMap,
+  );
   const addChoice = useStore((state) => state.addChoice);
 
   const popUpInfo = PopUpInfos[customizePopUpKey];
@@ -44,6 +50,7 @@ const CustomizePopUp: React.FC = () => {
 
       if (firstChoice) {
         addChoice(
+          Number(productSetId),
           {
             type: section.type,
             value: firstChoice.value,
@@ -54,7 +61,7 @@ const CustomizePopUp: React.FC = () => {
         break;
       }
     }
-  }, [addChoice, choiceMap, popUpInfo]);
+  }, [addChoice, productSetId, choiceMap, popUpInfo]);
 
   if (!popUpInfo) {
     return null;
@@ -78,7 +85,7 @@ const CustomizePopUp: React.FC = () => {
           },
         )}
         onClick={() => {
-          addChoice({
+          addChoice(Number(productSetId), {
             type: section.type,
             value: choice.value,
             preserveSelection: choice.preserveSelection,
@@ -183,6 +190,7 @@ const basinDimensionsText = {
 
 const PopUpInfos: Record<string, PopUpInfo> = {
   vanitycabinet: {
+    productSetId: VanityCabinetProductSetId,
     title: "Vanity Cabinet Set",
     subtitle:
       "Mix & Match your very own vanity cabinet set & add it into the scene.",
@@ -2027,6 +2035,7 @@ type PopUpInfo = {
   subtitle: string;
   buttonText: string;
   sections: Section[];
+  productSetId: number;
 };
 
 type Section = {
@@ -2068,14 +2077,19 @@ Object.values(PopUpInfos).forEach((popUpInfo) => {
   popUpInfo.sections.forEach((section) => {
     if (section.transition) {
       section.transition.forEach((transition) => {
-        const callback = createCallbackFunction(transition, section);
+        const callback = createCallbackFunction(popUpInfo, transition, section);
         eventSystem.subscribe(transition.eventType, callback);
       });
     }
     section.choices?.forEach((choice) => {
       if (choice.transition) {
         choice.transition.forEach((transition) => {
-          const callback = createCallbackFunction(transition, section, choice);
+          const callback = createCallbackFunction(
+            popUpInfo,
+            transition,
+            section,
+            choice,
+          );
           eventSystem.subscribe(transition.eventType, callback);
         });
       }
@@ -2085,6 +2099,7 @@ Object.values(PopUpInfos).forEach((popUpInfo) => {
         if (choice.transition) {
           choice.transition.forEach((transition) => {
             const callback = createCallbackFunction(
+              popUpInfo,
               transition,
               section,
               choice,
@@ -2098,6 +2113,7 @@ Object.values(PopUpInfos).forEach((popUpInfo) => {
 });
 
 function createCallbackFunction(
+  popupInfo: PopUpInfo,
   transition: Transition,
   section: Section,
   choice?: SectionChoice,
@@ -2108,12 +2124,13 @@ function createCallbackFunction(
       (!transition.value || new RegExp(`${transition.value}`).test(value))
     ) {
       const { addChoice, config } = useStore.getState();
-      const { choiceMap } = config;
+      const { choiceMap } = config[popupInfo.productSetId];
 
       const eventSource = choice?.value || section.type;
 
       if (!choice || choiceMap[section.type]?.value === choice.value) {
         addChoice(
+          popupInfo.productSetId,
           {
             type: section.type,
             // eslint-disable-next-line

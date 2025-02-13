@@ -8,15 +8,18 @@ type Props = {
   scale?: [number, number, number];
   rotation?: [number, number, number];
   materials: Partial<MaterialMap>;
+  productSetId: number;
 };
 
-const Popup: React.FC<Props> = ({ materials, path, ...rest }) => {
+const Popup: React.FC<Props> = ({ materials, path, productSetId, ...rest }) => {
   const { scene } = useGLTF(path);
 
   const copiedScene = useMemo(() => scene.clone(), [scene]);
 
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
-  const furnitureMap = useStore((state) => state.config.furnitureMap);
+  const furnitureMap = useStore(
+    (state) => state.config[productSetId].furnitureMap,
+  );
   const insertBasin = furnitureMap[FurnitureType.InsertBasin];
   const self = furnitureMap[FurnitureType.Popup];
 
@@ -71,8 +74,8 @@ const Popup: React.FC<Props> = ({ materials, path, ...rest }) => {
       }
     }
 
-    setFurniturePosition(FurnitureType.Popup, position);
-  }, [insertBasin, setFurniturePosition]);
+    setFurniturePosition(productSetId, FurnitureType.Popup, position);
+  }, [insertBasin, productSetId, setFurniturePosition]);
 
   return <primitive object={copiedScene} position={self?.position} {...rest} />;
 };

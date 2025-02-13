@@ -6,7 +6,6 @@ import Customize from "./components/Customize";
 import CustomizePopUp from "./components/CustomizePopup2";
 
 import ShoppingCartFloating from "./components/ShoppingCartFloating";
-import { Notifications } from "@mantine/notifications";
 import ShoppingCartDrawer from "./components/ShoppingCartDrawer";
 import Branding from "./components/Branding";
 import { Leva } from "leva";
@@ -25,7 +24,6 @@ function App() {
           }}
         />
       </div>
-      <Notifications />
       <Canvas />
       <Customize />
       <CustomizePopUp />

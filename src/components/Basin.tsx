@@ -8,9 +8,15 @@ interface Props {
   scale?: [number, number, number];
   rotation?: [number, number, number];
   textureMap?: Partial<TextureMap>;
+  productSetId: number;
 }
 
-const Basin: React.FC<Props> = ({ path, textureMap, ...props }) => {
+const Basin: React.FC<Props> = ({
+  path,
+  textureMap,
+  productSetId,
+  ...props
+}) => {
   const { scene } = useGLTF(path);
 
   const copiedScene = useMemo(() => scene.clone(), [scene]);
@@ -37,7 +43,9 @@ const Basin: React.FC<Props> = ({ path, textureMap, ...props }) => {
     (state) => state.setFurnitureDimensions,
   );
 
-  const furnitureMap = useStore((state) => state.config.furnitureMap);
+  const furnitureMap = useStore(
+    (state) => state.config[productSetId].furnitureMap,
+  );
   const self = furnitureMap[FurnitureType.Basin];
   const counterTop = furnitureMap[FurnitureType.BasinCounterTop];
 
@@ -53,15 +61,19 @@ const Basin: React.FC<Props> = ({ path, textureMap, ...props }) => {
     const size = new THREE.Vector3();
     box.getSize(size);
 
-    setFurnitureDimensions(FurnitureType.Basin, [size.x, size.y, size.z]);
+    setFurnitureDimensions(productSetId, FurnitureType.Basin, [
+      size.x,
+      size.y,
+      size.z,
+    ]);
 
     const derivedPosition: [number, number, number] = [
       counterTop.position?.[0] ?? 0,
       (counterTop.position?.[1] ?? 0) + counterTop.dimensions[1] / 2,
       (counterTop.position?.[2] ?? 0) + 0.06,
     ];
-    setFurniturePosition(FurnitureType.Basin, derivedPosition);
-  }, [counterTop, setFurnitureDimensions, setFurniturePosition]);
+    setFurniturePosition(productSetId, FurnitureType.Basin, derivedPosition);
+  }, [counterTop, productSetId, setFurnitureDimensions, setFurniturePosition]);
 
   return (
     <primitive

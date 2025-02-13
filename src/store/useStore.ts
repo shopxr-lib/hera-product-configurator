@@ -2,6 +2,8 @@
 import { create } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 
+export const VanityCabinetProductSetId = 1;
+
 export enum FurnitureType {
   Basin = 1,
   BasinTap = 2,
@@ -121,6 +123,7 @@ export type ChoiceMap = Partial<Record<ChoiceType, Choice>>;
 export type Config = {
   furnitureMap: FurnitureMap;
   choiceMap: ChoiceMap;
+  productSetId: number;
 };
 
 export type FurnitureMap = Partial<Record<FurnitureType, Furniture>>;
@@ -133,18 +136,27 @@ type StoreState = {
   removeFromCart: (type: FurnitureType) => void;
   clearCart: () => void;
 
-  config: Config;
-  setConfig: (config: Config) => void;
+  config: Record<number, Config>;
+  setConfig: (productSetId: number, config: Config) => void;
 
-  setFurnitureMap: (map: FurnitureMap) => void;
-  setFurnitureDimensions: (type: FurnitureType, dimensions: Triplet) => void;
-  setFurniturePosition: (type: FurnitureType, position: Triplet) => void;
+  setFurnitureMap: (productSetId: number, map: FurnitureMap) => void;
+  setFurnitureDimensions: (
+    productSetId: number,
+    type: FurnitureType,
+    dimensions: Triplet,
+  ) => void;
+  setFurniturePosition: (
+    productSetId: number,
+    type: FurnitureType,
+    position: Triplet,
+  ) => void;
 
   customizePopUpKey: string;
   setCustomizePopUpKey: (key: string) => void;
 
-  setChoiceMap: (map: ChoiceMap) => void;
+  setChoiceMap: (productSetId: number, map: ChoiceMap) => void;
   addChoice: (
+    productSetId: number,
     choice: {
       type: Choice["type"];
       value: any;
@@ -1689,38 +1701,57 @@ const useStore = create<StoreState>()(
         });
       },
       config: {
-        furnitureMap: Object.keys(defaultFurnitures).reduce<FurnitureMap>(
-          (acc, type) => {
-            const furniture = allFurnitures.find((furniture) => {
-              if (!isFurnitureType(type)) {
-                return false;
-              }
+        [VanityCabinetProductSetId]: {
+          productSetId: VanityCabinetProductSetId,
+          furnitureMap: Object.keys(defaultFurnitures).reduce<FurnitureMap>(
+            (acc, type) => {
+              const furniture = allFurnitures.find((furniture) => {
+                if (!isFurnitureType(type)) {
+                  return false;
+                }
 
-              return furniture.key === defaultFurnitures[type];
-            });
+                return furniture.key === defaultFurnitures[type];
+              });
 
+              return {
+                ...acc,
+                [type]: {
+                  ...{ dimensions: [0, 0, 0] as Triplet },
+                  ...furniture,
+                },
+              };
+            },
+            {},
+          ),
+          choiceMap: defaultChoiceMap,
+        },
+      },
+      setConfig: (productSetId, config) => {
+        set(
+          (state) => {
             return {
-              ...acc,
-              [type]: {
-                ...{ dimensions: [0, 0, 0] as Triplet },
-                ...furniture,
+              config: {
+                ...state.config,
+                [productSetId]: config,
               },
             };
           },
-          {},
-        ),
-        choiceMap: defaultChoiceMap,
+          undefined,
+          { type: "setConfig", payload: config },
+        );
       },
-      setConfig: (config) => {
-        set({ config }, undefined, { type: "setConfig", payload: config });
-      },
-      setFurnitureMap: (furnitureMap) => {
+      setFurnitureMap: (productSetId, furnitureMap) => {
         set(
-          {
-            config: {
-              ...get().config,
-              furnitureMap,
-            },
+          (state) => {
+            return {
+              config: {
+                ...state.config,
+                [productSetId]: {
+                  ...state.config[productSetId],
+                  furnitureMap,
+                },
+              },
+            };
           },
           undefined,
           {
@@ -1730,17 +1761,20 @@ const useStore = create<StoreState>()(
         );
       },
 
-      setFurnitureDimensions: (type, dimensions) => {
+      setFurnitureDimensions: (productSetId: number, type, dimensions) => {
         set(
           (state) => {
             return {
               config: {
                 ...state.config,
-                furnitureMap: {
-                  ...state.config.furnitureMap,
-                  [type]: {
-                    ...state.config.furnitureMap[type],
-                    dimensions,
+                [productSetId]: {
+                  ...state.config[productSetId],
+                  furnitureMap: {
+                    ...state.config[productSetId].furnitureMap,
+                    [type]: {
+                      ...state.config[productSetId].furnitureMap[type],
+                      dimensions,
+                    },
                   },
                 },
               },
@@ -1750,17 +1784,20 @@ const useStore = create<StoreState>()(
           { type: "setFurnitureDimensions", payload: { type, dimensions } },
         );
       },
-      setFurniturePosition: (type, position) => {
+      setFurniturePosition: (productSetId: number, type, position) => {
         set(
           (state) => {
             return {
               config: {
                 ...state.config,
-                furnitureMap: {
-                  ...state.config.furnitureMap,
-                  [type]: {
-                    ...state.config.furnitureMap[type],
-                    position,
+                [productSetId]: {
+                  ...state.config[productSetId],
+                  furnitureMap: {
+                    ...state.config[productSetId].furnitureMap,
+                    [type]: {
+                      ...state.config[productSetId].furnitureMap[type],
+                      position,
+                    },
                   },
                 },
               },
@@ -1777,13 +1814,18 @@ const useStore = create<StoreState>()(
       customizePopUpKey: "",
       setCustomizePopUpKey: (key: string) => set({ customizePopUpKey: key }),
 
-      setChoiceMap: (choiceMap) => {
+      setChoiceMap: (productSetId, choiceMap) => {
         set(
-          {
-            config: {
-              ...get().config,
-              choiceMap,
-            },
+          (state) => {
+            return {
+              config: {
+                ...state.config,
+                [productSetId]: {
+                  ...state.config[productSetId],
+                  choiceMap,
+                },
+              },
+            };
           },
           undefined,
           {
@@ -1792,13 +1834,15 @@ const useStore = create<StoreState>()(
           },
         );
       },
-      addChoice: (choice, source: string = "") => {
+      addChoice: (productSetId, choice, source = "") => {
         eventSystem.dispatch(choice.type, choice.value);
 
         const furnitureType = choiceTypeToFurnitureTypeMap[choice.type];
         const currentState = get();
-        const newFurnitureMap = { ...currentState.config.furnitureMap };
-        const newChoiceMap = { ...currentState.config.choiceMap };
+        const newFurnitureMap = {
+          ...currentState.config[productSetId].furnitureMap,
+        };
+        const newChoiceMap = { ...currentState.config[productSetId].choiceMap };
 
         if (furnitureType) {
           const furniture = allFurnitures.find(
@@ -1809,7 +1853,7 @@ const useStore = create<StoreState>()(
           } else if (furniture) {
             newFurnitureMap[furnitureType] = {
               ...{ dimensions: [0, 0, 0] as Triplet },
-              ...currentState.config.furnitureMap[furnitureType],
+              ...currentState.config[productSetId].furnitureMap[furnitureType],
               ...furniture,
             };
           } else {
@@ -1829,8 +1873,12 @@ const useStore = create<StoreState>()(
         set(
           {
             config: {
-              furnitureMap: newFurnitureMap,
-              choiceMap: newChoiceMap,
+              ...currentState.config,
+              [productSetId]: {
+                ...currentState.config[productSetId],
+                furnitureMap: newFurnitureMap,
+                choiceMap: newChoiceMap,
+              },
             },
           },
           undefined,
@@ -1887,82 +1935,90 @@ class EventSystem {
 export const eventSystem = new EventSystem();
 
 export const useCartItems = () => {
-  const { choiceMap, furnitureMap } = useStore((state) => state.config);
+  const configs = useStore((state) => state.config);
 
   const furnitureTypeIncluded = new Map<FurnitureType, boolean>();
   const cartItems: CartItem[] = [];
 
-  let vanityCabinet: CartItem | undefined = undefined;
-  const vanityChoice = choiceMap["vanity-color"];
-  if (vanityChoice) {
-    const furnitureType = choiceTypeToFurnitureTypeMap["vanity-color"];
-    if (furnitureType) {
-      const furniture = furnitureMap[furnitureType];
-      furnitureTypeIncluded.set(furnitureType, true);
-      if (furniture) {
-        vanityCabinet = {
-          key: furniture.key,
-          name: furniture.name,
-          price: calculatePrice(choiceMap, 1 << furnitureType),
-        };
-      }
-    }
-  }
-
-  if (vanityCabinet) {
-    const handle = choiceMap.handle;
-    const overflowRing = choiceMap["overflow-ring"];
-    const popup = choiceMap.popup;
-    const insertBasin = choiceMap["insert-basin"];
-    const counterTop = choiceMap["counter-top"];
-
-    for (const choice of [
-      handle,
-      overflowRing,
-      popup,
-      insertBasin,
-      counterTop,
-    ]) {
-      if (!choice) {
-        continue;
-      }
-
-      const furnitureType = choiceTypeToFurnitureTypeMap[choice.type];
-
-      if (furnitureType) {
-        furnitureTypeIncluded.set(furnitureType, true);
-
-        const furniture = furnitureMap[furnitureType];
-        if (furniture) {
-          vanityCabinet.children = [
-            ...(vanityCabinet.children || []),
-            {
-              key: furniture.key,
-              name: furniture.name,
-              price: calculatePrice(choiceMap, 1 << furnitureType),
-            },
-          ];
+  for (const config of Object.values(configs)) {
+    const { choiceMap, furnitureMap } = config;
+    switch (config.productSetId) {
+      case VanityCabinetProductSetId: {
+        let vanityCabinet: CartItem | undefined = undefined;
+        const vanityChoice = choiceMap["vanity-color"];
+        if (vanityChoice) {
+          const furnitureType = choiceTypeToFurnitureTypeMap["vanity-color"];
+          if (furnitureType) {
+            const furniture = furnitureMap[furnitureType];
+            furnitureTypeIncluded.set(furnitureType, true);
+            if (furniture) {
+              vanityCabinet = {
+                key: furniture.key,
+                name: furniture.name,
+                price: calculatePrice(choiceMap, 1 << furnitureType),
+              };
+            }
+          }
         }
+
+        if (vanityCabinet) {
+          const handle = choiceMap.handle;
+          const overflowRing = choiceMap["overflow-ring"];
+          const popup = choiceMap.popup;
+          const insertBasin = choiceMap["insert-basin"];
+          const counterTop = choiceMap["counter-top"];
+
+          for (const choice of [
+            handle,
+            overflowRing,
+            popup,
+            insertBasin,
+            counterTop,
+          ]) {
+            if (!choice) {
+              continue;
+            }
+
+            const furnitureType = choiceTypeToFurnitureTypeMap[choice.type];
+
+            if (furnitureType) {
+              furnitureTypeIncluded.set(furnitureType, true);
+
+              const furniture = furnitureMap[furnitureType];
+              if (furniture) {
+                vanityCabinet.children = [
+                  ...(vanityCabinet.children || []),
+                  {
+                    key: furniture.key,
+                    name: furniture.name,
+                    price: calculatePrice(choiceMap, 1 << furnitureType),
+                  },
+                ];
+              }
+            }
+          }
+          cartItems.push(vanityCabinet);
+        }
+        const keys = Object.keys(choiceMap) as ChoiceType[];
+
+        for (const key of keys) {
+          const furnitureType = choiceTypeToFurnitureTypeMap[key];
+
+          if (furnitureType && !furnitureTypeIncluded.has(furnitureType)) {
+            const furniture = furnitureMap[furnitureType];
+            if (furniture) {
+              cartItems.push({
+                key: furniture.key,
+                name: furniture.name,
+                price: calculatePrice(choiceMap, 1 << furnitureType),
+              });
+            }
+          }
+        }
+        break;
       }
-    }
-
-    cartItems.push(vanityCabinet);
-  }
-
-  const keys = Object.keys(choiceMap) as ChoiceType[];
-
-  for (const key of keys) {
-    const furnitureType = choiceTypeToFurnitureTypeMap[key];
-
-    if (furnitureType && !furnitureTypeIncluded.has(furnitureType)) {
-      const furniture = furnitureMap[furnitureType];
-      if (furniture) {
-        cartItems.push({
-          key: furniture.key,
-          name: furniture.name,
-          price: calculatePrice(choiceMap, 1 << furnitureType),
-        });
-      }
+      default:
+        console.warn("Unknown product set id", config.productSetId);
     }
   }
 
@@ -1971,15 +2027,16 @@ export const useCartItems = () => {
 
 export const useTotalPrice = () => {
   const { config, fees } = useStore();
-  const itemPrice = calculatePrice(config.choiceMap, 0);
+
+  const totalItemPrice = Object.values(config).reduce((total, configValues) => {
+    return total + calculatePrice(configValues.choiceMap, 0);
+  }, 0);
+
   const feePrice = fees.reduce((acc, fee) => acc + fee.price, 0);
-  return itemPrice + feePrice;
+  return totalItemPrice + feePrice;
 };
 
-function calculatePrice(
-  choiceMap: StoreState["config"]["choiceMap"],
-  furnitureTypeBitMask: number,
-) {
+function calculatePrice(choiceMap: ChoiceMap, furnitureTypeBitMask: number) {
   let price = 0;
 
   if (

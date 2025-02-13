@@ -9,11 +9,13 @@ interface Props {
   scale?: [number, number, number];
   rotation?: [number, number, number];
   textureMap?: Partial<TextureMap>;
+  productSetId: number;
 }
 
 const BasinCounterTop: React.FC<Props> = ({
   path: basePath,
   textureMap,
+  productSetId,
   ...props
 }) => {
   const { scene } = useGLTF(basePath);
@@ -37,7 +39,9 @@ const BasinCounterTop: React.FC<Props> = ({
 
   const ref = useRef<THREE.Group>(null);
 
-  const furnitureMap = useStore((state) => state.config.furnitureMap);
+  const furnitureMap = useStore(
+    (state) => state.config[productSetId].furnitureMap,
+  );
 
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
   const setFurnitureDimensions = useStore(
@@ -69,13 +73,19 @@ const BasinCounterTop: React.FC<Props> = ({
       position[1] += y;
       position[2] += z;
     }
-    setFurnitureDimensions(FurnitureType.BasinCounterTop, [
+    setFurnitureDimensions(productSetId, FurnitureType.BasinCounterTop, [
       size.x,
       size.y,
       size.z,
     ]);
-    setFurniturePosition(FurnitureType.BasinCounterTop, position);
-  }, [cabinet, self?.size, setFurnitureDimensions, setFurniturePosition]);
+    setFurniturePosition(productSetId, FurnitureType.BasinCounterTop, position);
+  }, [
+    cabinet,
+    self?.size,
+    setFurnitureDimensions,
+    setFurniturePosition,
+    productSetId,
+  ]);
 
   return (
     <primitive

@@ -7,9 +7,10 @@ type Props = {
   path: string;
   scale?: [number, number, number];
   rotation?: [number, number, number];
+  productSetId: number;
 };
 
-const Stand: React.FC<Props> = ({ path, ...rest }) => {
+const Stand: React.FC<Props> = ({ path, productSetId, ...rest }) => {
   const { scene } = useGLTF(path);
 
   const ref = useRef<THREE.Group>(null);
@@ -17,7 +18,9 @@ const Stand: React.FC<Props> = ({ path, ...rest }) => {
   const copiedScene = useMemo(() => scene.clone(), [scene]);
 
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
-  const furnitureMap = useStore((state) => state.config.furnitureMap);
+  const furnitureMap = useStore(
+    (state) => state.config[productSetId].furnitureMap,
+  );
   const self = furnitureMap[FurnitureType.Stand];
   const cabinet = furnitureMap[FurnitureType.VanityCabinet];
 
@@ -40,8 +43,8 @@ const Stand: React.FC<Props> = ({ path, ...rest }) => {
       position[2] += normalOffset[cabinet.size][2];
     }
 
-    setFurniturePosition(FurnitureType.Stand, position);
-  }, [cabinet, setFurniturePosition, self?.key]);
+    setFurniturePosition(productSetId, FurnitureType.Stand, position);
+  }, [cabinet, productSetId, setFurniturePosition, self?.key]);
 
   // reduce very obvious flickering when cabinet is not yet loaded
   if (cabinet?.dimensions.every((d) => d === 0)) {

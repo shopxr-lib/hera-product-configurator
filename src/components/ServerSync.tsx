@@ -29,41 +29,14 @@ const ServerSync = () => {
     enabled: Boolean(sessionKey) && Boolean(productSetId),
   });
 
-  // const { mutate: updateConfig } = useMutation({
-  //   mutationFn: async (config: ConfigurationSessionConfig) => {
-  //     const err = await service.configurationSession.update({
-  //       session_key: sessionKey,
-  //       product_set_id: productSetId,
-  //       config,
-  //     });
-  //     if (err) {
-  //       throw err;
-  //     }
-  //   },
-  // });
-
-  // const debouncedUpdateConfig = useDebounceCallback(updateConfig, 500);
-
   const setFurnitureMap = useStore((state) => state.setFurnitureMap);
   const setChoiceMap = useStore((state) => state.setChoiceMap);
   useEffect(() => {
     if (data) {
-      setFurnitureMap(data.config.furnitureMap);
-      setChoiceMap(data.config.choiceMap);
+      setFurnitureMap(Number(productSetId), data.config.furnitureMap);
+      setChoiceMap(Number(productSetId), data.config.choiceMap);
     }
-  }, [data, setFurnitureMap, setChoiceMap]);
-
-  // useEffect(() => {
-  //   return useStore.subscribe(
-  //     (state) => state.config,
-  //     (config) => {
-  //       debouncedUpdateConfig(config);
-  //     },
-  //     {
-  //       equalityFn: shallow,
-  //     },
-  //   );
-  // });
+  }, [data, setFurnitureMap, setChoiceMap, productSetId]);
 
   return null;
 };

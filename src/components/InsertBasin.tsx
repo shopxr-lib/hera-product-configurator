@@ -4,16 +4,19 @@ import * as THREE from "three";
 import useStore, { FurnitureType } from "../store/useStore";
 
 interface Props {
+  productSetId: number;
   path: string;
   scale?: [number, number, number];
   rotation?: [number, number, number];
 }
 
-const InsertBasin: React.FC<Props> = ({ path, ...props }) => {
+const InsertBasin: React.FC<Props> = ({ path, productSetId, ...props }) => {
   const model = useGLTF(path);
   const ref = useRef<THREE.Group>(null);
 
-  const furnitureMap = useStore((state) => state.config.furnitureMap);
+  const furnitureMap = useStore(
+    (state) => state.config[productSetId].furnitureMap,
+  );
   const cabinet = furnitureMap[FurnitureType.VanityCabinet];
   const self = furnitureMap[FurnitureType.InsertBasin];
 
@@ -62,8 +65,12 @@ const InsertBasin: React.FC<Props> = ({ path, ...props }) => {
       }
     }
 
-    setFurniturePosition(FurnitureType.InsertBasin, position);
-    setFurnitureDimensions(FurnitureType.InsertBasin, [size.x, size.y, size.z]);
+    setFurniturePosition(productSetId, FurnitureType.InsertBasin, position);
+    setFurnitureDimensions(productSetId, FurnitureType.InsertBasin, [
+      size.x,
+      size.y,
+      size.z,
+    ]);
   }, [
     cabinet,
     self?.size,
@@ -71,6 +78,7 @@ const InsertBasin: React.FC<Props> = ({ path, ...props }) => {
     setFurnitureDimensions,
     setFurniturePosition,
     self?.key,
+    productSetId,
   ]);
 
   return (

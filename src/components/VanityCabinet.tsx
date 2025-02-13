@@ -13,9 +13,16 @@ type Props = {
   rotation?: [number, number, number];
   textureMap?: Partial<TextureMap>;
   variant?: Partial<FurnitureVariant>;
+  productSetId: number;
 };
 
-const VanityCabinet = ({ path, textureMap, variant, ...props }: Props) => {
+const VanityCabinet = ({
+  path,
+  textureMap,
+  variant,
+  productSetId,
+  ...props
+}: Props) => {
   const { scene } = useGLTF(path);
 
   // https://github.com/pmndrs/react-three-fiber/issues/245#issuecomment-554612085
@@ -42,7 +49,9 @@ const VanityCabinet = ({ path, textureMap, variant, ...props }: Props) => {
 
   const ref = useRef<THREE.Group>(null);
 
-  const furnitureMap = useStore((state) => state.config.furnitureMap);
+  const furnitureMap = useStore(
+    (state) => state.config[productSetId].furnitureMap,
+  );
   const setFurnitureDimensions = useStore(
     (state) => state.setFurnitureDimensions,
   );
@@ -59,13 +68,23 @@ const VanityCabinet = ({ path, textureMap, variant, ...props }: Props) => {
     const size = new THREE.Vector3();
     box.getSize(size);
 
-    setFurnitureDimensions(FurnitureType.VanityCabinet, [
+    setFurnitureDimensions(productSetId, FurnitureType.VanityCabinet, [
       size.x,
       size.y,
       size.z,
     ]);
-    setFurniturePosition(FurnitureType.VanityCabinet, [0, -0.1, 0]);
-  }, [variant, setFurniturePosition, setFurnitureDimensions, self?.key]);
+    setFurniturePosition(
+      productSetId,
+      FurnitureType.VanityCabinet,
+      [0, -0.1, 0],
+    );
+  }, [
+    variant,
+    setFurniturePosition,
+    setFurnitureDimensions,
+    self?.key,
+    productSetId,
+  ]);
 
   return (
     <primitive

@@ -4,9 +4,11 @@ import "./index.css";
 import App from "./App.tsx";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ServiceProvider } from "./lib/context/provider.tsx";
 import ServerSync from "./components/ServerSync.tsx";
+import Home from "./pages/Home.tsx";
 
 const queryClient = new QueryClient();
 
@@ -31,15 +33,14 @@ createRoot(document.getElementById("root")!).render(
         primaryColor: "brand",
       }}
     >
+      <Notifications />
       <QueryClientProvider client={queryClient}>
         <ServiceProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<App />}>
-                <Route
-                  path=":productSetId/:sessionKey"
-                  element={<ServerSync />}
-                />
+              <Route path="/" element={<Home />} />
+              <Route path="/:productSetId" element={<App />}>
+                <Route path=":sessionKey" element={<ServerSync />} />
               </Route>
             </Routes>
           </BrowserRouter>

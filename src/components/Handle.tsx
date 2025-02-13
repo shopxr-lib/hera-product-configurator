@@ -8,9 +8,15 @@ type Props = {
   scale?: [number, number, number];
   rotation?: [number, number, number];
   materials: Partial<MaterialMap>;
+  productSetId: number;
 };
 
-const Handle: React.FC<Props> = ({ materials, path, ...rest }) => {
+const Handle: React.FC<Props> = ({
+  materials,
+  path,
+  productSetId,
+  ...rest
+}) => {
   const { scene } = useGLTF(path);
 
   const ref = useRef<THREE.Group>(null);
@@ -18,7 +24,9 @@ const Handle: React.FC<Props> = ({ materials, path, ...rest }) => {
   const copiedScene = useMemo(() => scene.clone(), [scene]);
 
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
-  const furnitureMap = useStore((state) => state.config.furnitureMap);
+  const furnitureMap = useStore(
+    (state) => state.config[productSetId].furnitureMap,
+  );
   const self = furnitureMap[FurnitureType.Handle];
   const cabinet = furnitureMap[FurnitureType.VanityCabinet];
 
@@ -63,8 +71,8 @@ const Handle: React.FC<Props> = ({ materials, path, ...rest }) => {
       }
     }
 
-    setFurniturePosition(FurnitureType.Handle, position);
-  }, [cabinet, setFurniturePosition, self?.key]);
+    setFurniturePosition(productSetId, FurnitureType.Handle, position);
+  }, [cabinet, productSetId, setFurniturePosition, self?.key]);
 
   return (
     <primitive

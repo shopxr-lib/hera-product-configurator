@@ -1,4 +1,7 @@
-import useStore, { FurnitureType } from "../store/useStore";
+import useStore, {
+  FurnitureType,
+  VanityCabinetProductSetId,
+} from "../store/useStore";
 import BasinCounterTop from "./BasinCounterTop";
 import { Suspense, useEffect, useRef, useState } from "react";
 import VanityCabinet from "./VanityCabinet";
@@ -13,9 +16,14 @@ import * as THREE from "three";
 import { Html, useHelper } from "@react-three/drei";
 import { HtmlProps } from "@react-three/drei/web/Html";
 import { useControls } from "leva";
+import { useParams } from "react-router";
 
 const Room = () => {
-  const furnitureMap = useStore((state) => state.config.furnitureMap);
+  const { productSetId } = useParams<{ productSetId: string }>();
+  const furnitureMap = useStore(
+    (state) => state.config[Number(productSetId)].furnitureMap,
+  );
+
   const groupRef = useRef<THREE.Group>(null);
   const [dimensions, setDimensions] = useState<[number, number, number]>([
     0, 0, 0,
@@ -37,93 +45,122 @@ const Room = () => {
 
   useHelper(showDimension && (groupRef as any), THREE.BoxHelper, "black");
 
+  const renderFurniture = () => {
+    switch (Number(productSetId)) {
+      case VanityCabinetProductSetId: {
+        return (
+          <group ref={groupRef}>
+            {Object.values(furnitureMap).map((furniture, index) => {
+              switch (furniture.type) {
+                case FurnitureType.Basin:
+                  return (
+                    <Suspense key={furniture.key}>
+                      <Basin
+                        path={furniture.path}
+                        textureMap={furniture.textureMap}
+                        productSetId={Number(productSetId)}
+                      />
+                    </Suspense>
+                  );
+                case FurnitureType.BasinTap:
+                  return (
+                    <Suspense key={furniture.key}>
+                      <Tap
+                        path={furniture.path}
+                        materials={furniture.materials!}
+                        productSetId={Number(productSetId)}
+                      />
+                    </Suspense>
+                  );
+                case FurnitureType.BasinCounterTop:
+                  return (
+                    <Suspense key={furniture.key}>
+                      <BasinCounterTop
+                        path={furniture.path}
+                        textureMap={furniture.textureMap}
+                        productSetId={Number(productSetId)}
+                      />
+                    </Suspense>
+                  );
+                case FurnitureType.VanityCabinet:
+                  return (
+                    <Suspense key={furniture.key}>
+                      <VanityCabinet
+                        path={furniture.path}
+                        textureMap={furniture.textureMap}
+                        variant={furniture.variant}
+                        productSetId={Number(productSetId)}
+                      />
+                    </Suspense>
+                  );
+                case FurnitureType.InsertBasin:
+                  return (
+                    <Suspense key={furniture.key}>
+                      <InsertBasin
+                        path={furniture.path}
+                        productSetId={Number(productSetId)}
+                      />
+                    </Suspense>
+                  );
+                case FurnitureType.OverflowRing:
+                  return (
+                    <Suspense key={furniture.key}>
+                      <OverflowRing
+                        path={furniture.path}
+                        textureMap={furniture.textureMap!}
+                        materials={furniture.materials!}
+                        productSetId={Number(productSetId)}
+                      />
+                    </Suspense>
+                  );
+                case FurnitureType.Popup:
+                  return (
+                    <Suspense key={furniture.key}>
+                      <Popup
+                        path={furniture.path}
+                        materials={furniture.materials!}
+                        productSetId={Number(productSetId)}
+                      />
+                    </Suspense>
+                  );
+
+                case FurnitureType.Handle:
+                  return (
+                    <Suspense key={furniture.key}>
+                      <Handle
+                        path={furniture.path}
+                        materials={furniture.materials!}
+                        productSetId={Number(productSetId)}
+                      />
+                    </Suspense>
+                  );
+
+                case FurnitureType.Stand:
+                  return (
+                    <Suspense key={furniture.key}>
+                      <Stand
+                        path={furniture.path}
+                        productSetId={Number(productSetId)}
+                      />
+                    </Suspense>
+                  );
+
+                default:
+                  return <primitive key={index} object={furniture} />;
+              }
+            })}
+          </group>
+        );
+      }
+      default:
+        console.warn("Product set not handled");
+        return null;
+    }
+  };
+
   return (
     <>
-      <group ref={groupRef}>
-        {Object.values(furnitureMap).map((furniture, index) => {
-          switch (furniture.type) {
-            case FurnitureType.Basin:
-              return (
-                <Suspense key={furniture.key}>
-                  <Basin
-                    path={furniture.path}
-                    textureMap={furniture.textureMap}
-                  />
-                </Suspense>
-              );
-            case FurnitureType.BasinTap:
-              return (
-                <Suspense key={furniture.key}>
-                  <Tap path={furniture.path} materials={furniture.materials!} />
-                </Suspense>
-              );
-            case FurnitureType.BasinCounterTop:
-              return (
-                <Suspense key={furniture.key}>
-                  <BasinCounterTop
-                    path={furniture.path}
-                    textureMap={furniture.textureMap}
-                  />
-                </Suspense>
-              );
-            case FurnitureType.VanityCabinet:
-              return (
-                <Suspense key={furniture.key}>
-                  <VanityCabinet
-                    path={furniture.path}
-                    textureMap={furniture.textureMap}
-                    variant={furniture.variant}
-                  />
-                </Suspense>
-              );
-            case FurnitureType.InsertBasin:
-              return (
-                <Suspense key={furniture.key}>
-                  <InsertBasin path={furniture.path} />
-                </Suspense>
-              );
-            case FurnitureType.OverflowRing:
-              return (
-                <Suspense key={furniture.key}>
-                  <OverflowRing
-                    path={furniture.path}
-                    textureMap={furniture.textureMap!}
-                    materials={furniture.materials!}
-                  />
-                </Suspense>
-              );
-            case FurnitureType.Popup:
-              return (
-                <Suspense key={furniture.key}>
-                  <Popup
-                    path={furniture.path}
-                    materials={furniture.materials!}
-                  />
-                </Suspense>
-              );
-
-            case FurnitureType.Handle:
-              return (
-                <Suspense key={furniture.key}>
-                  <Handle
-                    path={furniture.path}
-                    materials={furniture.materials!}
-                  />
-                </Suspense>
-              );
-
-            case FurnitureType.Stand:
-              return (
-                <Suspense key={furniture.key}>
-                  <Stand path={furniture.path} />
-                </Suspense>
-              );
-
-            default:
-              return <primitive key={index} object={furniture} />;
-          }
-        })}
-      </group>
+      {renderFurniture()}
       {showDimension && (
         <>
           <Annotation

@@ -13,14 +13,22 @@ type Props = {
   rotation?: [number, number, number];
   textureMap: Partial<TextureMap>;
   materials: Partial<MaterialMap>;
+  productSetId: number;
 };
 
-const OverflowRing: React.FC<Props> = ({ materials, path, ...rest }) => {
+const OverflowRing: React.FC<Props> = ({
+  materials,
+  path,
+  productSetId,
+  ...rest
+}) => {
   const { scene } = useGLTF(path);
 
   const copiedScene = useMemo(() => scene.clone(), [scene]);
 
-  const furnitureMap = useStore((state) => state.config.furnitureMap);
+  const furnitureMap = useStore(
+    (state) => state.config[productSetId].furnitureMap,
+  );
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
 
   const insertBasin = furnitureMap[FurnitureType.InsertBasin];
@@ -58,8 +66,8 @@ const OverflowRing: React.FC<Props> = ({ materials, path, ...rest }) => {
       }
     }
 
-    setFurniturePosition(FurnitureType.OverflowRing, position);
-  }, [insertBasin, setFurniturePosition]);
+    setFurniturePosition(productSetId, FurnitureType.OverflowRing, position);
+  }, [insertBasin, setFurniturePosition, productSetId]);
   return <primitive object={copiedScene} position={self?.position} {...rest} />;
 };
 

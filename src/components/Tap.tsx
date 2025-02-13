@@ -8,9 +8,10 @@ type Props = {
   scale?: [number, number, number];
   rotation?: [number, number, number];
   materials: Partial<MaterialMap>;
+  productSetId: number;
 };
 
-const Tap: React.FC<Props> = ({ materials, path, ...rest }) => {
+const Tap: React.FC<Props> = ({ materials, path, productSetId, ...rest }) => {
   const { scene } = useGLTF(path);
 
   const ref = useRef<THREE.Group>(null);
@@ -18,7 +19,9 @@ const Tap: React.FC<Props> = ({ materials, path, ...rest }) => {
   const copiedScene = useMemo(() => scene.clone(), [scene]);
 
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
-  const furnitureMap = useStore((state) => state.config.furnitureMap);
+  const furnitureMap = useStore(
+    (state) => state.config[Number(productSetId)].furnitureMap,
+  );
   const insertBasin = furnitureMap[FurnitureType.InsertBasin];
   const self = furnitureMap[FurnitureType.BasinTap];
 
@@ -106,8 +109,8 @@ const Tap: React.FC<Props> = ({ materials, path, ...rest }) => {
       }
     }
 
-    setFurniturePosition(FurnitureType.BasinTap, position);
-  }, [insertBasin, setFurniturePosition, self?.key]);
+    setFurniturePosition(productSetId, FurnitureType.BasinTap, position);
+  }, [insertBasin, productSetId, setFurniturePosition, self?.key]);
 
   return (
     <primitive

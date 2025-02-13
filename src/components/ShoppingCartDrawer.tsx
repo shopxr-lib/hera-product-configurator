@@ -11,10 +11,7 @@ import SaveDesignForm from "./SaveDesignForm";
 import { useMutation } from "@tanstack/react-query";
 import { useService } from "../lib/hooks/useService";
 import { Contact } from "../lib/services/configuration_session";
-import { useParams } from "react-router";
 import { notifications } from "@mantine/notifications";
-
-const tempProductSetId = 1; // temporary
 
 const ShoppingCartPopUp = () => {
   const popupOpened = useStore((state) => state.modals.shoppingCart);
@@ -34,21 +31,22 @@ const ShoppingCartPopUp = () => {
     (fee) => fee.type === "installation",
   );
 
-  const { productSetId } = useParams<{ productSetId: string }>();
-
   const config = useStore((state) => state.config);
 
   const service = useService();
   const { mutate: createConfigurationSession } = useMutation({
     mutationFn: async (contact: Contact) => {
-      const err = await service.configurationSession.create({
-        product_set_id: productSetId ? Number(productSetId) : tempProductSetId,
-        config,
-        contact,
-      });
-      if (err) {
-        throw err;
-      }
+      const createConfigurationSessionPromises = Object.values(config).map(
+        (c) => {
+          return service.configurationSession.create({
+            product_set_id: c.productSetId,
+            config: c,
+            contact,
+          });
+        },
+      );
+
+      await Promise.all(createConfigurationSessionPromises);
     },
     onSuccess() {
       notifications.show({
