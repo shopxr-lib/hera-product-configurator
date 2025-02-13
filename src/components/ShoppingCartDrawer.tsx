@@ -36,17 +36,13 @@ const ShoppingCartPopUp = () => {
   const service = useService();
   const { mutate: createConfigurationSession } = useMutation({
     mutationFn: async (contact: Contact) => {
-      const createConfigurationSessionPromises = Object.values(config).map(
-        (c) => {
-          return service.configurationSession.create({
-            product_set_id: c.productSetId,
-            config: c,
-            contact,
-          });
-        },
-      );
-
-      await Promise.all(createConfigurationSessionPromises);
+      const err = await service.configurationSession.create({
+        config,
+        contact,
+      });
+      if (err) {
+        throw err;
+      }
     },
     onSuccess() {
       notifications.show({

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useService } from "../lib/hooks/useService";
 import { clientId } from "../lib/constants";
-import { Navigate } from "react-router";
+import { Navigate, useSearchParams } from "react-router";
 import { LoadingOverlay } from "@mantine/core";
 import { IconX } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
@@ -12,13 +12,14 @@ export default function Home(): React.ReactNode {
   const { data } = useQuery({
     queryKey: ["product_set", { client_id: clientId }],
     queryFn: async () => {
-      const [res, err] = await service.productSet.get({ client_id: 1 });
+      const [res, err] = await service.productSet.get({ client_id: clientId });
       if (err) {
         throw err;
       }
       return res;
     },
   });
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     if (!data) {
@@ -50,5 +51,12 @@ export default function Home(): React.ReactNode {
     return null;
   }
 
-  return <Navigate to={`/${data.product_sets[0].id}/`} />;
+  return (
+    <Navigate
+      to={{
+        pathname: `/${data.product_sets[0].id}/`,
+        search: searchParams.toString(),
+      }}
+    />
+  );
 }

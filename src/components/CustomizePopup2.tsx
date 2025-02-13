@@ -18,7 +18,7 @@ const CustomizePopUp: React.FC = () => {
   const { productSetId } = useParams<{ productSetId: string }>();
 
   const choiceMap = useStore(
-    (state) => state.config[Number(productSetId)].choiceMap,
+    (state) => state.config[Number(productSetId)]?.choiceMap,
   );
   const addChoice = useStore((state) => state.addChoice);
 

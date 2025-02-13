@@ -8,8 +8,8 @@ import CustomizePopUp from "./components/CustomizePopup2";
 import ShoppingCartFloating from "./components/ShoppingCartFloating";
 import ShoppingCartDrawer from "./components/ShoppingCartDrawer";
 import Branding from "./components/Branding";
+import ServerSync from "./components/ServerSync";
 import { Leva } from "leva";
-import { Outlet } from "react-router";
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
       <ShoppingCartFloating />
       <ShoppingCartDrawer />
       <Branding />
-      <Outlet />
+      <ServerSync />
     </>
   );
 }

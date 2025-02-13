@@ -61,7 +61,6 @@ export class ConfigurationSession {
   ): Promise<Error | null> {
     const [, err] = await to(
       this._axios.post(`/v1/configuration-session/create`, {
-        product_set_id: request.product_set_id,
         config: JSON.stringify(request.config),
         contact: request.contact,
       }),
@@ -76,7 +75,6 @@ export class ConfigurationSession {
 
 type GetConfigurationSessionRequest = {
   session_key: string;
-  product_set_id: number;
 };
 
 type GetConfigurationSessionResponse = {
@@ -88,10 +86,11 @@ type GetConfigurationSessionResponse = {
 type ParsedGetConfigurationSessionResponse = {
   id: number;
   version: number;
-  config: ConfigurationSessionConfig;
+  config: Record<number, ConfigurationSessionConfig>;
 };
 
 export type ConfigurationSessionConfig = {
+  productSetId: number;
   choiceMap: ChoiceMap;
   furnitureMap: FurnitureMap;
 };
@@ -103,8 +102,7 @@ type UpdateConfigurationSessionRequest = {
 };
 
 export type CreateConfigurationSessionRequest = {
-  product_set_id: number;
-  config: ConfigurationSessionConfig;
+  config: Record<number, ConfigurationSessionConfig>;
   contact: Contact;
 };
 

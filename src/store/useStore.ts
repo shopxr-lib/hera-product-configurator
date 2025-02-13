@@ -137,9 +137,8 @@ type StoreState = {
   clearCart: () => void;
 
   config: Record<number, Config>;
-  setConfig: (productSetId: number, config: Config) => void;
+  setConfigs: (config: Record<number, Config>) => void;
 
-  setFurnitureMap: (productSetId: number, map: FurnitureMap) => void;
   setFurnitureDimensions: (
     productSetId: number,
     type: FurnitureType,
@@ -154,7 +153,6 @@ type StoreState = {
   customizePopUpKey: string;
   setCustomizePopUpKey: (key: string) => void;
 
-  setChoiceMap: (productSetId: number, map: ChoiceMap) => void;
   addChoice: (
     productSetId: number,
     choice: {
@@ -1726,39 +1724,8 @@ const useStore = create<StoreState>()(
           choiceMap: defaultChoiceMap,
         },
       },
-      setConfig: (productSetId, config) => {
-        set(
-          (state) => {
-            return {
-              config: {
-                ...state.config,
-                [productSetId]: config,
-              },
-            };
-          },
-          undefined,
-          { type: "setConfig", payload: config },
-        );
-      },
-      setFurnitureMap: (productSetId, furnitureMap) => {
-        set(
-          (state) => {
-            return {
-              config: {
-                ...state.config,
-                [productSetId]: {
-                  ...state.config[productSetId],
-                  furnitureMap,
-                },
-              },
-            };
-          },
-          undefined,
-          {
-            type: "setFurnitureMap",
-            payload: furnitureMap,
-          },
-        );
+      setConfigs: (config) => {
+        set({ config }, undefined, { type: "setAllConfig", payload: config });
       },
 
       setFurnitureDimensions: (productSetId: number, type, dimensions) => {
@@ -1814,26 +1781,6 @@ const useStore = create<StoreState>()(
       customizePopUpKey: "",
       setCustomizePopUpKey: (key: string) => set({ customizePopUpKey: key }),
 
-      setChoiceMap: (productSetId, choiceMap) => {
-        set(
-          (state) => {
-            return {
-              config: {
-                ...state.config,
-                [productSetId]: {
-                  ...state.config[productSetId],
-                  choiceMap,
-                },
-              },
-            };
-          },
-          undefined,
-          {
-            type: "setChoiceMap",
-            payload: choiceMap,
-          },
-        );
-      },
       addChoice: (productSetId, choice, source = "") => {
         eventSystem.dispatch(choice.type, choice.value);
 

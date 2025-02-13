@@ -2,41 +2,33 @@ import { useQuery } from "@tanstack/react-query";
 import { useService } from "../lib/hooks/useService";
 import useStore from "../store/useStore";
 import { useEffect } from "react";
-import { useParams } from "react-router";
+import { useSearchParams } from "react-router";
 
 const ServerSync = () => {
   const service = useService();
-  const { productSetId, sessionKey } = useParams<{
-    productSetId: string;
-    sessionKey: string;
-  }>();
+  const [searchParams] = useSearchParams();
+  const sessionKey = searchParams.get("session_key");
 
   const { data } = useQuery({
-    queryKey: [
-      "configuration_session",
-      { session_key: sessionKey, product_set_id: productSetId },
-    ],
+    queryKey: ["configuration_session", { session_key: sessionKey }],
     queryFn: async () => {
       const [res, err] = await service.configurationSession.get({
         session_key: sessionKey ?? "",
-        product_set_id: Number(productSetId),
       });
       if (err) {
         throw err;
       }
       return res;
     },
-    enabled: Boolean(sessionKey) && Boolean(productSetId),
+    enabled: Boolean(sessionKey),
   });
 
-  const setFurnitureMap = useStore((state) => state.setFurnitureMap);
-  const setChoiceMap = useStore((state) => state.setChoiceMap);
+  const setAllConfig = useStore((state) => state.setConfigs);
   useEffect(() => {
     if (data) {
-      setFurnitureMap(Number(productSetId), data.config.furnitureMap);
-      setChoiceMap(Number(productSetId), data.config.choiceMap);
+      setAllConfig(data.config);
     }
-  }, [data, setFurnitureMap, setChoiceMap, productSetId]);
+  }, [data, setAllConfig]);
 
   return null;
 };
