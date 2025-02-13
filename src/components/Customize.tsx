@@ -2,12 +2,11 @@ import React from "react";
 import useStore from "../store/useStore";
 import { useQuery } from "@tanstack/react-query";
 import { useService } from "../lib/hooks/useService";
-import { NavLink } from "react-router";
+import { NavLink, useSearchParams } from "react-router";
 import { cn } from "../lib/utils";
+import { clientId } from "../lib/constants";
 
 type Props = object;
-
-const heraClientId = 1;
 
 const Customize: React.FC<Props> = () => {
   const setCustomizePopUpKey = useStore((state) => state.setCustomizePopUpKey);
@@ -15,15 +14,16 @@ const Customize: React.FC<Props> = () => {
 
   const service = useService();
   const { data } = useQuery({
-    queryKey: ["product_set", { client_id: heraClientId }],
+    queryKey: ["product_set", { client_id: clientId }],
     queryFn: async () => {
-      const [res, err] = await service.productSet.get({ client_id: 1 });
+      const [res, err] = await service.productSet.get({ client_id: clientId });
       if (err) {
         throw err;
       }
       return res;
     },
   });
+  const [searchParams] = useSearchParams();
 
   return (
     <div className="fixed bottom-12 flex items-center space-x-2 rounded-md bg-white p-2 sm:bottom-4 sm:left-4">
@@ -31,7 +31,10 @@ const Customize: React.FC<Props> = () => {
         return (
           <NavLink
             key={productSet.id}
-            to={`/${productSet.id}/`}
+            to={{
+              pathname: `/${productSet.id}/`,
+              search: searchParams.toString(),
+            }}
             className={({ isActive }) =>
               cn(
                 "flex cursor-pointer items-center justify-center rounded-md border-2 border-transparent p-1 hover:border-gray-200",
