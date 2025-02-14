@@ -38,8 +38,8 @@ function App() {
     if (!data) {
       return;
     }
-    if (currentProductSetId === 0) {
-      setCurrentProductSetId(data.product_sets[0].id);
+    if (currentProductSetId === 0 && data.product_sets?.length) {
+      setCurrentProductSetId(data.product_sets?.[0]?.id);
     }
   }, [data, setCurrentProductSetId, currentProductSetId]);
   return (
