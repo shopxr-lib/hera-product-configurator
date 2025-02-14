@@ -158,7 +158,7 @@ const Room = () => {
 
   return (
     <>
-      {renderFurniture()}
+      {productSetId > 0 && renderFurniture()}
       {showDimension && (
         <>
           <Annotation
