@@ -6,6 +6,7 @@ import useStore, {
 } from "../store/useStore";
 import { useEffect, useLayoutEffect, useMemo } from "react";
 import * as THREE from "three";
+import { useFurnitureMap } from "../lib/hooks/useFurnitureMap";
 
 type Props = {
   path: string;
@@ -26,9 +27,7 @@ const OverflowRing: React.FC<Props> = ({
 
   const copiedScene = useMemo(() => scene.clone(), [scene]);
 
-  const furnitureMap = useStore(
-    (state) => state.config[productSetId].furnitureMap,
-  );
+  const furnitureMap = useFurnitureMap(productSetId);
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
 
   const insertBasin = furnitureMap[FurnitureType.InsertBasin];

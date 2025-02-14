@@ -2,6 +2,7 @@ import { useGLTF } from "@react-three/drei";
 import useStore, { FurnitureType, MaterialMap } from "../store/useStore";
 import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
+import { useFurnitureMap } from "../lib/hooks/useFurnitureMap";
 
 type Props = {
   path: string;
@@ -19,9 +20,7 @@ const Tap: React.FC<Props> = ({ materials, path, productSetId, ...rest }) => {
   const copiedScene = useMemo(() => scene.clone(), [scene]);
 
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
-  const furnitureMap = useStore(
-    (state) => state.config[Number(productSetId)].furnitureMap,
-  );
+  const furnitureMap = useFurnitureMap(productSetId);
   const insertBasin = furnitureMap[FurnitureType.InsertBasin];
   const self = furnitureMap[FurnitureType.BasinTap];
 

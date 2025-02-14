@@ -37,8 +37,7 @@ createRoot(document.getElementById("root")!).render(
         <ServiceProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/:productSetId" element={<App />} />
+              <Route path="/" element={<App />} />
             </Routes>
           </BrowserRouter>
         </ServiceProvider>

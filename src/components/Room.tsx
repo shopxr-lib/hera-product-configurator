@@ -16,13 +16,11 @@ import * as THREE from "three";
 import { Html, useHelper } from "@react-three/drei";
 import { HtmlProps } from "@react-three/drei/web/Html";
 import { useControls } from "leva";
-import { useParams } from "react-router";
+import { useFurnitureMap } from "../lib/hooks/useFurnitureMap";
 
 const Room = () => {
-  const { productSetId } = useParams<{ productSetId: string }>();
-  const furnitureMap = useStore(
-    (state) => state.config[Number(productSetId)].furnitureMap,
-  );
+  const productSetId = useStore((state) => state.currentProductSetId);
+  const furnitureMap = useFurnitureMap(productSetId);
 
   const groupRef = useRef<THREE.Group>(null);
   const [dimensions, setDimensions] = useState<[number, number, number]>([

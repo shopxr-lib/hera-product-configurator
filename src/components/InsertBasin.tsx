@@ -2,6 +2,7 @@ import { useGLTF } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import useStore, { FurnitureType } from "../store/useStore";
+import { useFurnitureMap } from "../lib/hooks/useFurnitureMap";
 
 interface Props {
   productSetId: number;
@@ -14,9 +15,7 @@ const InsertBasin: React.FC<Props> = ({ path, productSetId, ...props }) => {
   const model = useGLTF(path);
   const ref = useRef<THREE.Group>(null);
 
-  const furnitureMap = useStore(
-    (state) => state.config[productSetId].furnitureMap,
-  );
+  const furnitureMap = useFurnitureMap(productSetId);
   const cabinet = furnitureMap[FurnitureType.VanityCabinet];
   const self = furnitureMap[FurnitureType.InsertBasin];
 

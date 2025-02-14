@@ -3,6 +3,7 @@ import { useGLTF, useTexture } from "@react-three/drei";
 
 import * as THREE from "three";
 import useStore, { FurnitureType, type TextureMap } from "../store/useStore";
+import { useFurnitureMap } from "../lib/hooks/useFurnitureMap";
 
 interface Props {
   path: string;
@@ -39,9 +40,7 @@ const BasinCounterTop: React.FC<Props> = ({
 
   const ref = useRef<THREE.Group>(null);
 
-  const furnitureMap = useStore(
-    (state) => state.config[productSetId].furnitureMap,
-  );
+  const furnitureMap = useFurnitureMap(productSetId);
 
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
   const setFurnitureDimensions = useStore(

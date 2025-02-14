@@ -8,18 +8,16 @@ import useStore, {
   VanityCabinetProductSetId,
 } from "../store/useStore";
 import { Modal, Text, Title } from "@mantine/core";
-import { useParams } from "react-router";
+import { useChoiceMap } from "../lib/hooks/useChoiceMap";
 
 const CustomizePopUp: React.FC = () => {
   const customizePopUpKey = useStore((state) => state.customizePopUpKey);
   const opened = useStore((state) => state.modals.customize);
   const setModal = useStore((state) => state.setModal);
 
-  const { productSetId } = useParams<{ productSetId: string }>();
+  const productSetId = useStore((state) => state.currentProductSetId);
 
-  const choiceMap = useStore(
-    (state) => state.config[Number(productSetId)]?.choiceMap,
-  );
+  const choiceMap = useChoiceMap(productSetId);
   const addChoice = useStore((state) => state.addChoice);
 
   const popUpInfo = PopUpInfos[customizePopUpKey];

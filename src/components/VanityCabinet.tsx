@@ -6,6 +6,7 @@ import useStore, {
   TextureMap,
 } from "../store/useStore";
 import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { useFurnitureMap } from "../lib/hooks/useFurnitureMap";
 
 type Props = {
   path: string;
@@ -49,9 +50,7 @@ const VanityCabinet = ({
 
   const ref = useRef<THREE.Group>(null);
 
-  const furnitureMap = useStore(
-    (state) => state.config[productSetId].furnitureMap,
-  );
+  const furnitureMap = useFurnitureMap(productSetId);
   const setFurnitureDimensions = useStore(
     (state) => state.setFurnitureDimensions,
   );
