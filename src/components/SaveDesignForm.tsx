@@ -7,6 +7,7 @@ import { isValidPhoneNumber } from "react-phone-number-input";
 
 type Props = {
   onSubmit: (values: z.infer<typeof schema>) => void;
+  isSubmitting?: boolean;
 };
 
 const schema = z.object({
@@ -20,7 +21,7 @@ const schema = z.object({
     }),
 });
 
-const SaveDesignForm: React.FC<Props> = ({ onSubmit }) => {
+const SaveDesignForm: React.FC<Props> = ({ onSubmit, isSubmitting }) => {
   const form = useForm({
     initialValues: {
       name: "",
@@ -59,7 +60,9 @@ const SaveDesignForm: React.FC<Props> = ({ onSubmit }) => {
         {...form.getInputProps("phone")}
       />
 
-      <Button type="submit">Save Design</Button>
+      <Button type="submit" disabled={isSubmitting}>
+        Save Design
+      </Button>
     </form>
   );
 };

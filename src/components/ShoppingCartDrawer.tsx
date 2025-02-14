@@ -19,7 +19,8 @@ const ShoppingCartPopUp = () => {
   const setModal = useStore((state) => state.setModal);
   const closePopUp = () => setModal("shoppingCart", false);
 
-  const [modalOpened, { open, close }] = useDisclosure(false);
+  const [formModalOpened, { open: openFormModal, close: closeFormModal }] =
+    useDisclosure(false);
 
   const totalPrice = useTotalPrice();
   const cartItems = useCartItems();
@@ -35,7 +36,7 @@ const ShoppingCartPopUp = () => {
   const config = useStore((state) => state.config);
 
   const service = useService();
-  const { mutate: createConfigurationSession } = useMutation({
+  const { mutate: createConfigurationSession, isPending } = useMutation({
     mutationFn: async (contact: Contact) => {
       const err = await service.configurationSession.create({
         config,
@@ -64,7 +65,8 @@ const ShoppingCartPopUp = () => {
       });
     },
     onSettled() {
-      close();
+      closeFormModal();
+      closePopUp();
     },
   });
 
@@ -180,12 +182,18 @@ const ShoppingCartPopUp = () => {
           </div>
         </div>
 
-        <Button onClick={open}>Save Design</Button>
+        <Button onClick={openFormModal}>Save Design</Button>
       </div>
 
-      <Modal opened={modalOpened} onClose={close} title="Save Design" centered>
+      <Modal
+        opened={formModalOpened}
+        onClose={closeFormModal}
+        title="Save Design"
+        centered
+      >
         <SaveDesignForm
           onSubmit={(values) => createConfigurationSession(values)}
+          isSubmitting={isPending}
         />
       </Modal>
     </Drawer>
