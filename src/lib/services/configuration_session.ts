@@ -63,6 +63,7 @@ export class ConfigurationSession {
       this._axios.post(`/v1/configuration-session/create`, {
         config: JSON.stringify(request.config),
         contact: request.contact,
+        client_id: request.client_id,
       }),
     );
 
@@ -104,6 +105,7 @@ type UpdateConfigurationSessionRequest = {
 export type CreateConfigurationSessionRequest = {
   config: Record<number, ConfigurationSessionConfig>;
   contact: Contact;
+  client_id: number;
 };
 
 export type Contact = {

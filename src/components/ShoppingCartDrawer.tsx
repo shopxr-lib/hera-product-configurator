@@ -12,6 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useService } from "../lib/hooks/useService";
 import { Contact } from "../lib/services/configuration_session";
 import { notifications } from "@mantine/notifications";
+import { clientId } from "../lib/constants";
 
 const ShoppingCartPopUp = () => {
   const popupOpened = useStore((state) => state.modals.shoppingCart);
@@ -39,6 +40,7 @@ const ShoppingCartPopUp = () => {
       const err = await service.configurationSession.create({
         config,
         contact,
+        client_id: clientId,
       });
       if (err) {
         throw err;
