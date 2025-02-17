@@ -152,39 +152,39 @@ const CustomizePopUp: React.FC = () => {
 };
 
 const vanityCabinetDimensionsText = {
-  "600": "W:60 x H:45 x D:46 cm",
-  "800": "W:80 x H:45 x D:46 cm",
+  "600": "W:60 x H:45 x B:46 cm",
+  "800": "W:80 x H:45 x B:46 cm",
 };
 
 const vanityCabinetHybridDimensionsText = {
-  "500": "W:50 x H:45 x D:40 cm",
-  "600": "W:60 x H:45 x D:40 cm",
-  "800": "W:80 x H:45 x D:40 cm",
+  "500": "W:50 x H:45 x B:40 cm",
+  "600": "W:60 x H:45 x B:40 cm",
+  "800": "W:80 x H:45 x B:40 cm",
 };
 
 const countertopDimensionsText = {
-  "600": "W:60 x H:1 x D:46 cm",
-  "800": "W:80 x H:1 x D:46 cm",
+  "600": "W:60 x H:1 x B:46 cm",
+  "800": "W:80 x H:1 x B:46 cm",
 };
 
 const insertBasinDimensionsText = {
   "500": {
-    ceramic: "W:51 x H:16 x D:40 cm",
-    glass: "W:51 x H:15 x D:40 cm",
+    ceramic: "W:51 x H:16 x B:40 cm",
+    glass: "W:51 x H:15 x B:40 cm",
   },
   "600": {
-    ceramic: "W:60 x H:16 x D:40 cm",
-    glass: "W:60 x H:15 x D:40 cm",
+    ceramic: "W:60 x H:16 x B:40 cm",
+    glass: "W:60 x H:15 x B:40 cm",
   },
   "800": {
-    ceramic: "W:80 x H:16 x D:40 cm",
-    glass: "W:80 x H:15 x D:40 cm",
+    ceramic: "W:80 x H:16 x B:40 cm",
+    glass: "W:80 x H:15 x B:40 cm",
   },
 };
 
 const basinDimensionsText = {
-  rectangular: "W:46 x H:13 x D:32 cm",
-  round: "W:36 x H:12 x D:36 cm",
+  rectangular: "W:46 x H:13 x B:32 cm",
+  round: "W:36 x H:12 x B:36 cm",
 };
 
 const PopUpInfos: Record<string, PopUpInfo> = {
