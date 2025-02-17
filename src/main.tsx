@@ -37,6 +37,14 @@ createRoot(document.getElementById("root")!).render(
               },
             },
           },
+          Modal: {
+            styles: {
+              title: {
+                fontSize: "1.875rem", // text-3xl
+                fontWeight: 700, // font-bold
+              },
+            },
+          },
         },
       }}
     >

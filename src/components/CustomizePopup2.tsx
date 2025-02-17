@@ -112,41 +112,42 @@ const CustomizePopUp: React.FC = () => {
   };
 
   return (
-    <Modal
-      opened={opened}
-      onClose={handleClose}
-      title={<p className="text-3xl font-bold">{popUpInfo.title}</p>}
-      centered
-      classNames={{
-        content: "sm:left-4 sm:absolute sm:w-[400px]",
-      }}
-    >
-      <div className="flex flex-col gap-8">
-        <Text>{popUpInfo.subtitle}</Text>
-        {popUpInfo.sections
-          ?.filter((section) => !section.hideIf?.(choiceMap))
-          ?.map((section) => {
-            return (
-              <div className="flex flex-col gap-4" key={section.title}>
-                <Title order={4}>{section.title}</Title>
-                <div className="grid auto-rows-fr grid-cols-3 items-center justify-center gap-4">
-                  {section.choices
-                    ?.filter((choice) => !choice.hideIf?.(choiceMap))
-                    ?.map((choice) => renderChoice(section, choice))}
+    <Modal.Root opened={opened} onClose={handleClose} centered keepMounted>
+      <Modal.Overlay />
+      <Modal.Content className="sm:absolute sm:left-4 sm:w-[400px]">
+        <Modal.Header>
+          <Modal.Title>{popUpInfo.title}</Modal.Title>
+          <Modal.CloseButton />
+        </Modal.Header>
+        <Modal.Body>
+          <div className="flex flex-col gap-8">
+            <Text>{popUpInfo.subtitle}</Text>
+            {popUpInfo.sections
+              ?.filter((section) => !section.hideIf?.(choiceMap))
+              ?.map((section) => {
+                return (
+                  <div className="flex flex-col gap-4" key={section.title}>
+                    <Title order={4}>{section.title}</Title>
+                    <div className="grid auto-rows-fr grid-cols-3 items-center justify-center gap-4">
+                      {section.choices
+                        ?.filter((choice) => !choice.hideIf?.(choiceMap))
+                        ?.map((choice) => renderChoice(section, choice))}
 
-                  {section.groupChoices
-                    ?.filter((group) => !group.hideIf?.(choiceMap))
-                    ?.map((group) => {
-                      return group.choices.map((choice) =>
-                        renderChoice(section, choice),
-                      );
-                    })}
-                </div>
-              </div>
-            );
-          })}
-      </div>
-    </Modal>
+                      {section.groupChoices
+                        ?.filter((group) => !group.hideIf?.(choiceMap))
+                        ?.map((group) => {
+                          return group.choices.map((choice) =>
+                            renderChoice(section, choice),
+                          );
+                        })}
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        </Modal.Body>
+      </Modal.Content>
+    </Modal.Root>
   );
 };
 
