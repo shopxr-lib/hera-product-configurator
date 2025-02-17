@@ -14,6 +14,7 @@ export enum FurnitureType {
   Popup = 7,
   Handle = 8,
   Stand = 9,
+  Drawer = 10,
 }
 
 type Triplet = [number, number, number];
@@ -101,6 +102,10 @@ export type VanityCabinetChoice =
   | {
       type: "stand";
       value: string;
+    }
+  | {
+      type: "drawer";
+      value: boolean;
     };
 
 const choiceTypeToFurnitureTypeMap: Partial<Record<ChoiceType, FurnitureType>> =
@@ -114,6 +119,7 @@ const choiceTypeToFurnitureTypeMap: Partial<Record<ChoiceType, FurnitureType>> =
     tap: FurnitureType.BasinTap,
     handle: FurnitureType.Handle,
     stand: FurnitureType.Stand,
+    drawer: FurnitureType.Drawer,
   };
 
 export type ChoiceType = VanityCabinetChoice["type"];
@@ -163,6 +169,7 @@ type StoreState = {
       type: Choice["type"];
       value: any;
       preserveSelection?: boolean;
+      skipFurniture?: boolean;
     },
     source?: string,
   ) => void;
@@ -1816,7 +1823,7 @@ const useStore = create<StoreState>()(
         };
         const newChoiceMap = { ...currentState.config[productSetId].choiceMap };
 
-        if (furnitureType) {
+        if (furnitureType && !choice.skipFurniture) {
           const furniture = allFurnitures.find(
             (furniture) => furniture.key === choice.value,
           );

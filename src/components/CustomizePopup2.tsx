@@ -53,6 +53,7 @@ const CustomizePopUp: React.FC = () => {
             type: section.type,
             value: firstChoice.value,
             preserveSelection: firstChoice.preserveSelection,
+            skipFurniture: firstChoice.skipFurniture,
           },
           "firstChoice",
         );
@@ -87,13 +88,14 @@ const CustomizePopUp: React.FC = () => {
             type: section.type,
             value: choice.value,
             preserveSelection: choice.preserveSelection,
+            skipFurniture: choice.skipFurniture,
           });
         }}
       >
         {choice.image ? (
           <div className="relative w-full pb-[100%]">
             <img
-              className="absolute top-0 left-0 h-full w-full object-cover"
+              className="absolute top-0 left-0 h-full w-full object-contain"
               src={choice.image}
               alt={choice.title}
             />
@@ -2025,6 +2027,36 @@ const PopUpInfos: Record<string, PopUpInfo> = {
           },
         ],
       },
+      {
+        title: "Drawer",
+        type: "drawer",
+        hideIf: (choiceMap) =>
+          !(choiceMap.stand && choiceMap.breadth?.value !== 40),
+        transition: [
+          {
+            eventType: "breadth",
+            value: 40,
+            to: null,
+            preserveSelection: true,
+            skipFurniture: true,
+          },
+        ],
+        choices: [
+          {
+            title: "No Drawer",
+            preserveSelection: true,
+            image: "/images/nil-selection.webp",
+            skipFurniture: true,
+            value: null,
+          },
+          {
+            title: "Include Drawer",
+            image: "/images/drawer/Drawer.webp",
+            skipFurniture: true,
+            value: true,
+          },
+        ],
+      },
     ],
   },
 };
@@ -2057,6 +2089,7 @@ type SectionChoice = {
   //eslint-disable-next-line
   value: any;
   preserveSelection?: boolean;
+  skipFurniture?: boolean;
   title: string;
   subtitle?: string;
   image?: string;
@@ -2070,6 +2103,7 @@ type Transition = {
   value?: any;
   to: any;
   preserveSelection?: boolean;
+  skipFurniture?: boolean;
 };
 
 Object.values(PopUpInfos).forEach((popUpInfo) => {
@@ -2135,6 +2169,7 @@ function createCallbackFunction(
             // eslint-disable-next-line
             value: transition.to as any,
             preserveSelection: transition.preserveSelection,
+            skipFurniture: transition.skipFurniture,
           },
           `transition/${transition.eventType}/${eventSource}`,
         );
