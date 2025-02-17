@@ -15,6 +15,7 @@ import { clientId } from "./lib/constants";
 import { useEffect } from "react";
 import useStore from "./store/useStore";
 import { IconRuler } from "@tabler/icons-react";
+import { cn } from "./lib/utils";
 
 function App() {
   const service = useService();
@@ -34,6 +35,7 @@ function App() {
     },
   });
   const toggleShowDimension = useStore((state) => state.toggleShowDimension);
+  const showDimension = useStore((state) => state.showDimension);
 
   useEffect(() => {
     if (!data) {
@@ -46,10 +48,17 @@ function App() {
   return (
     <>
       <button
-        className="absolute top-4 left-4 z-20 rounded-md bg-white p-2"
+        className={"absolute top-4 left-4 z-20 rounded-md bg-white p-2"}
         onClick={toggleShowDimension}
       >
-        <IconRuler size={32} color="#868686" />
+        <div
+          className={cn(
+            "hover:border-brand/80 rounded-md border-2 border-transparent p-1",
+            showDimension && "border-brand",
+          )}
+        >
+          <IconRuler size={32} color="#868686" className="" />
+        </div>
       </button>
       <Canvas />
       <Customize />
