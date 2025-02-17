@@ -29,6 +29,15 @@ createRoot(document.getElementById("root")!).render(
           ],
         },
         primaryColor: "brand",
+        components: {
+          TextInput: {
+            styles: {
+              input: {
+                fontSize: "1rem", // disable auto-zoom on mobile
+              },
+            },
+          },
+        },
       }}
     >
       <Notifications />
