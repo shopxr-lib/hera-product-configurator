@@ -16,6 +16,7 @@ import * as THREE from "three";
 import { Html, useHelper } from "@react-three/drei";
 import { HtmlProps } from "@react-three/drei/web/Html";
 import { useFurnitureMap } from "../lib/hooks/useFurnitureMap";
+import { isMobile } from "react-device-detect";
 
 const Room = () => {
   const productSetId = useStore((state) => state.currentProductSetId);
@@ -161,32 +162,37 @@ const Room = () => {
       {productSetId > 0 && renderFurniture()}
       {showDimension && (
         <>
+          {/* Width */}
           <Annotation
             position={[
-              center[0],
-              center[1] - dimensions[1] / 2,
+              center[0] - 0.05,
+              center[1] - dimensions[1] / 2 + 0.02,
               center[2] + dimensions[2] / 2,
             ]}
           >
-            {`W: ${(dimensions[0] * 100).toFixed(0)}cm`}
+            {`${(dimensions[0] * 100).toFixed(0)}cm`}
           </Annotation>
+
+          {/* Height */}
           <Annotation
             position={[
-              center[0] - dimensions[0] / 2,
+              center[0] - dimensions[0] / 2 - 0.05,
               center[1],
               center[2] + dimensions[2] / 2,
             ]}
           >
-            {`H: ${(dimensions[1] * 100).toFixed(0)}cm`}
+            {`${(dimensions[1] * 100).toFixed(0)}cm`}
           </Annotation>
+
+          {/* Depth */}
           <Annotation
             position={[
-              center[0] - dimensions[0] / 2,
+              center[0] - dimensions[0] / 2 - 0.05,
               center[1] - dimensions[1] / 2 + 0.1,
               center[2],
             ]}
           >
-            {`D: ${(dimensions[2] * 100).toFixed(0)}cm`}
+            {`${(dimensions[2] * 100).toFixed(0)}cm`}
           </Annotation>
         </>
       )}
@@ -201,8 +207,8 @@ function Annotation({
   children: React.ReactNode;
 } & HtmlProps) {
   return (
-    <Html {...props} transform zIndexRange={[10, 0]}>
-      <div className="annotation">{children}</div>
+    <Html {...props} zIndexRange={[10, 0]} distanceFactor={isMobile ? 1 : 2}>
+      <div className="rounded-md bg-white p-2">{children}</div>
     </Html>
   );
 }
