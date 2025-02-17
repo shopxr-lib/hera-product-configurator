@@ -77,8 +77,13 @@ const ShoppingCartPopUp = () => {
       title={<p className="text-xl font-bold">Your Cart</p>}
       position="right"
       padding="xl"
+      styles={{
+        body: {
+          height: "calc(100% - 92px)", // to offset the sticky header size
+        },
+      }}
     >
-      <div className="flex flex-col gap-4">
+      <div className="flex h-full flex-col gap-4">
         <div className="flex flex-col gap-2">
           <div className="flex justify-between">
             <Title order={5}>Items</Title>
@@ -182,7 +187,9 @@ const ShoppingCartPopUp = () => {
           </div>
         </div>
 
-        <Button onClick={openFormModal}>Save Design</Button>
+        <Button className="mt-auto" onClick={openFormModal}>
+          Save Design
+        </Button>
       </div>
 
       <Modal
