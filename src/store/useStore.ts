@@ -180,7 +180,7 @@ type Fee = {
 export type FeeType = "delivery" | "installation";
 
 export const deliveryFee: Fee = {
-  name: "Delivery",
+  name: "Free Delivery (above $500)",
   type: "delivery",
   price: 0, // free above $500
 };
