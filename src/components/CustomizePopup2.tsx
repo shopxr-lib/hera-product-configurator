@@ -1,19 +1,72 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 import useStore, {
   ChoiceMap,
   ChoiceType,
   EventCallback,
-  eventSystem,
   VanityCabinetProductSetId,
 } from "../store/useStore";
 import { Modal, Text, Title } from "@mantine/core";
 import { useChoiceMap } from "../lib/hooks/useChoiceMap";
+import { useEventSystem } from "../lib/hooks/useEventSystem";
 
 const CustomizePopUp: React.FC = () => {
   const customizePopUpKey = useStore((state) => state.customizePopUpKey);
   const opened = useStore((state) => state.modals.customize);
   const setModal = useStore((state) => state.setModal);
+
+  const eventSystem = useEventSystem();
+  const eventSystemLoaded = useRef(false);
+
+  useEffect(() => {
+    if (eventSystemLoaded.current) {
+      return;
+    }
+
+    Object.values(PopUpInfos).forEach((popUpInfo) => {
+      popUpInfo.sections.forEach((section) => {
+        if (section.transition) {
+          section.transition.forEach((transition) => {
+            const callback = createCallbackFunction(
+              popUpInfo,
+              transition,
+              section,
+            );
+            eventSystem.subscribe(transition.eventType, callback);
+          });
+        }
+        section.choices?.forEach((choice) => {
+          if (choice.transition) {
+            choice.transition.forEach((transition) => {
+              const callback = createCallbackFunction(
+                popUpInfo,
+                transition,
+                section,
+                choice,
+              );
+              eventSystem.subscribe(transition.eventType, callback);
+            });
+          }
+        });
+        section.groupChoices?.forEach((groupChoice) => {
+          groupChoice.choices.forEach((choice) => {
+            if (choice.transition) {
+              choice.transition.forEach((transition) => {
+                const callback = createCallbackFunction(
+                  popUpInfo,
+                  transition,
+                  section,
+                  choice,
+                );
+                eventSystem.subscribe(transition.eventType, callback);
+              });
+            }
+          });
+        });
+      });
+    });
+    eventSystemLoaded.current = true;
+  }, [eventSystem]);
 
   const productSetId = useStore((state) => state.currentProductSetId);
 
@@ -2105,45 +2158,6 @@ type Transition = {
   preserveSelection?: boolean;
   skipFurniture?: boolean;
 };
-
-Object.values(PopUpInfos).forEach((popUpInfo) => {
-  popUpInfo.sections.forEach((section) => {
-    if (section.transition) {
-      section.transition.forEach((transition) => {
-        const callback = createCallbackFunction(popUpInfo, transition, section);
-        eventSystem.subscribe(transition.eventType, callback);
-      });
-    }
-    section.choices?.forEach((choice) => {
-      if (choice.transition) {
-        choice.transition.forEach((transition) => {
-          const callback = createCallbackFunction(
-            popUpInfo,
-            transition,
-            section,
-            choice,
-          );
-          eventSystem.subscribe(transition.eventType, callback);
-        });
-      }
-    });
-    section.groupChoices?.forEach((groupChoice) => {
-      groupChoice.choices.forEach((choice) => {
-        if (choice.transition) {
-          choice.transition.forEach((transition) => {
-            const callback = createCallbackFunction(
-              popUpInfo,
-              transition,
-              section,
-              choice,
-            );
-            eventSystem.subscribe(transition.eventType, callback);
-          });
-        }
-      });
-    });
-  });
-});
 
 function createCallbackFunction(
   popupInfo: PopUpInfo,

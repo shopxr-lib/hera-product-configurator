@@ -1888,7 +1888,7 @@ const useStore = create<StoreState>()(
 
 export type EventCallback = (event: ChoiceType, value: any) => void;
 
-class EventSystem {
+export class EventSystem {
   listeners: Record<string, EventCallback[]> = {};
 
   subscribe(event: ChoiceType, callback: EventCallback) {
