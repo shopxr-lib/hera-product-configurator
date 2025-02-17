@@ -3,6 +3,7 @@ import useStore, { FurnitureType, MaterialMap } from "../store/useStore";
 import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFurnitureMap } from "../lib/hooks/useFurnitureMap";
+import { useChoiceMap } from "../lib/hooks/useChoiceMap";
 
 type Props = {
   path: string;
@@ -21,6 +22,7 @@ const Tap: React.FC<Props> = ({ materials, path, productSetId, ...rest }) => {
 
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
   const furnitureMap = useFurnitureMap(productSetId);
+  const choiceMap = useChoiceMap(productSetId);
   const insertBasin = furnitureMap[FurnitureType.InsertBasin];
   const self = furnitureMap[FurnitureType.BasinTap];
 
@@ -45,8 +47,6 @@ const Tap: React.FC<Props> = ({ materials, path, productSetId, ...rest }) => {
 
     const position: [number, number, number] = [0, 0, 0];
 
-    // counter-top
-
     if (self?.key.includes("8101")) {
       position[0] = 0;
       position[1] = 0.185;
@@ -62,7 +62,7 @@ const Tap: React.FC<Props> = ({ materials, path, productSetId, ...rest }) => {
     } else if (self?.key.includes("8202")) {
       position[0] = 0;
       position[1] = 0.185;
-      position[2] = -0.125;
+      position[2] = -0.13;
     } else if (self?.key.includes("8301")) {
       position[0] = 0;
       position[1] = 0.185;
@@ -106,10 +106,23 @@ const Tap: React.FC<Props> = ({ materials, path, productSetId, ...rest }) => {
           }
         }
       }
+    } else {
+      if (choiceMap.width?.value === 60) {
+        position[2] += -0.01;
+      } else if (choiceMap.width?.value === 80) {
+        position[1] -= 0.007;
+        position[2] += -0.03;
+      }
     }
 
     setFurniturePosition(productSetId, FurnitureType.BasinTap, position);
-  }, [insertBasin, productSetId, setFurniturePosition, self?.key]);
+  }, [
+    insertBasin,
+    productSetId,
+    setFurniturePosition,
+    choiceMap.width,
+    self?.key,
+  ]);
 
   return (
     <primitive
