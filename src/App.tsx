@@ -9,12 +9,12 @@ import ShoppingCartFloating from "./components/ShoppingCartFloating";
 import ShoppingCartDrawer from "./components/ShoppingCartDrawer";
 import Branding from "./components/Branding";
 import ServerSync from "./components/ServerSync";
-import { Leva } from "leva";
 import { useService } from "./lib/hooks/useService";
 import { useQuery } from "@tanstack/react-query";
 import { clientId } from "./lib/constants";
 import { useEffect } from "react";
 import useStore from "./store/useStore";
+import { IconRuler } from "@tabler/icons-react";
 
 function App() {
   const service = useService();
@@ -33,6 +33,7 @@ function App() {
       return res;
     },
   });
+  const toggleShowDimension = useStore((state) => state.toggleShowDimension);
 
   useEffect(() => {
     if (!data) {
@@ -44,16 +45,12 @@ function App() {
   }, [data, setCurrentProductSetId, currentProductSetId]);
   return (
     <>
-      <div className="absolute top-4 right-48 z-50">
-        <Leva
-          fill
-          collapsed={false}
-          hideCopyButton
-          titleBar={{
-            title: "Customize",
-          }}
-        />
-      </div>
+      <button
+        className="absolute top-4 left-4 z-50 rounded-md bg-white p-2"
+        onClick={toggleShowDimension}
+      >
+        <IconRuler size={32} color="#868686" />
+      </button>
       <Canvas />
       <Customize />
       <CustomizePopUp />

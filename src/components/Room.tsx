@@ -15,7 +15,6 @@ import Stand from "./Stand";
 import * as THREE from "three";
 import { Html, useHelper } from "@react-three/drei";
 import { HtmlProps } from "@react-three/drei/web/Html";
-import { useControls } from "leva";
 import { useFurnitureMap } from "../lib/hooks/useFurnitureMap";
 
 const Room = () => {
@@ -27,7 +26,7 @@ const Room = () => {
     0, 0, 0,
   ]);
   const [center, setCenter] = useState<[number, number, number]>([0, 0, 0]);
-  const { showDimension } = useControls({ showDimension: false });
+  const showDimension = useStore((state) => state.showDimension);
 
   useEffect(() => {
     if (groupRef.current) {
@@ -41,6 +40,7 @@ const Room = () => {
     }
   }, [furnitureMap]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useHelper(showDimension && (groupRef as any), THREE.BoxHelper, "black");
 
   const renderFurniture = () => {

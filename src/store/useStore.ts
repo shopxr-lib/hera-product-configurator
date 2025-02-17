@@ -131,6 +131,8 @@ export type FurnitureMap = Partial<Record<FurnitureType, Furniture>>;
 type StoreState = {
   currentProductSetId: number;
   setCurrentProductSetId: (id: number) => void;
+  showDimension: boolean;
+  toggleShowDimension: () => void;
   modals: Record<ModalType, boolean>;
   setModal: (modal: ModalType, open: boolean) => void;
   cartItems: Omit<Furniture, "position" | "dimensions">[];
@@ -1660,6 +1662,20 @@ function isFurnitureType(key: any): key is keyof typeof defaultFurnitures {
 const useStore = create<StoreState>()(
   devtools(
     subscribeWithSelector((set, get) => ({
+      showDimension: false,
+      toggleShowDimension: () =>
+        set(
+          (state) => {
+            return {
+              ...state,
+              showDimension: !state.showDimension,
+            };
+          },
+          undefined,
+          {
+            type: "toggleShowDimension",
+          },
+        ),
       currentProductSetId: 0,
       setCurrentProductSetId(id) {
         set({ currentProductSetId: id }, undefined, {
