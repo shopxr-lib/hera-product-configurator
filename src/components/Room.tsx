@@ -170,7 +170,7 @@ const Room = () => {
               center[2] + dimensions[2] / 2,
             ]}
           >
-            {`${(dimensions[0] * 100).toFixed(0)}cm`}
+            {`${(dimensions[0] * 100).toFixed(0)} cm`}
           </Annotation>
 
           {/* Height */}
@@ -181,7 +181,7 @@ const Room = () => {
               center[2] + dimensions[2] / 2,
             ]}
           >
-            {`${(dimensions[1] * 100).toFixed(0)}cm`}
+            {`${(dimensions[1] * 100).toFixed(0)} cm`}
           </Annotation>
 
           {/* Depth */}
@@ -192,7 +192,7 @@ const Room = () => {
               center[2],
             ]}
           >
-            {`${(dimensions[2] * 100).toFixed(0)}cm`}
+            {`${(dimensions[2] * 100).toFixed(0)} cm`}
           </Annotation>
         </>
       )}
@@ -207,7 +207,14 @@ function Annotation({
   children: React.ReactNode;
 } & HtmlProps) {
   return (
-    <Html {...props} zIndexRange={[10, 0]} distanceFactor={isMobile ? 1 : 2}>
+    <Html
+      {...props}
+      zIndexRange={[10, 0]}
+      distanceFactor={isMobile ? 1 : 2}
+      style={{
+        position: "relative", // set to any value other than "absolute" so that the text below is not wrapped
+      }}
+    >
       <div className="rounded-md bg-white p-2">{children}</div>
     </Html>
   );
