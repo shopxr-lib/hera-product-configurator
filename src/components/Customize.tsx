@@ -28,7 +28,7 @@ const Customize: React.FC<Props> = () => {
   );
 
   return (
-    <div className="fixed bottom-12 flex items-center space-x-2 rounded-md bg-white p-2 sm:bottom-4 sm:left-4">
+    <div className="fixed bottom-12 z-20 flex items-center space-x-2 rounded-md bg-white p-2 sm:bottom-4 sm:left-4">
       {data?.product_sets.map((productSet) => {
         const isActive = productSet.id === currentProductSetId;
         return (

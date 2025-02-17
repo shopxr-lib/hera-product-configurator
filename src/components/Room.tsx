@@ -201,7 +201,7 @@ function Annotation({
   children: React.ReactNode;
 } & HtmlProps) {
   return (
-    <Html {...props} transform>
+    <Html {...props} transform zIndexRange={[10, 0]}>
       <div className="annotation">{children}</div>
     </Html>
   );

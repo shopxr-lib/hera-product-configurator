@@ -46,7 +46,7 @@ function App() {
   return (
     <>
       <button
-        className="absolute top-4 left-4 z-50 rounded-md bg-white p-2"
+        className="absolute top-4 left-4 z-20 rounded-md bg-white p-2"
         onClick={toggleShowDimension}
       >
         <IconRuler size={32} color="#868686" />
