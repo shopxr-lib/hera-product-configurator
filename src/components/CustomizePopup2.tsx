@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 import useStore, {
@@ -105,6 +106,7 @@ const CustomizePopUp: React.FC = () => {
           {
             type: section.type,
             value: firstChoice.value,
+            name: firstChoice.title,
             preserveSelection: firstChoice.preserveSelection,
             skipFurniture: firstChoice.skipFurniture,
           },
@@ -140,6 +142,7 @@ const CustomizePopUp: React.FC = () => {
           addChoice(Number(productSetId), {
             type: section.type,
             value: choice.value,
+            name: choice.title,
             preserveSelection: choice.preserveSelection,
             skipFurniture: choice.skipFurniture,
           });
@@ -2103,7 +2106,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             value: null,
           },
           {
-            title: "Include Drawer",
+            title: "With Drawer",
             image: "/images/drawer/Drawer.webp",
             skipFurniture: true,
             value: true,
@@ -2139,7 +2142,6 @@ type ChoiceGroup = {
 };
 
 type SectionChoice = {
-  //eslint-disable-next-line
   value: any;
   preserveSelection?: boolean;
   skipFurniture?: boolean;
@@ -2152,7 +2154,6 @@ type SectionChoice = {
 
 type Transition = {
   eventType: ChoiceType;
-  // eslint-disable-next-line
   value?: any;
   to: any;
   preserveSelection?: boolean;
@@ -2180,8 +2181,8 @@ function createCallbackFunction(
           popupInfo.productSetId,
           {
             type: section.type,
-            // eslint-disable-next-line
-            value: transition.to as any,
+            name: choice?.title ?? transition.to,
+            value: transition.to,
             preserveSelection: transition.preserveSelection,
             skipFurniture: transition.skipFurniture,
           },

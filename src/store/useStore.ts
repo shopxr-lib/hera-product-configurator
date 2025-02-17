@@ -61,51 +61,63 @@ export type VanityCabinetChoice =
   | {
       type: "width";
       value: number;
+      name: string;
     }
   | {
       type: "breadth";
       value: number;
+      name: string;
     }
   | {
       type: "vanity-color";
       value: string;
+      name: string;
     }
   | {
       type: "top";
       value: "insert-basin" | "counter-top";
+      name: string;
     }
   | {
       type: "insert-basin";
       value: string;
+      name: string;
     }
-  | { type: "counter-top"; value: string }
+  | { type: "counter-top"; value: string; name: string }
   | {
       type: "basin";
       value: string;
+      name: string;
     }
   | {
       type: "overflow-ring";
       value: string;
+      name: string;
     }
   | {
       type: "popup";
       value: string;
+      name: string;
     }
   | {
       type: "tap";
       value: string;
+      name: string;
     }
   | {
       type: "handle";
       value: string;
+      name: string;
     }
   | {
       type: "stand";
       value: string;
+      name: string;
     }
   | {
       type: "drawer";
       value: boolean;
+      name: string;
     };
 
 const choiceTypeToFurnitureTypeMap: Partial<Record<ChoiceType, FurnitureType>> =
@@ -168,6 +180,7 @@ type StoreState = {
     choice: {
       type: Choice["type"];
       value: any;
+      name: string;
       preserveSelection?: boolean;
       skipFurniture?: boolean;
     },
@@ -1613,6 +1626,13 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     type: FurnitureType.Stand,
     path: "/models/stand/Vanity-Cabinet-Stand-800mm.glb",
   },
+
+  {
+    key: "inner-drawer",
+    name: "Drawer",
+    type: FurnitureType.Drawer,
+    path: "",
+  },
 ];
 
 const defaultFurnitures = {
@@ -1626,39 +1646,47 @@ const defaultFurnitures = {
 };
 
 const defaultChoiceMap = {
-  breadth: { type: "breadth", value: 46 },
-  width: { type: "width", value: 60 },
+  breadth: { type: "breadth", value: 46, name: "Breadth 46" },
+  width: { type: "width", value: 60, name: "Width 60" },
   "vanity-color": {
     type: "vanity-color",
     value: defaultFurnitures[FurnitureType.VanityCabinet],
+    name: "Birch",
   },
   top: {
     type: "top",
     value: "insert-basin",
+    name: "Insert Basin",
   },
   "insert-basin": {
     type: "insert-basin",
     value: defaultFurnitures[FurnitureType.InsertBasin],
+    name: "Ceramic",
   },
   "overflow-ring": {
     type: "overflow-ring",
     value: defaultFurnitures[FurnitureType.OverflowRing],
+    name: "Chrome",
   },
   popup: {
     type: "popup",
     value: defaultFurnitures[FurnitureType.Popup],
+    name: "Popup Chrome",
   },
   tap: {
     type: "tap",
     value: defaultFurnitures[FurnitureType.BasinTap],
+    name: "Tap Chrome 8101",
   },
   handle: {
     type: "handle",
     value: defaultFurnitures[FurnitureType.Handle],
+    name: "Handle Chrome 60cm",
   },
   stand: {
     type: "stand",
     value: defaultFurnitures[FurnitureType.Stand],
+    name: "Stand 60cm",
   },
 } satisfies ChoiceMap;
 
@@ -1846,6 +1874,7 @@ const useStore = create<StoreState>()(
           newChoiceMap[choice.type] = {
             type: choice.type,
             value: choice.value,
+            name: choice.name,
           };
         }
 
@@ -1991,6 +2020,13 @@ export const useCartItems = () => {
                 name: furniture.name,
                 price: calculatePrice(choiceMap, 1 << furnitureType),
               });
+            } else {
+              // some choices have no associated furniture
+              cartItems.push({
+                key: choiceMap[key]?.value as any,
+                name: choiceMap[key]?.name ?? "",
+                price: calculatePrice(choiceMap, 1 << furnitureType),
+              });
             }
           }
         }
@@ -2080,6 +2116,20 @@ function calculatePrice(choiceMap: ChoiceMap, furnitureTypeBitMask: number) {
   ) {
     if (choiceMap.stand?.value) {
       price += 98;
+    }
+  }
+
+  // drawer
+  if (
+    furnitureTypeBitMask & (1 << FurnitureType.Drawer) ||
+    furnitureTypeBitMask === 0
+  ) {
+    if (choiceMap.drawer?.value) {
+      if (choiceMap.width?.value === 60) {
+        price += 138;
+      } else if (choiceMap.width?.value === 80) {
+        price += 178;
+      }
     }
   }
 
