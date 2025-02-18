@@ -191,6 +191,7 @@ const CustomizePopUp: React.FC = () => {
         <Modal.Body>
           <div className="flex flex-col gap-8">
             <Text>{popUpInfo.subtitle}</Text>
+            {popUpInfo.image && <img src={popUpInfo.image} />}
             {popUpInfo.sections
               ?.filter((section) => !section.hideIf?.(choiceMap))
               ?.map((section) => {
@@ -259,6 +260,7 @@ const basinDimensionsText = {
 const PopUpInfos: Record<string, PopUpInfo> = {
   vanitycabinet: {
     productSetId: VanityCabinetProductSetId,
+    image: "/images/vanity-cabinet/HERA-Vanity-Cabinet-Graphic.webp",
     title: "Vanity Cabinet Set",
     subtitle:
       "Mix & Match your very own vanity cabinet set & add it into the scene.",
@@ -2166,6 +2168,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
 type PopUpInfo = {
   title: string;
   subtitle: string;
+  image?: string;
   buttonText: string;
   sections: Section[];
   productSetId: number;
