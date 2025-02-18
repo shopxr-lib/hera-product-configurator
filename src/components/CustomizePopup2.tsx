@@ -2,6 +2,11 @@
 import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 import useStore, {
+  calculateBasinPrice,
+  calculateDrawerPrice,
+  calculateStandPrice,
+  calculateTapPrice,
+  calculateVanityCabinetPrice,
   ChoiceMap,
   ChoiceType,
   EventCallback,
@@ -10,6 +15,7 @@ import useStore, {
 import { Modal, Text, Title } from "@mantine/core";
 import { useChoiceMap } from "../lib/hooks/useChoiceMap";
 import { useEventSystem } from "../lib/hooks/useEventSystem";
+import { formatPrice } from "../lib/utils";
 
 const CustomizePopUp: React.FC = () => {
   const customizePopUpKey = useStore((state) => state.customizePopUpKey);
@@ -165,6 +171,11 @@ const CustomizePopUp: React.FC = () => {
             {choice.subtitle}
           </Text>
         )}
+        {section.calcPriceFunction && (
+          <Text size="xs" c="dimmed">
+            {formatPrice(section.calcPriceFunction(choice.value, choiceMap))}
+          </Text>
+        )}
       </button>
     );
   };
@@ -298,6 +309,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         title: "Colors",
         type: "vanity-color",
         hideIf: (choiceMap) => !choiceMap.breadth || !choiceMap.width,
+        calcPriceFunction: calculateVanityCabinetPrice,
         groupChoices: [
           {
             name: "Breadth 40cm, Width 50cm",
@@ -1459,6 +1471,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             to: null,
           },
         ],
+        calcPriceFunction: calculateBasinPrice,
         choices: [
           {
             value: "basin-rectangular-ceramic-blush",
@@ -1576,53 +1589,63 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             !choiceMap["insert-basin"]) ||
           (choiceMap["top"]?.value === "counter-top" && !choiceMap["basin"]),
         transition: [{ eventType: "top", to: null }],
+        calcPriceFunction: calculateTapPrice,
         choices: [
           {
             title: "Chrome 8101",
+            subtitle: `Spout Height: 14 cm`,
             value: "tap-chrome-8101",
             image: "/images/tap/tap-chrome-8101-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Chrome 8102",
+            subtitle: "Spout Height: 26 cm",
             value: "tap-chrome-8102",
             image: "/images/tap/tap-chrome-8102-large.webp",
           },
           {
             title: "Chrome 8201",
+            subtitle: `Spout Height: 9 cm`,
             value: "tap-chrome-8201",
             image: "/images/tap/tap-chrome-8201-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Chrome 8202",
+            subtitle: `Spout Height: 25 cm`,
             value: "tap-chrome-8202",
             image: "/images/tap/tap-chrome-8202-large.webp",
           },
           {
             title: "Chrome 8301",
+            subtitle: `Spout Height: 12 cm`,
             value: "tap-chrome-8301",
             image: "/images/tap/tap-chrome-8301-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Chrome 8302",
+            subtitle: `Spout Height: 22.5 cm`,
             value: "tap-chrome-8302",
             image: "/images/tap/tap-chrome-8302-large.webp",
           },
           {
             title: "Gun Metal 8101",
+            subtitle: `Spout Height: 14 cm`,
             value: "tap-gun-metal-8101",
             image: "/images/tap/tap-gun-metal-8101-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Gun Metal 8102",
+            subtitle: `Spout Height: 26 cm`,
             value: "tap-gun-metal-8102",
             image: "/images/tap/tap-gun-metal-8102-large.webp",
           },
           {
             title: "Gun Metal 8201",
+            subtitle: `Spout Height: 9 cm`,
             value: "tap-gun-metal-8201",
             image: "/images/tap/tap-gun-metal-8201-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
@@ -1630,99 +1653,117 @@ const PopUpInfos: Record<string, PopUpInfo> = {
           {
             title: "Gun Metal 8202",
             value: "tap-gun-metal-8202",
+            subtitle: `Spout Height: 25 cm`,
             image: "/images/tap/tap-gun-metal-8202-large.webp",
           },
           {
             title: "Gun Metal 8301",
+            subtitle: `Spout Height: 12 cm`,
             value: "tap-gun-metal-8301",
             image: "/images/tap/tap-gun-metal-8301-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Gun Metal 8302",
+            subtitle: `Spout Height: 22.5 cm`,
             value: "tap-gun-metal-8302",
             image: "/images/tap/tap-gun-metal-8302-large.webp",
           },
           {
             title: "Matt Black 8101",
+            subtitle: `Spout Height: 14 cm`,
             value: "tap-matt-black-8101",
             image: "/images/tap/tap-matt-black-8101-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Black 8102",
+            subtitle: `Spout Height: 26 cm`,
             value: "tap-matt-black-8102",
             image: "/images/tap/tap-matt-black-8102-large.webp",
           },
           {
             title: "Matt Black 8201",
+            subtitle: `Spout Height: 9 cm`,
             value: "tap-matt-black-8201",
             image: "/images/tap/tap-matt-black-8201-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Black 8202",
+            subtitle: `Spout Height: 25 cm`,
             value: "tap-matt-black-8202",
             image: "/images/tap/tap-matt-black-8202-large.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Black 8301",
+            subtitle: `Spout Height: 12 cm`,
             value: "tap-matt-black-8301",
             image: "/images/tap/tap-matt-black-8301-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Black 8302",
+            subtitle: `Spout Height: 22.5 cm`,
             value: "tap-matt-black-8302",
             image: "/images/tap/tap-matt-black-8302-large.webp",
           },
           {
             title: "Matt Gold 8101",
+            subtitle: `Spout Height: 14 cm`,
             value: "tap-matt-gold-8101",
             image: "/images/tap/tap-matt-gold-8101-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Gold 8102",
+            subtitle: `Spout Height: 26 cm`,
             value: "tap-matt-gold-8102",
             image: "/images/tap/tap-matt-gold-8102-large.webp",
           },
           {
             title: "Matt Gold 8201",
+            subtitle: `Spout Height: 9 cm`,
             value: "tap-matt-gold-8201",
             image: "/images/tap/tap-matt-gold-8201-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Gold 8202",
+            subtitle: `Spout Height: 25 cm`,
             value: "tap-matt-gold-8202",
             image: "/images/tap/tap-matt-gold-8202-large.webp",
           },
           {
             title: "Matt Gold 8301",
+            subtitle: `Spout Height: 12 cm`,
             value: "tap-matt-gold-8301",
             image: "/images/tap/tap-matt-gold-8301-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Gold 8302",
+            subtitle: `Spout Height: 22.5 cm`,
             value: "tap-matt-gold-8302",
             image: "/images/tap/tap-matt-gold-8302-large.webp",
           },
           {
             title: "Rose Gold 8101",
+            subtitle: `Spout Height: 14 cm`,
             value: "tap-rose-gold-8101",
             image: "/images/tap/tap-rose-gold-8101-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Rose Gold 8102",
+            subtitle: `Spout Height: 26 cm`,
             value: "tap-rose-gold-8102",
             image: "/images/tap/tap-rose-gold-8102-large.webp",
           },
           {
             title: "Rose Gold 8201",
+            subtitle: `Spout Height: 9 cm`,
             value: "tap-rose-gold-8201",
             image: "/images/tap/tap-rose-gold-8201-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
@@ -1730,16 +1771,19 @@ const PopUpInfos: Record<string, PopUpInfo> = {
           {
             title: "Rose Gold 8202",
             value: "tap-rose-gold-8202",
+            subtitle: `Spout Height: 25 cm`,
             image: "/images/tap/tap-rose-gold-8202-large.webp",
           },
           {
             title: "Rose Gold 8301",
+            subtitle: `Spout Height: 12 cm`,
             value: "tap-rose-gold-8301",
             image: "/images/tap/tap-rose-gold-8301-small.webp",
             hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Rose Gold 8302",
+            subtitle: `Spout Height: 22.5 cm`,
             value: "tap-rose-gold-8302",
             image: "/images/tap/tap-rose-gold-8302-large.webp",
           },
@@ -2045,6 +2089,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             preserveSelection: true,
           },
         ],
+        calcPriceFunction: calculateStandPrice,
         choices: [
           {
             hideIf: (choiceMap) =>
@@ -2088,6 +2133,7 @@ const PopUpInfos: Record<string, PopUpInfo> = {
         type: "drawer",
         hideIf: (choiceMap) =>
           !(choiceMap.stand && choiceMap.breadth?.value !== 40),
+        calcPriceFunction: calculateDrawerPrice,
         transition: [
           {
             eventType: "breadth",
@@ -2133,6 +2179,7 @@ type Section = {
   groupChoices?: ChoiceGroup[];
   hideIf?: (choiceMap: ChoiceMap) => boolean;
   transition?: Transition[];
+  calcPriceFunction?: (val: string, choiceMap: ChoiceMap) => number;
 };
 
 type ChoiceGroup = {

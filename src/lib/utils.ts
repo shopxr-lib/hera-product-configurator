@@ -21,3 +21,11 @@ export async function to<T, E = Error>(
     return [null, error as E];
   }
 }
+
+export function formatPrice(price: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(price);
+}

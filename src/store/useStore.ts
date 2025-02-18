@@ -2058,82 +2058,105 @@ function calculatePrice(choiceMap: ChoiceMap, furnitureTypeBitMask: number) {
     furnitureTypeBitMask & (1 << FurnitureType.VanityCabinet) ||
     furnitureTypeBitMask === 0
   ) {
-    if (choiceMap.breadth?.value === 46) {
-      if (choiceMap.width?.value === 60) {
-        price += 748;
-      } else if (choiceMap.width?.value === 80) {
-        price += 848;
-      }
-    } else if (choiceMap.breadth?.value === 40) {
-      if (choiceMap.width?.value === 50) {
-        price += 648;
-      } else if (choiceMap.width?.value === 60) {
-        price += 748;
-      } else if (choiceMap.width?.value === 80) {
-        price += 848;
-      }
-    }
+    price += calculateVanityCabinetPrice("", choiceMap);
   }
 
   if (
     furnitureTypeBitMask & (1 << FurnitureType.BasinTap) ||
     furnitureTypeBitMask === 0
   ) {
-    // tap
-    if (
-      String(choiceMap.tap?.value).includes("8101") ||
-      String(choiceMap.tap?.value).includes("8201") ||
-      String(choiceMap.tap?.value).includes("8301")
-    ) {
-      price += 228;
-    } else if (
-      String(choiceMap.tap?.value).includes("8102") ||
-      String(choiceMap.tap?.value).includes("8202") ||
-      String(choiceMap.tap?.value).includes("8302")
-    ) {
-      price += 288;
-    }
+    price += calculateTapPrice(String(choiceMap.tap?.value));
   }
 
   if (
     furnitureTypeBitMask & (1 << FurnitureType.Basin) ||
     furnitureTypeBitMask === 0
   ) {
-    // basin
     if (choiceMap.top?.value === "counter-top") {
-      if (String(choiceMap.basin?.value).includes("rectangular")) {
-        price += 268;
-      } else if (String(choiceMap.basin?.value).includes("round")) {
-        price += 268;
-      }
+      price += calculateBasinPrice(String(choiceMap["counter-top"]?.value));
     }
   }
 
-  // stand
   if (
     furnitureTypeBitMask & (1 << FurnitureType.Stand) ||
     furnitureTypeBitMask === 0
   ) {
-    if (choiceMap.stand?.value) {
-      price += 98;
-    }
+    price += calculateStandPrice((choiceMap.stand?.value as string) ?? "");
   }
 
-  // drawer
   if (
     furnitureTypeBitMask & (1 << FurnitureType.Drawer) ||
     furnitureTypeBitMask === 0
   ) {
-    if (choiceMap.drawer?.value) {
-      if (choiceMap.width?.value === 60) {
-        price += 138;
-      } else if (choiceMap.width?.value === 80) {
-        price += 178;
-      }
-    }
+    price += calculateDrawerPrice(choiceMap.drawer?.value as string, choiceMap);
   }
 
   return price;
+}
+
+export function calculateTapPrice(tap: string) {
+  if (tap.includes("8101") || tap.includes("8201") || tap.includes("8301")) {
+    return 228;
+  } else if (
+    tap.includes("8102") ||
+    tap.includes("8202") ||
+    tap.includes("8302")
+  ) {
+    return 288;
+  }
+
+  return 0;
+}
+
+export function calculateBasinPrice(basin: string) {
+  if (basin.includes("rectangular")) {
+    return 268;
+  } else if (basin.includes("round")) {
+    return 268;
+  }
+  return 0;
+}
+
+export function calculateVanityCabinetPrice(_: string, choiceMap: ChoiceMap) {
+  if (choiceMap.breadth?.value === 46) {
+    if (choiceMap.width?.value === 60) {
+      return 748;
+    } else if (choiceMap.width?.value === 80) {
+      return 848;
+    }
+  } else if (choiceMap.breadth?.value === 40) {
+    if (choiceMap.width?.value === 50) {
+      return 648;
+    } else if (choiceMap.width?.value === 60) {
+      return 748;
+    } else if (choiceMap.width?.value === 80) {
+      return 848;
+    }
+  }
+
+  return 0;
+}
+
+export function calculateStandPrice(val: string | undefined) {
+  if (val) {
+    return 98;
+  }
+
+  return 0;
+}
+
+export function calculateDrawerPrice(
+  val: string | undefined,
+  choiceMap: ChoiceMap,
+) {
+  if (val) {
+    if (choiceMap.width?.value === 60) {
+      return 138;
+    } else if (choiceMap.width?.value === 80) {
+      return 178;
+    }
+  }
+  return 0;
 }
 
 type CartItem = {
