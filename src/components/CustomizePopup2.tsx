@@ -1696,7 +1696,6 @@ const PopUpInfos: Record<string, PopUpInfo> = {
             subtitle: `Spout Height: 25 cm`,
             value: "tap-matt-black-8202",
             image: "/images/tap/tap-matt-black-8202-large.webp",
-            hideIf: (choiceMap) => choiceMap["top"]?.value === "counter-top",
           },
           {
             title: "Matt Black 8301",
