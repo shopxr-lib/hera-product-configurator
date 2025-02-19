@@ -2020,7 +2020,7 @@ export const useCartItems = () => {
                 name: furniture.name,
                 price: calculatePrice(choiceMap, 1 << furnitureType),
               });
-            } else {
+            } else if (choiceMap[key]?.value !== null) {
               // some choices have no associated furniture
               cartItems.push({
                 key: choiceMap[key]?.value as any,
