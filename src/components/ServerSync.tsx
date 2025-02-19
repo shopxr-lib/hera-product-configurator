@@ -23,12 +23,15 @@ const ServerSync = () => {
     enabled: Boolean(sessionKey),
   });
 
-  const setAllConfig = useStore((state) => state.setConfigs);
+  const sync = useStore((state) => state.sync);
   useEffect(() => {
     if (data) {
-      setAllConfig(data.config);
+      sync({
+        config: data.config,
+        metadata: data.metadata,
+      });
     }
-  }, [data, setAllConfig]);
+  }, [data, sync]);
 
   return null;
 };

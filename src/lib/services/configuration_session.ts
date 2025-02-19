@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import { to } from "../utils";
-import { ChoiceMap, FurnitureMap } from "../../store/useStore";
+import { Config, ConfigMetadata } from "../../store/useStore";
 
 export class ConfigurationSession {
   constructor(private _axios: AxiosInstance) {}
@@ -30,10 +30,18 @@ export class ConfigurationSession {
       return [null, e as Error];
     }
 
+    let parsedMetadata: Metadata;
+    try {
+      parsedMetadata = JSON.parse(res.data.metadata);
+    } catch (e) {
+      return [null, e as Error];
+    }
+
     const parsedResponse = {
       id: res.data.id,
       version: res.data.version,
       config: parsedConfig,
+      metadata: parsedMetadata,
     } satisfies ParsedGetConfigurationSessionResponse;
 
     return [parsedResponse as ParsedGetConfigurationSessionResponse, null];
@@ -62,6 +70,7 @@ export class ConfigurationSession {
     const [, err] = await to(
       this._axios.post(`/v1/configuration-session/create`, {
         config: JSON.stringify(request.config),
+        metadata: JSON.stringify(request.metadata),
         contact: request.contact,
         client_id: request.client_id,
       }),
@@ -82,18 +91,14 @@ type GetConfigurationSessionResponse = {
   id: number;
   version: number;
   config: string;
+  metadata: string;
 };
 
 type ParsedGetConfigurationSessionResponse = {
   id: number;
   version: number;
   config: Record<number, ConfigurationSessionConfig>;
-};
-
-export type ConfigurationSessionConfig = {
-  productSetId: number;
-  choiceMap: ChoiceMap;
-  furnitureMap: FurnitureMap;
+  metadata: Metadata;
 };
 
 type UpdateConfigurationSessionRequest = {
@@ -104,6 +109,7 @@ type UpdateConfigurationSessionRequest = {
 
 export type CreateConfigurationSessionRequest = {
   config: Record<number, ConfigurationSessionConfig>;
+  metadata: Metadata;
   contact: Contact;
   client_id: number;
 };
@@ -113,3 +119,6 @@ export type Contact = {
   email: string;
   phone: string;
 };
+
+type ConfigurationSessionConfig = Config;
+type Metadata = ConfigMetadata;

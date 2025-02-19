@@ -144,6 +144,15 @@ export type Config = {
   productSetId: number;
 };
 
+type SyncedData = {
+  config: Record<number, Config>;
+  metadata: ConfigMetadata;
+};
+
+export type ConfigMetadata = {
+  feeMap: Record<string, boolean>;
+};
+
 export type FurnitureMap = Partial<Record<FurnitureType, Furniture>>;
 
 type StoreState = {
@@ -159,7 +168,7 @@ type StoreState = {
   clearCart: () => void;
 
   config: Record<number, Config>;
-  setConfigs: (config: Record<number, Config>) => void;
+  sync: (serverData: SyncedData) => void;
 
   setFurnitureDimensions: (
     productSetId: number,
@@ -1869,8 +1878,21 @@ const useStore = create<StoreState>()(
           choiceMap: defaultChoiceMap,
         },
       },
-      setConfigs: (config) => {
-        set({ config }, undefined, { type: "setAllConfig", payload: config });
+      sync: (syncedData) => {
+        const fees = Object.entries(syncedData.metadata.feeMap).flatMap(
+          ([type, feeIncluded]) => {
+            return allFees.filter((fee) => fee.type === type && feeIncluded);
+          },
+        );
+
+        set(
+          {
+            fees,
+            config: syncedData.config,
+          },
+          undefined,
+          { type: "sync", payload: syncedData },
+        );
       },
 
       setFurnitureDimensions: (productSetId: number, type, dimensions) => {

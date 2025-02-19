@@ -40,6 +40,14 @@ const ShoppingCartPopUp = () => {
     mutationFn: async (contact: Contact) => {
       const err = await service.configurationSession.create({
         config,
+        metadata: {
+          feeMap: fees.reduce((acc, fee) => {
+            return {
+              ...acc,
+              [fee.type]: true,
+            };
+          }, {}),
+        },
         contact,
         client_id: clientId,
       });
