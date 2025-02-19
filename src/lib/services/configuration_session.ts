@@ -30,9 +30,13 @@ export class ConfigurationSession {
       return [null, e as Error];
     }
 
-    let parsedMetadata: Metadata;
+    let parsedMetadata: Metadata = {
+      feeMap: {},
+    };
     try {
-      parsedMetadata = JSON.parse(res.data.metadata);
+      if (res.data.metadata) {
+        parsedMetadata = JSON.parse(res.data.metadata);
+      }
     } catch (e) {
       return [null, e as Error];
     }

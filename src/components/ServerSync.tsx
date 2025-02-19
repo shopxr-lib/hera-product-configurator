@@ -16,6 +16,7 @@ const ServerSync = () => {
         session_key: sessionKey ?? "",
       });
       if (err) {
+        console.error(err);
         throw err;
       }
       return res;
