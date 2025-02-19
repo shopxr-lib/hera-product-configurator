@@ -1,7 +1,11 @@
-import { useGLTF, useTexture } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
-import useStore, { FurnitureType, TextureMap } from "../store/useStore";
+import useStore, {
+  FurnitureType,
+  MaterialMap,
+  TextureMap,
+} from "../store/useStore";
 import { useFurnitureMap } from "../lib/hooks/useFurnitureMap";
 
 interface Props {
@@ -9,13 +13,14 @@ interface Props {
   scale?: [number, number, number];
   rotation?: [number, number, number];
   textureMap?: Partial<TextureMap>;
+  materials?: Partial<MaterialMap>;
   productSetId: number;
 }
 
 const Basin: React.FC<Props> = ({
   path,
-  textureMap,
   productSetId,
+  materials,
   ...props
 }) => {
   const { scene } = useGLTF(path);
@@ -23,21 +28,20 @@ const Basin: React.FC<Props> = ({
   const copiedScene = useMemo(() => scene.clone(), [scene]);
   const ref = useRef<THREE.Group>(null);
 
-  const texture = useTexture(textureMap!, (t) => {
-    Object.values(t).forEach((texture) => {
-      texture.flipY = false;
-    });
-  });
-
   useEffect(() => {
+    if (!materials) {
+      return;
+    }
     scene.traverse((object) => {
       if (object instanceof THREE.Mesh) {
-        object.material.roughnessMap = texture.roughnessMap;
-        object.material.map = texture.map;
+        object.material.map = null; // remove existing texture
+        object.material.color = new THREE.Color(materials.color);
+        object.material.metalness = materials.metalness;
+        object.material.roughness = materials.roughness;
         object.material.needsUpdate = true;
       }
     });
-  }, [scene, texture]);
+  }, [scene, materials]);
 
   const setFurniturePosition = useStore((state) => state.setFurniturePosition);
   const setFurnitureDimensions = useStore(
@@ -76,6 +80,7 @@ const Basin: React.FC<Props> = ({
 
   return (
     <primitive
+      key={self?.key}
       ref={ref}
       object={copiedScene}
       position={self?.position}

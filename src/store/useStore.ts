@@ -854,6 +854,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "/images/maps/basin/Basin-Blush.png",
     },
+    materials: {
+      color: 0xeeb5ac,
+      metalness: 0.3,
+      roughness: 0.35,
+    },
   },
   {
     key: "basin-rectangular-ceramic-eclair",
@@ -862,6 +867,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     path: "/models/basin/rectangle-ceramic-basin.glb",
     textureMap: {
       map: "/images/maps/basin/Basin-Eclair.png",
+    },
+    materials: {
+      color: 0x473930,
+      metalness: 0.3,
+      roughness: 0.2,
     },
   },
   {
@@ -872,6 +882,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "/images/maps/basin/Basin-Matt-Black.png",
     },
+    materials: {
+      color: 0x1d1d1d,
+      metalness: 0.3,
+      roughness: 0.35,
+    },
   },
   {
     key: "basin-rectangular-ceramic-matt-white",
@@ -880,6 +895,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     path: "/models/basin/rectangle-ceramic-basin.glb",
     textureMap: {
       map: "/images/maps/basin/Basin-Matt-White.png",
+    },
+    materials: {
+      color: 0xf8f8f7,
+      metalness: 0.3,
+      roughness: 0.35,
     },
   },
   {
@@ -890,6 +910,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "/images/maps/basin/Basin-Mocha.png",
     },
+    materials: {
+      color: 0xb9ada4,
+      metalness: 0.3,
+      roughness: 0.35,
+    },
   },
   {
     key: "basin-rectangular-ceramic-moss",
@@ -898,6 +923,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     path: "/models/basin/rectangle-ceramic-basin.glb",
     textureMap: {
       map: "/images/maps/basin/Basin-Moss.png",
+    },
+    materials: {
+      color: 0x044947,
+      metalness: 0,
+      roughness: 0.3,
     },
   },
   {
@@ -908,6 +938,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "/images/maps/basin/Basin-Slate-Grey.png",
     },
+    materials: {
+      color: 0x626669,
+      metalness: 0,
+      roughness: 0.35,
+    },
   },
   {
     key: "basin-rectangular-ceramic-storm",
@@ -916,6 +951,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     path: "/models/basin/rectangle-ceramic-basin.glb",
     textureMap: {
       map: "/images/maps/basin/Basin-Storm.png",
+    },
+    materials: {
+      color: 0x747b89,
+      metalness: 0,
+      roughness: 0.35,
     },
   },
   {
@@ -926,6 +966,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "/images/maps/basin/Basin-Teal.png",
     },
+    materials: {
+      color: 0x5c716e,
+      metalness: 0,
+      roughness: 0.35,
+    },
   },
   {
     key: "basin-round-ceramic-blush",
@@ -934,6 +979,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     path: "/models/basin/round-ceramic-basin.glb",
     textureMap: {
       map: "/images/maps/basin/Basin-Blush.png",
+    },
+    materials: {
+      color: 0xeeb5ac,
+      metalness: 0.3,
+      roughness: 0.6,
     },
   },
   {
@@ -944,6 +994,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "/images/maps/basin/Basin-Matt-Black.png",
     },
+    materials: {
+      color: 0x1d1d1d,
+      metalness: 0,
+      roughness: 0.35,
+    },
   },
   {
     key: "basin-round-ceramic-matt-white",
@@ -952,6 +1007,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     path: "/models/basin/round-ceramic-basin.glb",
     textureMap: {
       map: "/images/maps/basin/Basin-Matt-White.png",
+    },
+    materials: {
+      color: 0xf8f8f7,
+      metalness: 0.3,
+      roughness: 0.6,
     },
   },
   {
@@ -962,6 +1022,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "/images/maps/basin/Basin-Mint.png",
     },
+    materials: {
+      color: 0x8ba28f,
+      metalness: 0,
+      roughness: 0.35,
+    },
   },
   {
     key: "basin-round-ceramic-mocha",
@@ -970,6 +1035,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     path: "/models/basin/round-ceramic-basin.glb",
     textureMap: {
       map: "/images/maps/basin/Basin-Mocha.png",
+    },
+    materials: {
+      color: 0xb9ada4,
+      metalness: 0,
+      roughness: 0.35,
     },
   },
   {
@@ -980,6 +1050,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "/images/maps/basin/Basin-Slate-Grey.png",
     },
+    materials: {
+      color: 0x626669,
+      metalness: 0,
+      roughness: 0.35,
+    },
   },
   {
     key: "basin-round-ceramic-stone-grey",
@@ -989,6 +1064,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     textureMap: {
       map: "/images/maps/basin/Basin-Stone-Grey.png",
     },
+    materials: {
+      color: 0x9b9a94,
+      metalness: 0,
+      roughness: 0.35,
+    },
   },
   {
     key: "basin-round-ceramic-tangerine",
@@ -997,6 +1077,11 @@ export const allFurnitures: Omit<Furniture, "dimensions">[] = [
     path: "/models/basin/round-ceramic-basin.glb",
     textureMap: {
       map: "/images/maps/basin/Basin-Tangerine.png",
+    },
+    materials: {
+      color: 0xcf6f3d,
+      metalness: 0.3,
+      roughness: 0.6,
     },
   },
 

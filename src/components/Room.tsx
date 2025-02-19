@@ -57,6 +57,7 @@ const Room = () => {
                       <Basin
                         path={furniture.path}
                         textureMap={furniture.textureMap}
+                        materials={furniture.materials}
                         productSetId={Number(productSetId)}
                       />
                     </Suspense>
