@@ -2072,9 +2072,7 @@ function calculatePrice(choiceMap: ChoiceMap, furnitureTypeBitMask: number) {
     furnitureTypeBitMask & (1 << FurnitureType.Basin) ||
     furnitureTypeBitMask === 0
   ) {
-    if (choiceMap.top?.value === "counter-top") {
-      price += calculateBasinPrice(String(choiceMap["counter-top"]?.value));
-    }
+    price += calculateBasinPrice(String(choiceMap["basin"]?.value), choiceMap);
   }
 
   if (
@@ -2108,11 +2106,13 @@ export function calculateTapPrice(tap: string) {
   return 0;
 }
 
-export function calculateBasinPrice(basin: string) {
-  if (basin.includes("rectangular")) {
-    return 268;
-  } else if (basin.includes("round")) {
-    return 268;
+export function calculateBasinPrice(basin: string, choiceMap: ChoiceMap) {
+  if (choiceMap.top?.value === "counter-top") {
+    if (basin.includes("rectangular")) {
+      return 268;
+    } else if (basin.includes("round")) {
+      return 268;
+    }
   }
   return 0;
 }
