@@ -1982,19 +1982,27 @@ const useStore = create<StoreState>()(
       addFee: (fee: Fee) => {
         const feeByType = new Map(get().fees.map((fee) => [fee.type, fee]));
         if (!feeByType.has(fee.type)) {
-          set((state) => {
-            return {
-              fees: [...state.fees, fee],
-            };
-          });
+          set(
+            (state) => {
+              return {
+                fees: [...state.fees, fee],
+              };
+            },
+            undefined,
+            { type: "addFee", payload: fee },
+          );
         }
       },
       removeFee: (type: FeeType) => {
-        set((state) => {
-          return {
-            fees: state.fees.filter((fee) => fee.type !== type),
-          };
-        });
+        set(
+          (state) => {
+            return {
+              fees: state.fees.filter((fee) => fee.type !== type),
+            };
+          },
+          undefined,
+          { type: "removeFee", payload: type },
+        );
       },
     })),
   ),
