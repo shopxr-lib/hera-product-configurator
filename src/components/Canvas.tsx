@@ -7,8 +7,11 @@ import {
   PerspectiveCamera,
 } from "@react-three/drei";
 import { isMobile } from "react-device-detect";
+import useStore from "../store/useStore";
+import { cn } from "../lib/utils";
 
 const Canvas: React.FC = () => {
+  const isCustomizeModalOpen = useStore((state) => state.modals.customize);
   return (
     <ThreeCanvas
       shadows={{
@@ -20,12 +23,13 @@ const Canvas: React.FC = () => {
         toneMapping: THREE.ACESFilmicToneMapping,
         toneMappingExposure: 1.2,
       }}
+      className={cn(isCustomizeModalOpen && isMobile && "-translate-y-[30vh]")}
     >
       {/* will adjust aspect ratio automatically */}
       <PerspectiveCamera
         makeDefault
         fov={75}
-        position={[0, 0.4, 0.7]}
+        position={[0, 0.4, 0.9]}
         near={0.1}
         far={100}
         zoom={isMobile ? 0.6 : 1}

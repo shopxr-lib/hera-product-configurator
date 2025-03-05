@@ -12,10 +12,11 @@ import useStore, {
   EventCallback,
   VanityCabinetProductSetId,
 } from "../store/useStore";
-import { Modal, Text, Title } from "@mantine/core";
+import { Drawer, Text, Title } from "@mantine/core";
 import { useChoiceMap } from "../lib/hooks/useChoiceMap";
 import { useEventSystem } from "../lib/hooks/useEventSystem";
 import { formatPrice } from "../lib/utils";
+import { isMobile } from "react-device-detect";
 
 const CustomizePopUp: React.FC = () => {
   const customizePopUpKey = useStore((state) => state.customizePopUpKey);
@@ -181,43 +182,41 @@ const CustomizePopUp: React.FC = () => {
   };
 
   return (
-    <Modal.Root opened={opened} onClose={handleClose} centered keepMounted>
-      <Modal.Overlay />
-      <Modal.Content className="sm:absolute sm:left-4 sm:w-[400px]">
-        <Modal.Header>
-          <Modal.Title>{popUpInfo.title}</Modal.Title>
-          <Modal.CloseButton />
-        </Modal.Header>
-        <Modal.Body>
-          <div className="flex flex-col gap-8">
-            <Text>{popUpInfo.subtitle}</Text>
-            {popUpInfo.image && <img src={popUpInfo.image} />}
-            {popUpInfo.sections
-              ?.filter((section) => !section.hideIf?.(choiceMap))
-              ?.map((section) => {
-                return (
-                  <div className="flex flex-col gap-4" key={section.title}>
-                    <Title order={4}>{section.title}</Title>
-                    <div className="grid auto-rows-fr grid-cols-3 items-center justify-center gap-4">
-                      {section.choices
-                        ?.filter((choice) => !choice.hideIf?.(choiceMap))
-                        ?.map((choice) => renderChoice(section, choice))}
+    <Drawer
+      opened={opened}
+      onClose={handleClose}
+      position={isMobile ? "bottom" : "left"}
+      title={<Title order={2}>{popUpInfo.title}</Title>}
+      withOverlay={false}
+      keepMounted
+    >
+      <div className="flex flex-col gap-8">
+        <Text>{popUpInfo.subtitle}</Text>
+        {popUpInfo.image && <img src={popUpInfo.image} />}
+        {popUpInfo.sections
+          ?.filter((section) => !section.hideIf?.(choiceMap))
+          ?.map((section) => {
+            return (
+              <div className="flex flex-col gap-4" key={section.title}>
+                <Title order={4}>{section.title}</Title>
+                <div className="grid auto-rows-fr grid-cols-3 items-center justify-center gap-4">
+                  {section.choices
+                    ?.filter((choice) => !choice.hideIf?.(choiceMap))
+                    ?.map((choice) => renderChoice(section, choice))}
 
-                      {section.groupChoices
-                        ?.filter((group) => !group.hideIf?.(choiceMap))
-                        ?.map((group) => {
-                          return group.choices.map((choice) =>
-                            renderChoice(section, choice),
-                          );
-                        })}
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
-        </Modal.Body>
-      </Modal.Content>
-    </Modal.Root>
+                  {section.groupChoices
+                    ?.filter((group) => !group.hideIf?.(choiceMap))
+                    ?.map((group) => {
+                      return group.choices.map((choice) =>
+                        renderChoice(section, choice),
+                      );
+                    })}
+                </div>
+              </div>
+            );
+          })}
+      </div>
+    </Drawer>
   );
 };
 
