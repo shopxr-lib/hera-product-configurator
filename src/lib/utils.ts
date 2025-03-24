@@ -29,3 +29,17 @@ export function formatPrice(price: number) {
     maximumFractionDigits: 0,
   }).format(price);
 }
+
+/**
+ * Truncates a string to a specified maximum length, adding "..." if the string exceeds that length.
+ *
+ * @param {string} input - The string to be truncated.
+ * @param {number} [maxLength=50] - The maximum length of the truncated string including the ellipsis.
+ * @returns {string} - The truncated string with "..." added if it exceeds the maximum length.
+ */
+export function truncateString(input: string, maxLength: number): string {
+  if (input.length > maxLength) {
+    return `${input.slice(0, maxLength - 3)} ...`;
+  }
+  return input;
+}
