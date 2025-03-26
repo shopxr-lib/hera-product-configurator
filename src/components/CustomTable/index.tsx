@@ -15,10 +15,9 @@ import {
   Avatar,
   Stack,
   ThemeIcon,
+  Divider,
 } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
-import cx from 'clsx';
-import classes from './index.module.css';
 import { Column, ICustomTableProps, MultilineColumn, StandardColumn } from './types';
 import { MAX_LENGTH } from '../../types/constants';
 import { truncateString } from '../../lib/utils';
@@ -74,6 +73,13 @@ export const CustomTable = <T extends { id: string }>({ data, columns }: ICustom
     setSearch(value);
     setSortedData(sortData(data, sortBy, reverseSortDirection, value));
   };
+
+  const renderIcon = (icon: React.ReactNode) =>
+    icon ? (
+      <ThemeIcon variant="transparent" c="gray" fw={100}>
+        {icon}
+      </ThemeIcon>
+    ) : null;
 
   const renderCell = <T extends { id: string }>(item: T, col: Column<T>, onChange?: (id: string, value: string) => void) => {
     const value = item[col.key as keyof T];
@@ -150,25 +156,25 @@ export const CustomTable = <T extends { id: string }>({ data, columns }: ICustom
       />
       <ScrollArea w={3900} h={600} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
         <Table horizontalSpacing="md" verticalSpacing="xs" miw={700} layout="fixed">
-          <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
+          <Table.Thead className={`sticky top-0 bg-white transition-shadow ${scrolled ? 'shadow-md' : ''}`}>
             <Table.Tr>
               <Table.Th w={40}>
                 <Checkbox
-                  className={classes.checkbox}
+                  className="hover:cursor-pointer"
                   onChange={toggleAll}
                   checked={selection.length === data.length}
                   indeterminate={selection.length > 0 && selection.length !== data.length}
                 />
               </Table.Th>
               {columns.map((col: Column<T>) => (
-                <Table.Th key={String(col.key)} className={classes.th}>
-                  <UnstyledButton onClick={() => setSorting(col.key)} className={classes.control}>
+                <Table.Th key={String(col.key)} className="p-0">
+                  <UnstyledButton onClick={() => setSorting(col.key)} className="w-full flex justify-between p-2 hover:bg-gray-100">
                     <Group justify="space-between">
                       <Text fw={500} fz="sm">
                         {col.label}
                       </Text>
                       {col.type !== 'multiline' && col.sort &&
-                        <Center className={classes.icon}>
+                        <Center className="w-5 h-5 rounded-md">
                           {sortBy === col.key ? (
                             reverseSortDirection ? (
                               <IconChevronUp size={16} stroke={1.5} />
@@ -191,24 +197,36 @@ export const CustomTable = <T extends { id: string }>({ data, columns }: ICustom
               sortedData.map((item: T) => {
                 const selected = selection.includes(item.id);
                 return (
-                  <Table.Tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
+                  <Table.Tr key={item.id} className={selected ? "bg-blue-100" : ""}>
                     <Table.Td>
-                      <Checkbox className={classes.checkbox} checked={selected} onChange={() => toggleRow(item.id)} />
+                      <Checkbox className="hover:cursor-pointer" checked={selected} onChange={() => toggleRow(item.id)} />
                     </Table.Td>
                     {columns.map((col: Column<T>) => (
                       <Table.Td key={String(col.key)}>
                         {col.type === 'multiline' ? (
                           <Stack gap={4}>
-                            {col.data.map((obj, index) => (
-                              <Group key={index} gap={5}>
-                                {obj.icon && 
-                                  <ThemeIcon variant='transparent' c={"gray"} fw={100}>
-                                    {obj.icon}
-                                  </ThemeIcon>
-                                }
-                                {renderCell(item, obj as unknown as MultilineColumn<T>)}
-                              </Group>
-                            ))}
+                            {Array.isArray(item[col.key]) ? (
+                              (item[col.key] as Array<Record<string, unknown>>).map((entry, idx) => (
+                                <Stack key={idx} gap="xs">
+                                  {idx !== 0 && <Divider my="sm" />}
+                                  {col.data.map((obj, index) => (
+                                    <Group key={index} gap={5}>
+                                      {renderIcon(obj.icon)}
+                                      {renderCell(entry as T, obj as unknown as MultilineColumn<T>)}
+                                    </Group>
+                                  ))}
+                                </Stack>
+                              ))
+                            ) : (
+                              <Stack gap="sm">
+                                {col.data.map((obj, index) => (
+                                  <Group key={index} gap={5}>
+                                    {renderIcon(obj.icon)}
+                                    {renderCell(item, obj as unknown as MultilineColumn<T>)}
+                                  </Group>
+                                ))}
+                              </Stack>
+                            )}
                           </Stack>
                         ) : (
                           <Group gap={5}>

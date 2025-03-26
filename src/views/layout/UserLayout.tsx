@@ -7,16 +7,17 @@ import {
   IconLogout,
 } from "@tabler/icons-react";
 import { ROUTES } from "../../routing";
+import { useAuth } from "../../lib/hooks/useAuth";
 
 export const UserLayout = () => {
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
   const isCollapsed = !desktopOpened;
   const location = useLocation();
   const currentPage = ROUTES.find(link => link.path === location.pathname)?.label || "Unknown";
+  const { logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem('name');
-    localStorage.removeItem('email');
+    logout();
   };
 
   return (
@@ -31,12 +32,8 @@ export const UserLayout = () => {
 
       <AppShell.Navbar
         p="md"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          height: "100vh",
-        }}
+        h={'100vh'}
+        className="flex flex-col justify-between"
       >
 
         <Stack gap={'sm'}>
@@ -71,12 +68,8 @@ export const UserLayout = () => {
             <Tooltip label={label} position="right" disabled={!isCollapsed} key={label}>
               <NavLink
                 to={path}
+                className={`flex items-center mx-2 no-underline ${isCollapsed ? "justify-center" : "justify-start"}`}
                 style={({ isActive }) => ({
-                  display: "flex",
-                  justifyContent: isCollapsed ? 'center' : 'flex-start',
-                  alignItems: "center",
-                  textDecoration: "none",
-                  marginInline: "10px",
                   color: isActive ? "var(--color-brand-800)" : "gray",
                   fontWeight: isActive ? 600 : "normal",
                 })}
@@ -84,11 +77,10 @@ export const UserLayout = () => {
                 {({ isActive }) => (
                   <Group gap="sm">
                     <div
+                      className="p-2 rounded-md"
                       style={{
                         background: isActive ? "var(--color-brand-100)" : "transparent",
                         color: isActive ? "var(--color-brand-800)" : "gray",
-                        padding: "6px",
-                        borderRadius: "6px",
                       }}
                     >
                       {icon}
@@ -108,12 +100,8 @@ export const UserLayout = () => {
           <NavLink
             to="/auth"
             onClick={handleLogout}
+            className="flex items-center no-underline py-2 px-3 rounded-md"
             style={{
-              display: "flex",
-              alignItems: "center",
-              textDecoration: "none",
-              padding: "8px 10px",
-              borderRadius: "6px",
               color: "var(--color-brand-800)",
             }}
           >

@@ -12,8 +12,10 @@ export const LeadTracker = () => {
       name: 'Athena Weissnat',
       email: 'Elouise.Prohaska@yahoo.com',
       phoneNumber: '1-800-123-4567',
-      link: 'https://github.com/shopxr-lib/hera-product-configurator',
-      lastSavedDate: '2024-04-05',
+      links: [
+        { link: 'https://github.com/shopxr-lib/hera-product-configurator', lastSavedDate: '2024-04-05' },
+        { link: 'https://www.example.com', lastSavedDate: '2024-05-10' }
+      ],
       customerBuyingPhase: "Haven't collected Keys",
       keyCollectionDate: '2024-04-05',
       interestedProducts: undefined,
@@ -30,8 +32,9 @@ export const LeadTracker = () => {
       name: 'Deangelo Runolfsson',
       email: 'Kadin_Trantow87@yahoo.com',
       phoneNumber: '1-800-123-4567',
-      link: 'https://github.com/shopxr-lib/hera-product-configurator',
-      lastSavedDate: '2024-04-05',
+      links: [
+        { link: 'https://github.com/shopxr-lib/hera-product-configurator', lastSavedDate: '2024-04-05'}
+      ],
       customerBuyingPhase: "Haven't collected Keys",
       keyCollectionDate: '2024-04-05',
       interestedProducts: undefined,
@@ -48,8 +51,9 @@ export const LeadTracker = () => {
       name: 'Danny Carter',
       email: 'Marina3@hotmail.com',
       phoneNumber: '1-800-123-4567',
-      link: 'https://www.google.com',
-      lastSavedDate: '2024-04-05',
+      links: [
+        { link: 'https://github.com/shopxr-lib/hera-product-configurator', lastSavedDate: '2024-04-05'}
+      ],
       customerBuyingPhase: "Haven't collected Keys",
       keyCollectionDate: null,
       interestedProducts: undefined,
@@ -66,8 +70,9 @@ export const LeadTracker = () => {
       name: 'Trace Tremblay PhD',
       email: 'Antonina.Pouros@yahoo.com',
       phoneNumber: '1-800-123-4567',
-      link: 'https://github.com/shopxr-lib/hera-product-configurator',
-      lastSavedDate: '2024-04-05',
+      links: [
+        { link: 'https://github.com/shopxr-lib/hera-product-configurator', lastSavedDate: '2024-04-05'}
+      ],
       customerBuyingPhase: "Haven't collected Keys",
       keyCollectionDate: null,
       interestedProducts: undefined,
@@ -84,8 +89,9 @@ export const LeadTracker = () => {
       name: 'Derek Dibbert',
       email: 'Abagail29@hotmail.com',
       phoneNumber: '1-800-123-4567',
-      link: 'https://www.google.com',
-      lastSavedDate: '2024-04-05',
+      links: [
+        { link: 'https://google.com', lastSavedDate: '2024-04-05'}
+      ],
       customerBuyingPhase: "Haven't collected Keys",
       keyCollectionDate: '2024-04-05',
       interestedProducts: undefined,
@@ -102,8 +108,9 @@ export const LeadTracker = () => {
       name: 'Viola Bernhard',
       email: 'Jamie23@hotmail.com',
       phoneNumber: '1-800-123-4567',
-      link: 'https://www.google.com',
-      lastSavedDate: '2024-04-05',
+      links: [
+        { link: 'https://google.com', lastSavedDate: '2024-04-05'}
+      ],
       customerBuyingPhase: "Haven't collected Keys",
       keyCollectionDate: '2024-04-05',
       interestedProducts: undefined,
@@ -120,8 +127,9 @@ export const LeadTracker = () => {
       name: 'Austin Jacobi',
       email: 'Genesis42@yahoo.com',
       phoneNumber: '1-800-123-4567',
-      link: 'https://www.google.com',
-      lastSavedDate: '2024-04-05',
+      links: [
+        { link: 'https://google.com', lastSavedDate: '2024-04-05'}
+      ],
       customerBuyingPhase: "Haven't collected Keys",
       keyCollectionDate: '2024-04-05',
       interestedProducts: undefined,
@@ -138,8 +146,9 @@ export const LeadTracker = () => {
       name: 'Hershel Mosciski',
       email: 'Idella.Stehr28@yahoo.com',
       phoneNumber: '1-800-123-4567',
-      link: 'https://www.google.com',
-      lastSavedDate: '2024-04-05',
+      links: [
+        { link: 'https://google.com', lastSavedDate: '2024-04-05'}
+      ],
       customerBuyingPhase: "Haven't collected Keys",
       keyCollectionDate: null,
       interestedProducts: undefined,
@@ -156,8 +165,9 @@ export const LeadTracker = () => {
       name: 'Mylene Ebert',
       email: 'Hildegard17@hotmail.com',
       phoneNumber: '1-800-123-4567',
-      link: 'https://github.com/shopxr-lib/hera-product-configurator',
-      lastSavedDate: '2024-04-05',
+      links: [
+        { link: 'https://google.com', lastSavedDate: '2024-04-05'}
+      ],
       customerBuyingPhase: "Haven't collected Keys",
       keyCollectionDate: '2024-04-05',
       interestedProducts: undefined,
@@ -190,7 +200,7 @@ export const LeadTracker = () => {
       sort: true
     },
     { 
-      key: 'link', 
+      key: 'links', 
       label: 'Link to Saved Design', 
       type: 'multiline',
       data: [

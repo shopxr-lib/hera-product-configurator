@@ -1,5 +1,6 @@
 import { AxiosInstance } from "axios";
-import { to } from "../utils";
+import { to } from "../../utils";
+import { AuthRequest, AuthResponse, RegisterRequest } from "./types";
 
 export class AuthService {
   constructor(private _axios: AxiosInstance) {}
@@ -28,24 +29,11 @@ export class AuthService {
     }
     return [res?.data ?? null, null];
   }
+
+  async logout() {
+    return new Promise((resolve) => {
+      localStorage.removeItem("token");
+      resolve(true);
+    });
+  }
 }
-
-export type AuthRequest = {
-  email: string;
-  password: string;
-};
-
-export type RegisterRequest = AuthRequest & {
-  name: string;
-  role?: string;
-};
-
-type AuthResponse = {
-  user: {
-    id: number;
-    name: string;
-    email: string;
-    role: string;
-  };
-  token: string;
-};

@@ -1,10 +1,14 @@
+export interface ILink {
+  link: string;
+  lastSavedDate: string;
+}
+
 export interface ITracking {
   id: string;
   name: string;
   email: string;
   phoneNumber: string;
-  link: string;
-  lastSavedDate: string;
+  links: ILink[];
   customerBuyingPhase: string;
   keyCollectionDate: string | null;
   interestedProducts: string | undefined;

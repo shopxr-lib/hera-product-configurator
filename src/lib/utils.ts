@@ -43,3 +43,49 @@ export function truncateString(input: string, maxLength: number): string {
   }
   return input;
 }
+
+/**
+ * Capitalizes first letter of a string
+ * @param {string} input string
+ * @returns {string} string
+ */
+export function capitalize(input: string): string {
+  return input.charAt(0).toUpperCase() + input.slice(1);
+};
+
+import { notifications } from "@mantine/notifications";
+
+/**
+ * Show a success or error notification.
+ * @param type "success" or "error"
+ * @param title Notification title
+ * @param message Notification message
+ */
+export const showNotification = (
+  type: "success" | "error",
+  title: string,
+  message: string
+) => {
+  notifications.show({
+    title,
+    message,
+    color: type === "success" ? "green" : "red",
+    position: "top-right",
+    styles: (theme) => ({
+      root: {
+        fontSize: theme.fontSizes.md,
+        padding: theme.spacing.md,
+        minWidth: 300,
+      },
+      title: {
+        fontSize: theme.fontSizes.lg,
+        fontWeight: 600,
+        paddingLeft: 10,
+      },
+      description: {
+        fontSize: theme.fontSizes.md,
+        paddingLeft: 10,
+      },
+    }),
+  });
+};

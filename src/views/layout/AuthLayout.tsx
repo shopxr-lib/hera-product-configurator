@@ -16,16 +16,15 @@ import {
 import { useForm } from '@mantine/form';
 import { upperFirst, useToggle } from '@mantine/hooks';
 import { IconArrowLeft } from '@tabler/icons-react';
-import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useService } from '../../lib/hooks/useService';
-import { AuthRequest, RegisterRequest } from '../../lib/services/auth';
+import { AuthRequest, RegisterRequest } from '../../lib/services/auth/types';
+import { useAuth } from '../../lib/hooks/useAuth';
+import { showNotification } from '../../lib/utils';
 
 export const AuthLayout = () => {
   const navigate = useNavigate();
-  const service = useService();
   const [type, toggle] = useToggle(['login', 'register', 'forgot']);
-  const [loading, setLoading] = useState<boolean>(false);
+  const { login, loginStatus, register, registerStatus } = useAuth();
   const form = useForm({
     initialValues: {
       email: '',
@@ -41,19 +40,32 @@ export const AuthLayout = () => {
   });
 
   const handleAuth = async (values: AuthRequest | RegisterRequest) => {
-    setLoading(true);
-    const [data, error] = type === "login" 
-      ? await service.auth.login(values) 
-      : await service.auth.register({ ...values, role: "salesperson" } as RegisterRequest);
-    setLoading(false);
-    
-    if (error) {
-      alert(error.message || "Something went wrong");
+    if (type === "login") {
+      login(
+        values as AuthRequest,
+        { 
+          onSuccess: () => {
+            showNotification("success", "Login Successful", "Welcome back!");
+            navigate("/user/home");
+          },
+          onError: (error) => {
+            showNotification("error", "Login Failed", error.message || "Invalid credentials");
+          },
+        }
+      );
     } else {
-      alert(`${type === "register" ? "Registration" : "Authentication"} successful!`);
-      localStorage.setItem("name", data?.user.name || "");
-      localStorage.setItem("email", data?.user.email || "");
-      navigate('/user/home');
+      register(
+        { ...values, role: "salesperson" } as RegisterRequest,
+        { 
+          onSuccess: () => {
+            showNotification("success", "Registration Successful", "Your account has been created!");
+            navigate("/user/home");
+          },
+          onError: (error) => {
+            showNotification("error", "Registration Failed", error.message || "Something went wrong");
+          },
+        }
+      );
     }
   };
 
@@ -63,7 +75,7 @@ export const AuthLayout = () => {
   };
 
   return (
-    <Container size={600} my={40}>
+    <Container size={600} my={40} h={"100vh"} className='flex flex-col items-center justify-center'>
       <Title ta="center">
         {type === 'forgot' ? 'Forgot your password?' : 'Welcome back!'}
       </Title>
@@ -150,7 +162,10 @@ export const AuthLayout = () => {
                 </Anchor>
                 <Button>Reset password</Button>
               </Group>
-            : <Button loading={loading} type="submit" radius="xl" fullWidth mt="xl">
+            : <Button loading={type === "login" 
+                ? loginStatus === 'pending'
+                : registerStatus === 'pending'
+              } type="submit" radius="xl" fullWidth mt="xl">
                 {upperFirst(type)}
               </Button>
           }
