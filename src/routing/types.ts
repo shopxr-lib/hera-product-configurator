@@ -1,7 +1,10 @@
 import React from "react"
+import { Role } from "../types";
 
-export interface ISiderRoute {
+export type RouteConfig = {
   icon: React.ReactNode;
   label: string;
   path: string;
+  roles: Role[];
+  element: React.ReactNode;
 }

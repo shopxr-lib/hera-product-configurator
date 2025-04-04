@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react';
-import { IconChevronDown, IconChevronUp, IconLink, IconSearch, IconSelector } from '@tabler/icons-react';
+import React, { useEffect, useState } from 'react';
+import { 
+  // IconChevronDown, 
+  // IconChevronUp, 
+  IconLink, 
+  // IconSelector 
+} 
+from '@tabler/icons-react';
 import {
-  Center,
   Checkbox,
   Group,
-  ScrollArea,
   Table,
   Text,
-  TextInput,
   UnstyledButton,
   Select,
   Textarea,
@@ -16,42 +19,82 @@ import {
   Stack,
   ThemeIcon,
   Divider,
+  Tooltip,
+  ComboboxItem,
+  Pill,
+  Code,
+  Skeleton,
+  Box,
+  // Center,
 } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
-import { Column, ICustomTableProps, MultilineColumn, StandardColumn } from './types';
-import { MAX_LENGTH } from '../../types/constants';
-import { truncateString } from '../../lib/utils';
+import { ACTION_ICONS, MAX_LENGTH } from '../../types/constants';
+import { formatDate, humanize, truncateString } from '../../lib/utils';
+import { Action } from '../../types';
+import { ICustomTableProps, StandardColumn, Column, ActionColumn, MultilineColumn } from './types';
+import { useAuthContext } from '../../lib/hooks/useAuthContext';
+import { CustomModal, CustomPagination, SearchInput } from '..';
 
-export const CustomTable = <T extends { id: string }>({ data, columns }: ICustomTableProps<T>) => {
-  const [selection, setSelection] = useState<string[]>([]);
-  const [search, setSearch] = useState('');
-  const [sortedData, setSortedData] = useState(data);
-  const [sortBy, setSortBy] = useState<keyof T | null>(null);
-  const [reverseSortDirection, setReverseSortDirection] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+export const CustomTable = <T extends { id: number | string }>({ data, dataLoading, columns, onSave, searchInputProps, filterProps, pageProps }: ICustomTableProps<T>) => {
+   // For current selected items
+   const [selection, setSelection] = useState<string[]>([]);
+
+   // For data transformation
+   const [transformedData, setTransformedData] = useState<T[] | null>(null);
+ 
+   // For sorting
+  //  const [sortBy, setSortBy] = useState<keyof T | null>(null);
+  //  const [reverseSortDirection, setReverseSortDirection] = useState(false);
+  //  const [sortedData, setSortedData] = useState(transformedData);
+ 
+   // To edit data
+   const [editingId, setEditingId] = useState<string | null>(null);
+   const [editedData, setEditedData] = useState<Record<string, unknown>>({});
+
+   // Modal
+   const [modalOpened, setModalOpened] = useState(false);
+   const [pendingAction, setPendingAction] = useState<{
+     action: Action;
+     item: T;
+     onAction?: (item: T) => void;
+   } | null>(null);
+   
+   const { user } = useAuthContext();
 
   useEffect(() => {
-    setSortedData(sortData(data, sortBy, reverseSortDirection, search));
+    if (data === undefined) return;
+    if (data && data.length === 0) return;
+    const formattedData = data.map((record) => {
+      const newRecord = { ...record };
+      columns.forEach((col) => {
+        const key = col.key as keyof T;
+        if ((col as StandardColumn<T>).options === 'boolean') {
+          newRecord[key] = (record[key] ? "true" : "false") as T[keyof T];
+        } else if (col.render) {
+          newRecord[key] = col.render(record[key], record) as T[keyof T];
+        }
+      });
+      return newRecord;
+    });
+    setTransformedData(formattedData)
   }, [data]);
 
-  const filterData = (items: T[], query: string) => {
-    const lowerCaseQuery = query.toLowerCase().trim();
-    return items.filter((item) =>
-      columns.some((col) => String(item[col.key]).toLowerCase().includes(lowerCaseQuery))
-    );
-  };
+  // useEffect(() => {
+  //   if (!transformedData) return;
+  //   setSortedData(sortData(transformedData, sortBy, reverseSortDirection));
+  // }, [transformedData]);
 
-  const sortData = (items: T[], sortField: keyof T | null, reversed: boolean, query: string) => {
-    if (!sortField) return filterData(items, query);
-    return filterData(
-      [...items].sort((a, b) =>
-        reversed
-          ? String(b[sortField]).localeCompare(String(a[sortField]))
-          : String(a[sortField]).localeCompare(String(b[sortField]))
-      ),
-      query
-    );
-  };
+  // const sortData = (items: T[], sortField: keyof T | null, reversed: boolean) => {
+  //   if (!sortField) return items;
+  //   return (
+  //     [...items].sort((a, b) => {
+  //       if (!sortField) return 0;
+  //       const aValue = String(a[sortField]);
+  //       const bValue = String(b[sortField]);
+  //       return reversed ? bValue.localeCompare(aValue) : aValue.localeCompare(bValue);
+  //     })
+  //   )
+  // };
 
   const toggleRow = (id: string) =>
     setSelection((current) =>
@@ -59,19 +102,69 @@ export const CustomTable = <T extends { id: string }>({ data, columns }: ICustom
     );
 
   const toggleAll = () =>
-    setSelection((current) => (current.length === data.length ? [] : data.map((item) => item.id)));
+    setSelection((current) => (current.length === data.length ? [] : data.map((item) => String(item.id))));
 
-  const setSorting = (field: keyof T) => {
-    const reversed = field === sortBy ? !reverseSortDirection : false;
-    setReverseSortDirection(reversed);
-    setSortBy(field);
-    setSortedData(sortData(data, field, reversed, search));
+  // const setSorting = (field: keyof T) => {
+  //   const reversed = field === sortBy ? !reverseSortDirection : false;
+  //   setReverseSortDirection(reversed);
+  //   setSortBy(field);
+  //   setSortedData(sortData(data, field, reversed));
+  // };
+
+  const handleEditChange = (id: string, key: string, value: unknown) => {
+    setEditedData((prev) => ({
+      ...prev,
+      [id]: { ...(prev[id] || {}), [key]: value },
+    }));
   };
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget;
-    setSearch(value);
-    setSortedData(sortData(data, sortBy, reverseSortDirection, value));
+  const handleAction = (action: Action, item: T, onAction?: (item: T) => void) => {
+    setSelection([]);
+    if (action === Action.Edit) {
+      if (editingId !== String(item.id)) {
+        setEditedData(prev => ({
+          ...prev,
+          [item.id]: { ...item }
+        }));
+      }
+      setEditingId((prev) => (prev === String(item.id) ? null : String(item.id)));
+      return;
+    }
+    setPendingAction({ action, item, onAction });
+    setModalOpened(true);
+  };
+
+  const onConfirm = (id: number) => {
+    if (editedData[id]) {
+      const data = editedData[id] as Record<string, unknown>;
+      Object.keys(data).forEach(key => {
+        if (data[key] === 'None' || (data)[key] === '') {
+          data[key] = undefined;
+        }      
+        else if (data[key] === null) {
+          data[key] = 0;
+        }
+        else if (data[key] === 'true') {
+          data[key] = true;
+        }    
+        else if (data[key] === 'false') {
+          data[key] = false;
+        }
+        else if (!isNaN(Number(data[key])) && typeof data[key] === "string") {
+          data[key] = Number(data[key]);
+        }
+      });
+      if (onSave) {
+        onSave(editedData[id] as Partial<T>);
+      }
+    }
+    setEditingId(null);
+    setEditedData((prev) => ({ ...prev, [id]: {} }));
+  };
+  
+  const onClose = (id: number) => {
+    setEditingId(null);
+    setEditedData((prev) => ({ ...prev, [id]: {} }));
   };
 
   const renderIcon = (icon: React.ReactNode) =>
@@ -81,180 +174,377 @@ export const CustomTable = <T extends { id: string }>({ data, columns }: ICustom
       </ThemeIcon>
     ) : null;
 
-  const renderCell = <T extends { id: string }>(item: T, col: Column<T>, onChange?: (id: string, value: string) => void) => {
-    const value = item[col.key as keyof T];
+  const renderActionButton = (
+    key: Action,
+    onClick: () => void
+  ) => {
+    const action = ACTION_ICONS[key];
+    if (!action) return null;
+
+    return (
+      <Tooltip label={humanize(key)} key={key} withArrow>
+        <ThemeIcon
+          className="hover:cursor-pointer"
+          variant="transparent"
+          onClick={onClick}
+          color={action.color}
+        >
+          {action.icon}
+        </ThemeIcon>
+      </Tooltip>
+    );
+  };
+
+  const renderCellData = <T extends { id: string | number }>(
+    item: T,
+    col: Column<T>
+  ) => {
+    const { key, type, role, icon } = col;
+    const { options } = col as StandardColumn<T>;
+    const cellKey = key as keyof T;
+    const value = item[cellKey];
+    const editedValue = (editedData[item.id] as Record<string, unknown>)?.[String(cellKey)] ?? null;
   
-    switch ((col as StandardColumn<T>).type) {
-      case 'link':
-        return value ? (
+    // Editable cases
+    if (editingId === String(item.id) && (!role || role === user?.role) && (type && !icon)) {
+      const selectOptions: ComboboxItem[] = [
+        ...(options === "boolean"
+          ? [
+              { label: "Yes", value: "true" },
+              { label: "No", value: "false" },
+            ]
+          : (options || []) as ComboboxItem[]),
+      ];
+
+      switch (type) {
+        case "select":
+          return (
+            <Select
+              variant="filled"
+              className='w-max'
+              data={selectOptions as ComboboxItem[]}
+              value={
+                selectOptions?.find(opt => {
+                  return (
+                    opt.value === editedValue
+                  )
+                })?.value ?? null
+              }
+              onChange={val => handleEditChange(String(item.id), String(key), val)}
+            />
+          );
+  
+        case "textarea":
+          return (
+            <Textarea
+              variant="filled"
+              className='w-max'
+              placeholder="Type..."
+              rows={4}
+              value={editedValue ? String(editedValue) : undefined}
+              onChange={event => handleEditChange(String(item.id), String(key), event.currentTarget.value)}
+            />
+          );
+  
+        case "date":
+          return (
+            <DatePickerInput
+              clearable
+              className='w-full'
+              variant="filled"
+              placeholder="Set date"
+              value={
+                editedValue
+                  ? new Date(Number(editedValue) * 1000)
+                  : null
+              }
+              onChange={date =>
+                handleEditChange(
+                  String(item.id),
+                  String(key),
+                  date ? String(Math.floor(date.getTime() / 1000)) : null
+                )
+              }
+            />
+          );
+      }
+    }
+
+    if (options === 'boolean') {
+      const isTrue = value === 'true';
+      return (
+        <Pill 
+          style={{ backgroundColor: isTrue ? '#3CA73C' : '#DB5E5E', color: 'white' }}
+          size='md'>
+            {`${isTrue ? "Yes" : "No"}`}
+        </Pill>
+      )
+    }
+
+    // Read-only display cases
+    switch (type) {
+      case "user":
+        return (
+          <Group className='w-max' gap="sm">
+            <Avatar size={32} src={""} radius={26} />
+            <Text size="sm" fw={500}>{String(value)}</Text>
+          </Group>
+        );
+  
+      case "link":
+        return (
           <Anchor href={String(value)} target="_blank" rel="noopener noreferrer" title={String(value)}>
             <Group gap={5}>
               <IconLink />
               {truncateString(String(value), MAX_LENGTH.LINK)}
             </Group>
           </Anchor>
-        ) : '-';
+        );
   
-      case 'user':
+      case "date":
         return (
-          <Group gap="sm">
-            <Avatar size={32} src={""} radius={26} />
-            <Text size="sm" fw={500}>
-              {String(value)}
+          <>
+          {value ?
+            <Text size="sm">
+              {formatDate(Number(value), {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                ...(icon && { hour: "2-digit", minute: "2-digit", second: "2-digit" }),
+              })}
             </Text>
-          </Group>
-        );
-  
-      case 'select':
-        return (
-          <Select
-            variant="filled"
-            data={(col as StandardColumn<T>).options}
-            value={String(value ?? 'None')}
-            onChange={(val) => onChange?.(item.id, val || '')}
-          />
-        );
-  
-      case 'textarea':
-        return (
-          <Textarea
-            variant='filled'
-            placeholder="Type.."
-            rows={1}
-            value={String(value ?? '')}
-            onChange={(event) => onChange?.(item.id, event.currentTarget.value)}
-          />
-        );
-  
-      case 'date':
-        return (
-          <DatePickerInput
-            clearable
-            variant='filled'
-            placeholder="Set date"
-            value={value ? new Date(value as string) : null}
-            onChange={(date) => onChange?.(item.id, date ? date.toISOString() : '')}
-            w={"60%"}
-          />
+            : <Code color="var(--mantine-color-blue-light)">Not Set</Code>}
+            </>
         );
   
       default:
-        return <Text size="sm">{value ? String(value) : '-'}</Text>;
+        return <Text size="sm">{value ? String(value) : 'N/A'}</Text>;
     }
-  };  
+  };
+
+  const renderTableCell = (col: Column<T>, item: T) => {
+    const { type, icon, key } = col;
+
+    switch (type) {
+      case "action": {
+        const actionColumn = col as ActionColumn<T>;
+        const actions = typeof actionColumn.actions === "function"
+          ? actionColumn.actions(item)
+          : actionColumn.actions;     
+
+        return (
+          <>
+          <Group className='w-max' gap={5}>
+            {editingId === null &&
+              actions?.map(({ key, onAction }) =>
+                renderActionButton(key, () => {
+                  handleAction(key, item, onAction);
+                  // onAction?.(item);
+                })
+              )}
+
+            {editingId === String(item.id) &&
+              ([Action.Confirm, Action.Close] as const).map((key) =>
+                renderActionButton(key, () =>
+                  key === Action.Close ? onClose(item.id as number) : onConfirm(item.id as number)
+                )
+              )}
+          </Group>
+          <CustomModal
+            type="confirmation"
+            opened={modalOpened}
+            onClose={() => {
+              setModalOpened(false);
+              setPendingAction(null);
+            }}
+            onConfirm={() => {
+              if (pendingAction?.onAction && pendingAction?.item) {
+                pendingAction.onAction(pendingAction.item);
+              }
+              setModalOpened(false);
+              setPendingAction(null);
+            }}
+          />
+          </>
+        )
+      }
+  
+      case "multiline": {
+        const data = item[key] as Array<Record<string, unknown>>;
+        return (
+          <Stack gap={4}>
+            {Array.isArray(data) ? (
+              data.map((entry, idx) => (
+                <Stack key={idx} gap="xs">
+                  {idx !== 0 && <Divider size={2} variant='dashed' my="sm" />}
+                  {col.data.map((obj, index) => (
+                    <Group className='w-max' key={index} gap={5}>
+                      {renderIcon(obj.icon)}
+                      {renderCellData(entry as T, obj as unknown as MultilineColumn<T>)}
+                    </Group>
+                  ))}
+                </Stack>
+              ))
+            ) : (
+              <Stack gap="sm">
+                {col.data.map((obj, index) => (
+                  <Group key={index} gap={5}>
+                    {renderIcon(obj.icon)}
+                    {renderCellData(item, obj as unknown as MultilineColumn<T>)}
+                  </Group>
+                ))}
+              </Stack>
+            )}
+          </Stack>
+        );
+      }
+  
+      default:
+        return (
+          <Group className={`${editingId === null ? 'w-max' : 'w-full'}`} gap={5}>
+            {renderIcon(icon)}
+            {renderCellData(item, col)}
+          </Group>
+        );
+    }
+  };
+
+  const renderSortedHead = (col: Column<T>) => {
+    const { key, label, visible } = col;
+    if (visible !== undefined && !visible) return;
+    // const isSortable = (col as StandardColumn<T>).sort;
+    return (
+      <Table.Th key={String(key)} className="p-0 bg-brand-700 text-white">
+        <UnstyledButton 
+          // onClick={() => isSortable && setSorting(key as keyof T)}  
+          className="w-max flex justify-between p-2 hover:bg-gray-100">
+          <Group justify="space-between">
+            <Text fw={500} fz="sm">{label}</Text>
+            {/* {isSortable &&
+              <Center className="w-5 h-5 rounded-md">
+                {sortBy === key ? (
+                  reverseSortDirection ? (
+                    <IconChevronUp size={16} stroke={1.5} />
+                  ) : (
+                    <IconChevronDown size={16} stroke={1.5} />
+                  )
+                ) : (
+                  <IconSelector size={16} stroke={1.5} />
+                )}
+              </Center>
+            } */}
+          </Group>
+        </UnstyledButton>
+      </Table.Th>
+    )
+  }
+
+  const renderSortedBody = (item: T) => {
+    const selected = selection.includes(String(item.id));
+    return (
+      <Table.Tr key={item.id} className={selected ? "bg-blue-100" : ""}>
+        <Table.Td>
+          <Checkbox
+            className="hover:cursor-pointer"
+            checked={selected}
+            onChange={() => toggleRow(String(item.id))}
+          />
+        </Table.Td>
+
+        {columns.map((col) => {
+        if (col.visible !== undefined && !col.visible) return;
+        return (
+          <Table.Td key={String(col.key)}>
+            {renderTableCell(col, item)}
+          </Table.Td>
+        )})}
+      </Table.Tr>
+    )
+  }
+
+  const tableData = {
+    head: columns.map((col: Column<T>) => renderSortedHead(col)),
+    body: transformedData?.map((item: T) => (renderSortedBody(item)))
+  };
 
   return (
     <>
-      <TextInput
-        placeholder="Search by any field"
-        ml={'sm'}
-        mb="md"
-        w={600}
-        leftSection={<IconSearch size={16} stroke={1.5} />}
-        value={search}
-        onChange={handleSearchChange}
-      />
-      <ScrollArea w={3900} h={600} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
-        <Table horizontalSpacing="md" verticalSpacing="xs" miw={700} layout="fixed">
-          <Table.Thead className={`sticky top-0 bg-white transition-shadow ${scrolled ? 'shadow-md' : ''}`}>
+      <Group gap="xs" mb="md" w={'max-content'}>
+        {searchInputProps && 
+          <SearchInput 
+            searchKey={searchInputProps?.searchKey}
+            value={searchInputProps?.value} 
+            onChange={searchInputProps?.onChange}
+          />
+        }
+        
+        {/* Filters */}
+        {filterProps?.filters.map((filter) => (
+          <Select
+            clearable
+            label={filter.label}
+            key={filter.key}
+            placeholder={filter.label}
+            value={filterProps.values[filter.key]}
+            onChange={(value) => {
+              filterProps.onChange(filter.key, value || '');
+            }}
+            data={filter.options}
+            onBlur={() => {}}
+          />
+        ))}
+      </Group>
+      <Group justify="space-between">
+        <Table striped withTableBorder withColumnBorders horizontalSpacing='lg' verticalSpacing="xs" mt={20}>
+          {/* Table Header */}
+          <Table.Thead className={`bg-brand-500 text-brand-900 transition-shadow`}>
             <Table.Tr>
               <Table.Th w={40}>
                 <Checkbox
                   className="hover:cursor-pointer"
                   onChange={toggleAll}
-                  checked={selection.length === data.length}
+                  checked={selection.length > 0 && selection.length === data.length}
                   indeterminate={selection.length > 0 && selection.length !== data.length}
                 />
               </Table.Th>
-              {columns.map((col: Column<T>) => (
-                <Table.Th key={String(col.key)} className="p-0">
-                  <UnstyledButton onClick={() => setSorting(col.key)} className="w-full flex justify-between p-2 hover:bg-gray-100">
-                    <Group justify="space-between">
-                      <Text fw={500} fz="sm">
-                        {col.label}
-                      </Text>
-                      {col.type !== 'multiline' && col.sort &&
-                        <Center className="w-5 h-5 rounded-md">
-                          {sortBy === col.key ? (
-                            reverseSortDirection ? (
-                              <IconChevronUp size={16} stroke={1.5} />
-                            ) : (
-                              <IconChevronDown size={16} stroke={1.5} />
-                            )
-                          ) : (
-                            <IconSelector size={16} stroke={1.5} />
-                          )}
-                        </Center>
-                      }
-                    </Group>
-                  </UnstyledButton>
-                </Table.Th>
-              ))}
+              {tableData.head}
             </Table.Tr>
           </Table.Thead>
+
+          {/* Table Body */}
           <Table.Tbody>
-            {sortedData.length > 0 ? (
-              sortedData.map((item: T) => {
-                const selected = selection.includes(item.id);
-                return (
-                  <Table.Tr key={item.id} className={selected ? "bg-blue-100" : ""}>
-                    <Table.Td>
-                      <Checkbox className="hover:cursor-pointer" checked={selected} onChange={() => toggleRow(item.id)} />
-                    </Table.Td>
-                    {columns.map((col: Column<T>) => (
-                      <Table.Td key={String(col.key)}>
-                        {col.type === 'multiline' ? (
-                          <Stack gap={4}>
-                            {Array.isArray(item[col.key]) ? (
-                              (item[col.key] as Array<Record<string, unknown>>).map((entry, idx) => (
-                                <Stack key={idx} gap="xs">
-                                  {idx !== 0 && <Divider my="sm" />}
-                                  {col.data.map((obj, index) => (
-                                    <Group key={index} gap={5}>
-                                      {renderIcon(obj.icon)}
-                                      {renderCell(entry as T, obj as unknown as MultilineColumn<T>)}
-                                    </Group>
-                                  ))}
-                                </Stack>
-                              ))
-                            ) : (
-                              <Stack gap="sm">
-                                {col.data.map((obj, index) => (
-                                  <Group key={index} gap={5}>
-                                    {renderIcon(obj.icon)}
-                                    {renderCell(item, obj as unknown as MultilineColumn<T>)}
-                                  </Group>
-                                ))}
-                              </Stack>
-                            )}
-                          </Stack>
-                        ) : (
-                          <Group gap={5}>
-                            {col.icon &&
-                              <ThemeIcon variant='transparent' c={"gray"} fw={100}>
-                                {col.icon}
-                              </ThemeIcon>
-                            }
-                            {renderCell(item, col, col.onChange)}
-                          </Group>
-                        )}
-                    </Table.Td>
-                    ))}
-                  </Table.Tr>
-                );
-              })
-            ) : (
+            {dataLoading  
+              ? <Table.Tr>
+                  <Table.Td colSpan={columns.length + 1}>
+                    <Group my={20}>
+                      {Array(5).fill(null).map((_, index) => (
+                        <Box key={index} w="100%">
+                          {index > 0 && <Divider size={1} mb="md" />}
+                          <Skeleton visible height={30} radius="sm" />
+                        </Box>
+                      ))}
+                    </Group>
+                  </Table.Td>
+                </Table.Tr>
+              : transformedData && transformedData.length > 0 ? tableData.body : (
               <Table.Tr>
                 <Table.Td colSpan={columns.length + 1}>
-                  <Text fw={500} ta="center">
-                    Nothing found
-                  </Text>
+                  <Text fw={500} ta="center">Nothing found</Text>
                 </Table.Td>
               </Table.Tr>
             )}
           </Table.Tbody>
         </Table>
-      </ScrollArea>
-      </>
+        {pageProps && (
+          <CustomPagination
+            total={pageProps.total}
+            currentPage={pageProps.value}
+            itemsPerPage={pageProps.itemsPerPage}
+            onPageChange={(page) => pageProps.onPageChange(page)}
+            onItemsPerPageChange={(itemsPerPage) => pageProps.onItemsPerPageChange(itemsPerPage)}
+          />
+        )}
+      </Group>
+  </>
   );
 }

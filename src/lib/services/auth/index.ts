@@ -1,6 +1,7 @@
 import { AxiosInstance } from "axios";
 import { to } from "../../utils";
-import { AuthRequest, AuthResponse, RegisterRequest } from "./types";
+import { AuthRequest, AuthResponse, ForgotPasswordRequest, RegisterRequest, ResetPasswordRequest } from "./types";
+import { UserResponse } from "../user/types";
 
 export class AuthService {
   constructor(private _axios: AxiosInstance) {}
@@ -17,9 +18,15 @@ export class AuthService {
     return this.authenticate("/v1/auth/register", request);
   }
 
+  async resetPassword(
+    request: ResetPasswordRequest
+  ): Promise<[AuthResponse | null, Error | null]> {
+    return this.authenticate("/v1/auth/reset-password", request)
+  }
+
   private async authenticate(
     endpoint: string,
-    request: AuthRequest | RegisterRequest
+    request: AuthRequest | RegisterRequest | ResetPasswordRequest
   ): Promise<[AuthResponse | null, Error | null]> {
     const [res, err] = await to(
       this._axios.post<AuthResponse>(endpoint, request)
@@ -30,10 +37,23 @@ export class AuthService {
     return [res?.data ?? null, null];
   }
 
-  async logout() {
-    return new Promise((resolve) => {
-      localStorage.removeItem("token");
-      resolve(true);
-    });
+  async forgotPassword(
+    request: ForgotPasswordRequest
+  ): Promise<[void, Error | null]> {
+    const [, err] = await to(
+      this._axios.post<AuthResponse>("/v1/auth/forgot-password", request)
+    );
+    if (err) {
+      return [undefined, err];
+    }
+    return [undefined, null];
+  }
+  
+  async getUser(): Promise<[UserResponse | null, Error | null]> {
+    const [res, err] = await to(this._axios.get<UserResponse>("/v1/users/me"));
+    if (err) {
+      return [null, err];
+    }
+    return [res?.data ?? null, null];
   }
 }

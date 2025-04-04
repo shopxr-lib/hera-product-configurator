@@ -1,6 +1,8 @@
 export const packageTiers = ["default", "enhanced", "premium", "luxury"];
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { notifications } from "@mantine/notifications";
+import { NotificationType } from "../types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -53,8 +55,6 @@ export function capitalize(input: string): string {
   return input.charAt(0).toUpperCase() + input.slice(1);
 };
 
-import { notifications } from "@mantine/notifications";
-
 /**
  * Show a success or error notification.
  * @param type "success" or "error"
@@ -62,9 +62,9 @@ import { notifications } from "@mantine/notifications";
  * @param message Notification message
  */
 export const showNotification = (
-  type: "success" | "error",
+  type: NotificationType,
   title: string,
-  message: string
+  message?: string
 ) => {
   notifications.show({
     title,
@@ -81,11 +81,51 @@ export const showNotification = (
         fontSize: theme.fontSizes.lg,
         fontWeight: 600,
         paddingLeft: 10,
+        marginBottom: 5
       },
       description: {
-        fontSize: theme.fontSizes.md,
         paddingLeft: 10,
       },
     }),
   });
+};
+
+export function formatDate(
+  timestamp?: number, 
+  options?: Intl.DateTimeFormatOptions
+): string {
+  if (!timestamp) return "N/A";
+
+  const date = new Date(timestamp * 1000);
+
+  const defaultOptions: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour12: true,
+  };
+
+  return date.toLocaleString("en-US", { ...defaultOptions, ...options });
+}
+
+/**
+ * Humanizes a string
+ * @param {string} input string
+ * @returns {string} string
+ */
+export function humanize(text: string): string {
+  if (!text) return text;
+  return text
+    .replace(/_/g, ' ')
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/^\w/, (c) => c.toUpperCase());
+};
+
+export function generateSearchPhrase(keys?: string[]): string {
+  if (!keys || keys.length === 0) return 'field';
+  if (keys.length === 1) return keys[0];
+  if (keys.length === 2) return `${keys[0]} or ${keys[1]}`;
+  const allButLast = keys.slice(0, -1).join(', ');
+  const last = keys[keys.length - 1];
+  return `${allButLast}, or ${last}`;
 };

@@ -1,8 +1,21 @@
-import { IconHome, IconListCheck, IconUsers } from "@tabler/icons-react";
-import { ISiderRoute } from "./types";
+import { IconListCheck, IconUsers } from "@tabler/icons-react";
+import { RouteConfig } from "./types";
+import { LeadTracker, UserManagement } from "../views";
+import { Role } from "../types";
 
-export const ROUTES: ISiderRoute[] = [
-  { icon: <IconHome />, label: "Home", path: "/user/home" },
-  { icon: <IconListCheck />, label: "Lead Tracker", path: "/user/tracking" },
-  { icon: <IconUsers />, label: "Manage Users", path: "/user/manage-users" },
+export const ROUTES: RouteConfig[] = [
+  { 
+    icon: <IconListCheck />, 
+    label: "Lead Tracker", 
+    path: "tracking",
+    roles: [Role.Admin, Role.SalesPerson],
+    element: <LeadTracker />
+  },
+  { 
+    icon: <IconUsers />, 
+    label: "Manage Users", 
+    path: "manage-users" ,
+    roles: [Role.Admin],
+    element: <UserManagement />
+  },
 ];

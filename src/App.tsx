@@ -1,25 +1,26 @@
 import "./App.css";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
-// import Canvas from "./components/Canvas";
-// import Customize from "./components/Customize";
-// import CustomizePopUp from "./components/CustomizePopup2";
-// import ShoppingCartFloating from "./components/ShoppingCartFloating";
-// import ShoppingCartDrawer from "./components/ShoppingCartDrawer";
-import Branding from "./components/Branding";
-import ServerSync from "./components/ServerSync";
-import { useService } from "./lib/hooks/useService";
-import { useQuery } from "@tanstack/react-query";
-import { clientId } from "./lib/constants";
-import { useEffect } from "react";
-import useStore from "./store/useStore";
-// import { IconRuler } from "@tabler/icons-react";
-// import { cn } from "./lib/utils";
-import { AuthLayout, LeadTracker, UserLayout } from "./views/index";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router";
+import { IconRuler } from "@tabler/icons-react";
+import { useQuery } from "@tanstack/react-query";
+import { useService } from "./lib/hooks/useService";
+import { clientId } from "./lib/constants";
+import useStore from "./store/useStore";
+import { cn } from "./lib/utils";
+import { AuthLayout, UserLayout, NotFound, ResetPassword } from "./views/index";
+import { ROUTES } from "./routing";
+import { Role } from "./types";
+import { useAuthContext } from "./lib/hooks/useAuthContext";
+import { RouteConfig } from "./routing/types";
+import { Canvas, Customize, CustomizePopUp, ShoppingCartFloating, ShoppingCartDrawer, Branding, ServerSync, ProtectedRoute } from "./components";
 
 function App() {
   const service = useService();
+  const { isAuthenticated, user } = useAuthContext();
+  const [accessibleRoutes, setAccessibleRoutes] = useState<RouteConfig[] | null>(null);
+  
   const setCurrentProductSetId = useStore(
     (state) => state.setCurrentProductSetId,
   );
@@ -35,8 +36,8 @@ function App() {
       return res;
     },
   });
-  // const toggleShowDimension = useStore((state) => state.toggleShowDimension);
-  // const showDimension = useStore((state) => state.showDimension);
+  const toggleShowDimension = useStore((state) => state.toggleShowDimension);
+  const showDimension = useStore((state) => state.showDimension);
 
   useEffect(() => {
     if (!data) {
@@ -47,10 +48,17 @@ function App() {
     }
   }, [data, setCurrentProductSetId, currentProductSetId]);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      const routes = ROUTES.filter((route) => route.roles.includes(user?.role as Role));
+      setAccessibleRoutes(routes as RouteConfig[]);
+    }
+  }, [isAuthenticated, user?.role])
+
   return (
     <>
       <Routes>
-        {/* <Route path="/" element={
+        <Route path="/" element={
           <>
             <button
             className={"absolute top-4 left-4 z-20 rounded-md bg-white p-2"}
@@ -71,13 +79,28 @@ function App() {
           <ShoppingCartFloating />
           <ShoppingCartDrawer />
           </>
-        } /> */}
+        } />
+        
+        {/* Authentication Route */}
         <Route path="auth" element={<AuthLayout />} />
-        <Route path="user" element={<UserLayout />}>
-          <Route path="home" element={<div>Home Page</div>} />
-          <Route path="tracking" element={<LeadTracker />} />
-          <Route path="manage-users" element={<div>Manage Users</div>} />
+        <Route path="auth/reset-password/:token" element={<ResetPassword />} />
+
+        {/* Authenticated Routes */}
+        <Route path="user" element={
+            <ProtectedRoute>
+              <UserLayout />
+            </ProtectedRoute>
+          }>
+          {accessibleRoutes?.map((route) => (
+            <Route 
+              key={route.path} 
+              path={route.path.replace("/user/", "")} 
+              element={route.element} 
+            />
+          ))}
         </Route>
+        {/* Catch-all for 404s */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Branding />
       <ServerSync />

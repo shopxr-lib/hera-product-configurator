@@ -7,18 +7,22 @@ import {
   IconLogout,
 } from "@tabler/icons-react";
 import { ROUTES } from "../../routing";
+import { Role } from "../../types";
+import { useAuthContext } from "../../lib/hooks/useAuthContext";
 import { useAuth } from "../../lib/hooks/useAuth";
 
 export const UserLayout = () => {
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
   const isCollapsed = !desktopOpened;
   const location = useLocation();
-  const currentPage = ROUTES.find(link => link.path === location.pathname)?.label || "Unknown";
-  const { logout } = useAuth();
+  const { user } = useAuthContext();
+  const { useLogoutMutation, } = useAuth();
+  const normalizedPath = location.pathname.replace(/^\/user\//, ""); 
+  const currentPage = ROUTES.find(link => link.path === normalizedPath)?.label || "Unknown";
 
-  const handleLogout = () => {
-    logout();
-  };
+  const accessibleRoutes = ROUTES.filter(route => 
+    route.roles.includes(user?.role as Role)
+  );
 
   return (
     <AppShell
@@ -47,11 +51,11 @@ export const UserLayout = () => {
 
                 <div style={{ flex: 1 }}>
                   <Text size="sm" fw={500}>
-                    {localStorage.getItem("name")}
+                    {user?.name}
                   </Text>
 
                   <Text c="dimmed" size="xs">
-                    {localStorage.getItem("email")}
+                    {user?.email}
                   </Text>
                 </div>
               </Group>
@@ -64,7 +68,7 @@ export const UserLayout = () => {
           <Divider my="sm" />
 
           {/* Navigation Links */}
-          {ROUTES.map(({ icon, label, path }) => (
+          {accessibleRoutes.map(({ icon, label, path }) => (
             <Tooltip label={label} position="right" disabled={!isCollapsed} key={label}>
               <NavLink
                 to={path}
@@ -99,7 +103,7 @@ export const UserLayout = () => {
         <Tooltip label="Logout" position="right" disabled={!isCollapsed}>
           <NavLink
             to="/auth"
-            onClick={handleLogout}
+            onClick={() => useLogoutMutation.mutate()}
             className="flex items-center no-underline py-2 px-3 rounded-md"
             style={{
               color: "var(--color-brand-800)",
@@ -114,8 +118,8 @@ export const UserLayout = () => {
         </div>
       </AppShell.Navbar>
 
-      <AppShell.Main mih={"80vh"}>
-        <Container m={30}>
+      <AppShell.Main>
+        <Container m={30} pb={30} w={'100%'}>
           <Title order={2} mb={40}>
             {currentPage}
           </Title>

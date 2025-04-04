@@ -1,350 +1,187 @@
-import { IconCalendar, IconMail, IconPhone } from "@tabler/icons-react";
 import { CustomTable } from "../../components";
-import { Column } from "../../components/CustomTable/types";
-import { ITracking } from "./types";
-import { BuyingPhase } from "../../types";
-import { useState } from "react";
+import { IClient } from "./types";
+import { BuyingPhase, NotificationType, Role } from "../../types";
+import { useEffect, useState } from "react";
+import { useClient } from "../../lib/hooks/useClient";
+import { useUser } from "../../lib/hooks/useUser";
+import { useSearchParams } from "react-router";
+import { getLeadTrackerColumns } from "../../components/tableColumn";
+import { z } from "zod";
+import { showNotification } from "../../lib/utils";
+import { useAuthContext } from "../../lib/hooks/useAuthContext";
 
 export const LeadTracker = () => {
-  const [data, setData] = useState<ITracking[]>([
-    {
-      id: '1',
-      name: 'Athena Weissnat',
-      email: 'Elouise.Prohaska@yahoo.com',
-      phoneNumber: '1-800-123-4567',
-      links: [
-        { link: 'https://github.com/shopxr-lib/hera-product-configurator', lastSavedDate: '2024-04-05' },
-        { link: 'https://www.example.com', lastSavedDate: '2024-05-10' }
-      ],
-      customerBuyingPhase: "Haven't collected Keys",
-      keyCollectionDate: '2024-04-05',
-      interestedProducts: undefined,
-      followedUpDate1: '2024-04-05',
-      followedUpDate2: null,
-      followedUpDate3: null,
-      visitedShowroom: 'Yes',
-      purchased: 'No',
-      salesPerson: 'John Doe',
-      notes: undefined
-    },
-    {
-      id: '2',
-      name: 'Deangelo Runolfsson',
-      email: 'Kadin_Trantow87@yahoo.com',
-      phoneNumber: '1-800-123-4567',
-      links: [
-        { link: 'https://github.com/shopxr-lib/hera-product-configurator', lastSavedDate: '2024-04-05'}
-      ],
-      customerBuyingPhase: "Haven't collected Keys",
-      keyCollectionDate: '2024-04-05',
-      interestedProducts: undefined,
-      followedUpDate1: '2024-04-05',
-      followedUpDate2: null,
-      followedUpDate3: null,
-      visitedShowroom: 'Yes',
-      purchased: 'No',
-      salesPerson: 'John Doe',
-      notes: undefined
-    },
-    {
-      id: '3',
-      name: 'Danny Carter',
-      email: 'Marina3@hotmail.com',
-      phoneNumber: '1-800-123-4567',
-      links: [
-        { link: 'https://github.com/shopxr-lib/hera-product-configurator', lastSavedDate: '2024-04-05'}
-      ],
-      customerBuyingPhase: "Haven't collected Keys",
-      keyCollectionDate: null,
-      interestedProducts: undefined,
-      followedUpDate1: '2024-04-05',
-      followedUpDate2: null,
-      followedUpDate3: null,
-      visitedShowroom: 'Yes',
-      purchased: 'No',
-      salesPerson: 'John Doe',
-      notes: undefined
-    },
-    {
-      id: '4',
-      name: 'Trace Tremblay PhD',
-      email: 'Antonina.Pouros@yahoo.com',
-      phoneNumber: '1-800-123-4567',
-      links: [
-        { link: 'https://github.com/shopxr-lib/hera-product-configurator', lastSavedDate: '2024-04-05'}
-      ],
-      customerBuyingPhase: "Haven't collected Keys",
-      keyCollectionDate: null,
-      interestedProducts: undefined,
-      followedUpDate1: '2024-04-05',
-      followedUpDate2: null,
-      followedUpDate3: null,
-      visitedShowroom: 'Yes',
-      purchased: 'No',
-      salesPerson: undefined,
-      notes: undefined
-    },
-    {
-      id: '5',
-      name: 'Derek Dibbert',
-      email: 'Abagail29@hotmail.com',
-      phoneNumber: '1-800-123-4567',
-      links: [
-        { link: 'https://google.com', lastSavedDate: '2024-04-05'}
-      ],
-      customerBuyingPhase: "Haven't collected Keys",
-      keyCollectionDate: '2024-04-05',
-      interestedProducts: undefined,
-      followedUpDate1: '2024-04-05',
-      followedUpDate2: null,
-      followedUpDate3: null,
-      visitedShowroom: 'Yes',
-      purchased: 'No',
-      salesPerson: undefined,
-      notes: 'This is a note'
-    },
-    {
-      id: '6',
-      name: 'Viola Bernhard',
-      email: 'Jamie23@hotmail.com',
-      phoneNumber: '1-800-123-4567',
-      links: [
-        { link: 'https://google.com', lastSavedDate: '2024-04-05'}
-      ],
-      customerBuyingPhase: "Haven't collected Keys",
-      keyCollectionDate: '2024-04-05',
-      interestedProducts: undefined,
-      followedUpDate1: '2024-04-05',
-      followedUpDate2: null,
-      followedUpDate3: null,
-      visitedShowroom: 'Yes',
-      purchased: 'No',
-      salesPerson: 'John Doe',
-      notes: 'This is a note',
-    },
-    {
-      id: '7',
-      name: 'Austin Jacobi',
-      email: 'Genesis42@yahoo.com',
-      phoneNumber: '1-800-123-4567',
-      links: [
-        { link: 'https://google.com', lastSavedDate: '2024-04-05'}
-      ],
-      customerBuyingPhase: "Haven't collected Keys",
-      keyCollectionDate: '2024-04-05',
-      interestedProducts: undefined,
-      followedUpDate1: '2024-04-05',
-      followedUpDate2: null,
-      followedUpDate3: null,
-      visitedShowroom: 'Yes',
-      purchased: 'No',
-      salesPerson: 'John Doe',
-      notes: 'This is a note'
-    },
-    {
-      id: '8',
-      name: 'Hershel Mosciski',
-      email: 'Idella.Stehr28@yahoo.com',
-      phoneNumber: '1-800-123-4567',
-      links: [
-        { link: 'https://google.com', lastSavedDate: '2024-04-05'}
-      ],
-      customerBuyingPhase: "Haven't collected Keys",
-      keyCollectionDate: null,
-      interestedProducts: undefined,
-      followedUpDate1: '2024-04-05',
-      followedUpDate2: null,
-      followedUpDate3: null,
-      visitedShowroom: 'Yes',
-      purchased: 'No',
-      salesPerson: 'John Doe',
-      notes: undefined
-    },
-    {
-      id: '9',
-      name: 'Mylene Ebert',
-      email: 'Hildegard17@hotmail.com',
-      phoneNumber: '1-800-123-4567',
-      links: [
-        { link: 'https://google.com', lastSavedDate: '2024-04-05'}
-      ],
-      customerBuyingPhase: "Haven't collected Keys",
-      keyCollectionDate: '2024-04-05',
-      interestedProducts: undefined,
-      followedUpDate1: '2024-04-05',
-      followedUpDate2: null,
-      followedUpDate3: null,
-      visitedShowroom: 'Yes',
-      purchased: 'No',
-      salesPerson: undefined,
-      notes: undefined
-    }
-  ]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [page, setPage] = useState<number>(parseInt(searchParams.get('page') || '1'));
+  const [limit, setLimit] = useState<number>(parseInt(searchParams.get('limit') || '10'));
+  const [search, setSearch] = useState<string>(searchParams.get('search') || '');
 
-  const columns: Column<ITracking>[] = [
-    { 
-      key: 'name', 
-      label: 'Name',
-      type: 'user',
-      sort: true
+  const [filters, setFilters] = useState({
+    buying_phase: searchParams.get('buying_phase') || '',
+    visited_showroom: searchParams.get('visited_showroom') || '',
+    purchased: searchParams.get('purchased') || '',
+  });
+  
+  const { useUsersQuery } = useUser();
+  const { data: userData } = useUsersQuery();
+  const { user } = useAuthContext();
+  const { useClientQuery, useUpdateMutation } = useClient();
+  const { data: clientData, isLoading, isError } = useClientQuery(page, limit, search, filters);
+
+  const filterOptions = [
+    {
+      key: 'buying_phase',
+      label: 'Buysing Phase',
+      options: Object.values(BuyingPhase).map((value, index) => ({
+        label: value,
+        value: index.toString(),
+      }))
     },
-    { 
-      key: 'phoneNumber', 
-      label: 'Phone Number', 
-      icon: <IconPhone/>,
-    },
-    { 
-      key: 'email', 
-      label: 'Email', 
-      icon: <IconMail/>,
-      sort: true
-    },
-    { 
-      key: 'links', 
-      label: 'Link to Saved Design', 
-      type: 'multiline',
-      data: [
-        {
-          key: 'link',
-          type: 'link',
-        },
-        {
-          key: 'lastSavedDate',
-          icon: <IconCalendar/>
-        }
+    {
+      key: 'visited_showroom',
+      label: 'Showroom',
+      options: [
+        { value: 'true', label: 'Visited' },
+        { value: 'false', label: 'Not Visited' },
       ]
     },
-    { 
-      key: 'customerBuyingPhase', 
-      label: 'Customer Buying Phase', 
-      type: 'select', 
-      options: Object.values(BuyingPhase), 
-      onChange: (id, value) => {
-        setData((prevData) =>
-          prevData.map((item) =>
-            item.id === id ? { ...item, customerBuyingPhase: value } : item
-          )
-        );
-      }
-    },
-    { 
-      key: 'keyCollectionDate', 
-      label: 'Key Collection Date',
-      type: 'date',
-      onChange: (id, value) => {
-        setData((prevData) =>
-          prevData.map((item) =>
-            item.id === id ? { ...item, keyCollectionDate: value } : item
-          )
-        );
-      }
-    },
-    { 
-      key: 'interestedProducts', 
-      label: 'List of Interested Products',
-      type: 'textarea',
-      onChange: (id, value) => {
-        setData((prevData) =>
-          prevData.map((item) =>
-            item.id === id ? { ...item, interestedProducts: value } : item
-          )
-        );
-      } 
-    },
-    { 
-      key: 'followedUpDate1', 
-      label: 'Followed Up Date 1',
-      sort: true,
-      type: 'date',
-      onChange: (id, value) => {
-        setData((prevData) =>
-          prevData.map((item) =>
-            item.id === id ? { ...item, followedUpDate1: value } : item
-          )
-        );
-      }
-    },
-    { 
-      key: 'followedUpDate2', 
-      label: 'Followed Up Date 2',
-      sort: true,
-      type: 'date',
-      onChange: (id, value) => {
-        setData((prevData) =>
-          prevData.map((item) =>
-            item.id === id ? { ...item, followedUpDate2: value } : item
-          )
-        );
-      }
-    },
-    { 
-      key: 'followedUpDate3', 
-      label: 'Followed Up Date 3',
-      sort: true,
-      type: 'date',
-      onChange: (id, value) => {
-        setData((prevData) =>
-          prevData.map((item) =>
-            item.id === id ? { ...item, followedUpDate3: value } : item
-          )
-        );
-      }
-    },
     {
-      key: "visitedShowroom",
-      label: "Visited Showroom?",
-      type: "select",
-      options: ["Yes", "No"],
-      render: (value) => (value ? "Yes" : "No"),
-      onChange: (id, value) => {
-        setData((prevData) =>
-          prevData.map((item) =>
-            item.id === id ? { ...item, visitedShowroom: value } : item
-          )
-        );
-      },
-    },
-    {
-      key: "purchased",
-      label: "Purchased?",
-      type: "select",
-      options: ["Yes", "No"],
-      render: (value) => (value ? "Yes" : "No"),
-      onChange: (id, value) => {
-        setData((prevData) =>
-          prevData.map((item) =>
-            item.id === id ? { ...item, purchased: value } : item
-          )
-        );
-      },
-    },
-    {
-      key: "salesPerson",
-      label: "Assigned Sales Person",
-      sort: true,
-      type: "select",
-      options: ["None","John Doe", "Jane Doe"],
-      onChange: (id, value) => {
-        setData((prevData) =>
-          prevData.map((item) =>
-            item.id === id ? { ...item, salesPerson: value } : item
-          )
-        );
-      },
-    },
-    {
-      key: 'notes',
-      label: 'Notes',
-      type: 'textarea',
-      onChange: (id, value) => {    
-        setData((prevData) =>
-          prevData.map((item) =>
-            item.id === id ? { ...item, notes: value } : item
-          )
-        );
-      }
+      key: 'purchased',
+      label: 'Purchase',
+      options: [
+        { value: 'true', label: 'Done' },
+        { value: 'false', label: 'Not Done' },
+      ]
     }
   ];
 
-  return <CustomTable data={data} columns={columns} />;
+  useEffect(() => {
+    if (!userData) return;
+  },[user?.role, userData]);
+
+  useEffect(() => {
+    const filtersChanged = 
+      filters.buying_phase !== searchParams.get('buying_phase') || 
+      filters.visited_showroom !== searchParams.get('visited_showroom') ||
+      filters.purchased !== searchParams.get('purchased');
+    const paramsChanged = [
+      String(page) !== searchParams.get('page'),
+      String(limit) !== searchParams.get('limit'),
+      search !== searchParams.get('search'),
+      filtersChanged
+    ].some(Boolean);
+
+    if (paramsChanged) {
+      const newParams = new URLSearchParams();
+      newParams.set('page', String(page));
+      newParams.set('limit', String(limit));
+      if (search) newParams.set('search', search);
+      if (filters.buying_phase) newParams.set('buying_phase', filters.buying_phase);
+      if (filters.visited_showroom) newParams.set('visited_showroom', filters.visited_showroom);
+      if (filters.purchased) newParams.set('purchased', filters.purchased);
+      setSearchParams(newParams, { replace: true });
+    }
+  }, [page, search, limit, filters]);
+
+  if (isError) return <p>Error fetching clients</p>;
+
+  const clientUpdateSchema = z.object({
+    id: z.number(),
+    sales_person: z.object({
+      email: z.string().email().optional(),
+    }).optional(),
+    followed_up_date_1: z.number().optional(),
+    followed_up_date_2: z.number().optional(),
+    followed_up_date_3: z.number().optional(),
+  }).passthrough()
+  .refine(
+    (data) => !(data.followed_up_date_2 && !data.followed_up_date_1),
+    {
+      message: "Follow-up date 2 cannot be set without follow-up date 1.",
+      path: ["followed_up_date_2"],
+    }
+  ).refine(
+    (data) => !(data.followed_up_date_3 && !data.followed_up_date_2),
+    {
+      message: "Follow-up date 3 cannot be set without follow-up date 2.",
+      path: ["followed_up_date_3"],
+    }
+  ).refine(
+    (data) => !(data.followed_up_date_1 && data.followed_up_date_2 && data.followed_up_date_2 < data.followed_up_date_1),
+    {
+      message: "Follow-up date 2 cannot be earlier than follow-up date 1.",
+      path: ["followed_up_date_2"],
+    }
+  ).refine(
+    (data) => !(data.followed_up_date_2 && data.followed_up_date_3 && data.followed_up_date_3 < data.followed_up_date_2),
+    {
+      message: "Follow-up date 3 cannot be earlier than follow-up date 2.",
+      path: ["followed_up_date_3"],
+    }
+  );
+
+  const handleUpdate = async (editedItem: Partial<IClient>) => {
+    try {
+      const validatedData = clientUpdateSchema.parse({
+        ...editedItem,
+        id: Number(editedItem.id),
+        customer_buying_phase: editedItem.customer_buying_phase
+          ? Object.values(BuyingPhase).indexOf(editedItem.customer_buying_phase as unknown as BuyingPhase)
+          : undefined,
+        sales_person: editedItem.sales_person
+          ? { email: editedItem.sales_person }
+          : undefined,
+      });
+      await useUpdateMutation.mutate({ client: validatedData as Partial<IClient>, page, limit, search, filters });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const errorMsg = error.errors.map((err) => err.message).join("\n");
+        showNotification(NotificationType.Error, errorMsg)
+      }
+    }
+  };
+
+  return (
+    <CustomTable 
+      data={clientData?.clients || []} 
+      dataLoading={isLoading}
+      columns={
+        getLeadTrackerColumns({ 
+          allUsers: userData || [], 
+          role: user?.role as Role
+        })
+      } 
+      onSave={handleUpdate}
+      searchInputProps={{
+        searchKey: ['email', 'assigned salesperson'],
+        value: search,
+        onChange: (value: string) => {
+          setSearch(value);
+          setPage(1);
+        }
+      }}
+      filterProps={{
+        filters: filterOptions,
+        values: filters,
+        onChange: (key: string, value: string) => {
+          setFilters(prev => ({
+            ...prev,
+            [key]: value
+          }));
+          setPage(1); 
+        }
+      }}
+      pageProps={{
+        total: clientData?.totalPages || 1,
+        value: page,
+        itemsPerPage: limit,
+        onPageChange: (value: number) => {
+          setPage(value);
+        },
+        onItemsPerPageChange: (value: number) => {
+          setLimit(value)
+        }
+      }}
+    />
+  )
 };

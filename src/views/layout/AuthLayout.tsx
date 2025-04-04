@@ -13,60 +13,53 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import { useForm, zodResolver } from '@mantine/form';
 import { upperFirst, useToggle } from '@mantine/hooks';
 import { IconArrowLeft } from '@tabler/icons-react';
-import { useNavigate } from 'react-router';
 import { AuthRequest, RegisterRequest } from '../../lib/services/auth/types';
 import { useAuth } from '../../lib/hooks/useAuth';
-import { showNotification } from '../../lib/utils';
+import { z } from 'zod';
+
+const loginSchema = z.object({
+  email: z.string().email({ message: 'Invalid email' }),
+  password: z.string().min(6, { message: 'Password should include at least 6 characters' }),
+});
+
+const registerSchema = loginSchema.extend({
+  name: z.string().min(1, { message: 'Name is required' }),
+  terms: z.literal(true, { errorMap: () => ({ message: 'You must accept terms and conditions' }) }),
+});
+
+const forgotSchema = z.object({
+  email: z.string().email({ message: 'Invalid email' }),
+});
 
 export const AuthLayout = () => {
-  const navigate = useNavigate();
   const [type, toggle] = useToggle(['login', 'register', 'forgot']);
-  const { login, loginStatus, register, registerStatus } = useAuth();
+  const { useLoginMutation, useRegisterMutation, useForgotPasswordMutation } = useAuth();
   const form = useForm({
     initialValues: {
       email: '',
       name: '',
       password: '',
       terms: true,
+      rememberMe: false,
     },
-
-    validate: {
-      email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
-      password: (val) => (val.length < 6 ? 'Password should include at least 6 characters' : null),
-    },
+    validate: zodResolver(
+      type === 'login' ? loginSchema : type === 'register' ? registerSchema : forgotSchema
+    ),
   });
 
   const handleAuth = async (values: AuthRequest | RegisterRequest) => {
     if (type === "login") {
-      login(
-        values as AuthRequest,
-        { 
-          onSuccess: () => {
-            showNotification("success", "Login Successful", "Welcome back!");
-            navigate("/user/home");
-          },
-          onError: (error) => {
-            showNotification("error", "Login Failed", error.message || "Invalid credentials");
-          },
-        }
-      );
+      await useLoginMutation.mutate({ email: values.email?.toLowerCase(), password: values.password, rememberMe: values.rememberMe } as AuthRequest);
     } else {
-      register(
-        { ...values, role: "salesperson" } as RegisterRequest,
-        { 
-          onSuccess: () => {
-            showNotification("success", "Registration Successful", "Your account has been created!");
-            navigate("/user/home");
-          },
-          onError: (error) => {
-            showNotification("error", "Registration Failed", error.message || "Something went wrong");
-          },
-        }
-      );
+      await useRegisterMutation.mutate({ ...values, email: values.email?.toLowerCase(), role: "salesperson" } as RegisterRequest)
     }
+  };
+
+  const handleForgotPassword = async (email: string) => {
+    await useForgotPasswordMutation.mutate({ email: email.toLowerCase() });
   };
 
   const handleToggle = (newType: "login" | "register" | "forgot") => {
@@ -75,7 +68,7 @@ export const AuthLayout = () => {
   };
 
   return (
-    <Container size={600} my={40} h={"100vh"} className='flex flex-col items-center justify-center'>
+    <Container size={600} className='flex flex-col min-h-screen items-center justify-center'>
       <Title ta="center">
         {type === 'forgot' ? 'Forgot your password?' : 'Welcome back!'}
       </Title>
@@ -141,7 +134,11 @@ export const AuthLayout = () => {
 
           {type === 'login' && (
             <Group justify="space-between" mt="lg">
-              <Checkbox label="Remember me" />
+              <Checkbox 
+                label="Remember me" 
+                checked={form.values.rememberMe}
+                onChange={(event) => form.setFieldValue('rememberMe', event.currentTarget.checked)}
+              />
               <Anchor
                 component="button"
                 size="sm"
@@ -160,11 +157,16 @@ export const AuthLayout = () => {
                     <Box ml={5}>Back to the login page</Box>
                   </Center>
                 </Anchor>
-                <Button>Reset password</Button>
+                <Button 
+                  type="button" 
+                  loading={useForgotPasswordMutation.status === 'pending'}
+                  onClick={() => handleForgotPassword(form.values.email)}>
+                  Reset password
+                </Button>
               </Group>
             : <Button loading={type === "login" 
-                ? loginStatus === 'pending'
-                : registerStatus === 'pending'
+                ? useLoginMutation.status === 'pending'
+                : useRegisterMutation.status === 'pending'
               } type="submit" radius="xl" fullWidth mt="xl">
                 {upperFirst(type)}
               </Button>

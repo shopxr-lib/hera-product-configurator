@@ -8,8 +8,16 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ServiceProvider } from "./lib/context/ServiceProvider.tsx";
 import { EventSystemProvider } from "./lib/context/EventSystemProvider.tsx";
 import { BrowserRouter } from "react-router";
+import { AuthProvider } from "./lib/context/AuthProvider.tsx";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -51,13 +59,15 @@ createRoot(document.getElementById("root")!).render(
     >
       <Notifications />
       <QueryClientProvider client={queryClient}>
-        <EventSystemProvider>
-          <ServiceProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </ServiceProvider>
-        </EventSystemProvider>
+          <EventSystemProvider>
+            <ServiceProvider>
+              <AuthProvider>
+                <BrowserRouter>
+                  <App />
+                </BrowserRouter>
+              </AuthProvider>
+            </ServiceProvider>
+          </EventSystemProvider>
       </QueryClientProvider>
     </MantineProvider>
   </StrictMode>,
