@@ -1,8 +1,8 @@
 import { CustomTable } from "../../components";
-import { IClient } from "./types";
+import { IContact } from "./types";
 import { BuyingPhase, NotificationType, Role } from "../../types";
 import { useEffect, useState } from "react";
-import { useClient } from "../../lib/hooks/useClient";
+import { useContact } from "../../lib/hooks/useClient";
 import { useUser } from "../../lib/hooks/useUser";
 import { useSearchParams } from "react-router";
 import { getLeadTrackerColumns } from "../../components/tableColumn";
@@ -25,8 +25,8 @@ export const LeadTracker = () => {
   const { useUsersQuery } = useUser();
   const { data: userData } = useUsersQuery();
   const { user } = useAuthContext();
-  const { useClientQuery, useUpdateMutation } = useClient();
-  const { data: clientData, isLoading, isError } = useClientQuery(page, limit, search, filters);
+  const { useContactQuery, useUpdateMutation } = useContact();
+  const { data: contactData, isLoading, isError } = useContactQuery(page, limit, search, filters);
 
   const filterOptions = [
     {
@@ -120,7 +120,7 @@ export const LeadTracker = () => {
     }
   );
 
-  const handleUpdate = async (editedItem: Partial<IClient>) => {
+  const handleUpdate = async (editedItem: Partial<IContact>) => {
     try {
       const validatedData = clientUpdateSchema.parse({
         ...editedItem,
@@ -132,7 +132,7 @@ export const LeadTracker = () => {
           ? { email: editedItem.sales_person }
           : undefined,
       });
-      await useUpdateMutation.mutate({ client: validatedData as Partial<IClient>, page, limit, search, filters });
+      await useUpdateMutation.mutate({ contact: validatedData as Partial<IContact>, page, limit, search, filters });
     } catch (error) {
       if (error instanceof z.ZodError) {
         const errorMsg = error.errors.map((err) => err.message).join("\n");
@@ -143,7 +143,7 @@ export const LeadTracker = () => {
 
   return (
     <CustomTable 
-      data={clientData?.clients || []} 
+      data={contactData?.contacts || []} 
       dataLoading={isLoading}
       columns={
         getLeadTrackerColumns({ 
@@ -172,7 +172,7 @@ export const LeadTracker = () => {
         }
       }}
       pageProps={{
-        total: clientData?.totalPages || 1,
+        total: contactData?.totalPages || 1,
         value: page,
         itemsPerPage: limit,
         onPageChange: (value: number) => {

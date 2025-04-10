@@ -1,17 +1,17 @@
 import { IUser } from "../../lib/services/auth/types";
 
-export interface ILink {
+export interface IConfigurationSession {
   id: number;
-  link: string;
-  last_saved_date: string;
+  session_link: string;
+  created_at: string;
 }
 
-export interface IClient {
+export interface IContact {
   id: number;
   name: string;
-  contact_email: string;
-  phone_number: string;
-  links: ILink[];
+  email: string;
+  phone: string;
+  configuration_sessions: IConfigurationSession[];
   customer_buying_phase: number | null;
   key_collection_date: string | null;
   interested_products: string | null;

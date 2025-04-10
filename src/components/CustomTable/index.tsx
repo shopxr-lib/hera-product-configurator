@@ -42,11 +42,6 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
    // For data transformation
    const [transformedData, setTransformedData] = useState<T[] | null>(null);
  
-   // For sorting
-  //  const [sortBy, setSortBy] = useState<keyof T | null>(null);
-  //  const [reverseSortDirection, setReverseSortDirection] = useState(false);
-  //  const [sortedData, setSortedData] = useState(transformedData);
- 
    // To edit data
    const [editingId, setEditingId] = useState<string | null>(null);
    const [editedData, setEditedData] = useState<Record<string, unknown>>({});
@@ -79,23 +74,6 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
     setTransformedData(formattedData)
   }, [data]);
 
-  // useEffect(() => {
-  //   if (!transformedData) return;
-  //   setSortedData(sortData(transformedData, sortBy, reverseSortDirection));
-  // }, [transformedData]);
-
-  // const sortData = (items: T[], sortField: keyof T | null, reversed: boolean) => {
-  //   if (!sortField) return items;
-  //   return (
-  //     [...items].sort((a, b) => {
-  //       if (!sortField) return 0;
-  //       const aValue = String(a[sortField]);
-  //       const bValue = String(b[sortField]);
-  //       return reversed ? bValue.localeCompare(aValue) : aValue.localeCompare(bValue);
-  //     })
-  //   )
-  // };
-
   const toggleRow = (id: string) =>
     setSelection((current) =>
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
@@ -103,13 +81,6 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
 
   const toggleAll = () =>
     setSelection((current) => (current.length === data.length ? [] : data.map((item) => String(item.id))));
-
-  // const setSorting = (field: keyof T) => {
-  //   const reversed = field === sortBy ? !reverseSortDirection : false;
-  //   setReverseSortDirection(reversed);
-  //   setSortBy(field);
-  //   setSortedData(sortData(data, field, reversed));
-  // };
 
   const handleEditChange = (id: string, key: string, value: unknown) => {
     setEditedData((prev) => ({
@@ -138,9 +109,12 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
     if (editedData[id]) {
       const data = editedData[id] as Record<string, unknown>;
       Object.keys(data).forEach(key => {
-        if (data[key] === 'None' || (data)[key] === '') {
+        if (data[key] === 'None' || data[key] === '' || data[key] === 'N/A') {
           data[key] = undefined;
-        }      
+        }   
+        else if (data[key] === undefined) {
+          data[key] = null;
+        }  
         else if (data[key] === null) {
           data[key] = 0;
         }
@@ -203,8 +177,8 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
     const { options } = col as StandardColumn<T>;
     const cellKey = key as keyof T;
     const value = item[cellKey];
-    const editedValue = (editedData[item.id] as Record<string, unknown>)?.[String(cellKey)] ?? null;
-  
+    const editedValue = (editedData[item.id] as Record<string, unknown>)?.[String(cellKey)];
+
     // Editable cases
     if (editingId === String(item.id) && (!role || role === user?.role) && (type && !icon)) {
       const selectOptions: ComboboxItem[] = [
@@ -241,7 +215,7 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
               className='w-max'
               placeholder="Type..."
               rows={4}
-              value={editedValue ? String(editedValue) : undefined}
+              value={editedValue ? String(editedValue): undefined}
               onChange={event => handleEditChange(String(item.id), String(key), event.currentTarget.value)}
             />
           );
@@ -416,23 +390,9 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
     return (
       <Table.Th key={String(key)} className="p-0 bg-brand-700 text-white">
         <UnstyledButton 
-          // onClick={() => isSortable && setSorting(key as keyof T)}  
           className="w-max flex justify-between p-2 hover:bg-gray-100">
           <Group justify="space-between">
             <Text fw={500} fz="sm">{label}</Text>
-            {/* {isSortable &&
-              <Center className="w-5 h-5 rounded-md">
-                {sortBy === key ? (
-                  reverseSortDirection ? (
-                    <IconChevronUp size={16} stroke={1.5} />
-                  ) : (
-                    <IconChevronDown size={16} stroke={1.5} />
-                  )
-                ) : (
-                  <IconSelector size={16} stroke={1.5} />
-                )}
-              </Center>
-            } */}
           </Group>
         </UnstyledButton>
       </Table.Th>

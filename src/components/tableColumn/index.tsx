@@ -1,12 +1,12 @@
 import { IconPhone, IconMail, IconCalendar } from "@tabler/icons-react";
 import { IUser } from "../../lib/services/auth/types";
 import { BuyingPhase, Role, Action } from "../../types";
-import { IClient } from "../../views/tracking/types";
+import { IContact } from "../../views/tracking/types";
 import { Column, ActionColumn } from "../../components/customTable/types";
 import { ILeadTrackerColumnsProps, IUserManagementColumnProps } from "./types";
 import { BUYING_PHASE } from "../../types/constants";
 
-export const getLeadTrackerColumns = ({ allUsers, role }: ILeadTrackerColumnsProps): Column<IClient>[] => [
+export const getLeadTrackerColumns = ({ allUsers, role }: ILeadTrackerColumnsProps): Column<IContact>[] => [
   { 
     key: 'name', 
     label: 'Name',
@@ -14,27 +14,27 @@ export const getLeadTrackerColumns = ({ allUsers, role }: ILeadTrackerColumnsPro
     sort: true
   },
   { 
-    key: 'phone_number', 
+    key: 'phone', 
     label: 'Phone Number', 
     icon: <IconPhone/>,
   },
   { 
-    key: 'contact_email', 
+    key: 'email', 
     label: 'Email', 
     icon: <IconMail/>,
     sort: true
   },
   { 
-    key: 'links', 
+    key: 'configuration_sessions', 
     label: 'Link to Saved Design', 
     type: 'multiline',
     data: [
       {
-        key: 'link',
+        key: 'session_link',
         type: 'link',
       },
       {
-        key: 'last_saved_date',
+        key: 'created_at',
         type: 'date',
         icon: <IconCalendar/>
       }
@@ -58,7 +58,8 @@ export const getLeadTrackerColumns = ({ allUsers, role }: ILeadTrackerColumnsPro
   { 
     key: 'interested_products', 
     label: 'List of Interested Products',
-    type: 'textarea'
+    type: 'textarea',
+    render: (value) => value ? String(value) : undefined
   },
   { 
     key: 'followed_up_date_1', 
@@ -115,6 +116,7 @@ export const getLeadTrackerColumns = ({ allUsers, role }: ILeadTrackerColumnsPro
     key: 'notes',
     label: 'Notes',
     type: 'textarea',
+    render: (value) => value ? String(value) : undefined
   },
   {
     key: 'action',
@@ -123,7 +125,7 @@ export const getLeadTrackerColumns = ({ allUsers, role }: ILeadTrackerColumnsPro
     actions: [{
       key: Action.Edit,
     }]
-  } as ActionColumn<IClient>
+  } as ActionColumn<IContact>
 ];
 
 export const getUserManagementColumns = ({ useApproveMutation, useDeleteMutation, page, limit, search, filters }: IUserManagementColumnProps): Column<IUser>[] => [
