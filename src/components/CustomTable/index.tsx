@@ -57,8 +57,7 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
    const { user } = useAuthContext();
 
   useEffect(() => {
-    if (data === undefined) return;
-    if (data && data.length === 0) return;
+    if (data === undefined) setTransformedData([])
     const formattedData = data.map((record) => {
       const newRecord = { ...record };
       columns.forEach((col) => {
@@ -383,10 +382,9 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
     }
   };
 
-  const renderSortedHead = (col: Column<T>) => {
+  const renderHead = (col: Column<T>) => {
     const { key, label, visible } = col;
     if (visible !== undefined && !visible) return;
-    // const isSortable = (col as StandardColumn<T>).sort;
     return (
       <Table.Th key={String(key)} className="p-0 bg-brand-700 text-white">
         <UnstyledButton 
@@ -399,7 +397,7 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
     )
   }
 
-  const renderSortedBody = (item: T) => {
+  const renderBody = (item: T) => {
     const selected = selection.includes(String(item.id));
     return (
       <Table.Tr key={item.id} className={selected ? "bg-blue-100" : ""}>
@@ -423,8 +421,8 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
   }
 
   const tableData = {
-    head: columns.map((col: Column<T>) => renderSortedHead(col)),
-    body: transformedData?.map((item: T) => (renderSortedBody(item)))
+    head: columns.map((col: Column<T>) => renderHead(col)),
+    body: transformedData?.map((item: T) => (renderBody(item)))
   };
 
   return (
@@ -454,47 +452,49 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
           />
         ))}
       </Group>
-      <Group justify="space-between">
-        <Table striped withTableBorder withColumnBorders horizontalSpacing='lg' verticalSpacing="xs" mt={20}>
-          {/* Table Header */}
-          <Table.Thead className={`bg-brand-500 text-brand-900 transition-shadow`}>
-            <Table.Tr>
-              <Table.Th w={40}>
-                <Checkbox
-                  className="hover:cursor-pointer"
-                  onChange={toggleAll}
-                  checked={selection.length > 0 && selection.length === data.length}
-                  indeterminate={selection.length > 0 && selection.length !== data.length}
-                />
-              </Table.Th>
-              {tableData.head}
-            </Table.Tr>
-          </Table.Thead>
+      <Group justify="space-between" w={'max-content'}>
+        <Box className="max-h-[calc(100vh-300px)] w-full overflow-y-auto">
+          <Table striped withTableBorder withColumnBorders horizontalSpacing='lg' verticalSpacing="xs" mt={20}>
+            {/* Table Header */}
+            <Table.Thead className={`bg-brand-500 text-brand-900 transition-shadow sticky top-0 z-10`}>
+              <Table.Tr>
+                <Table.Th w={40}>
+                  <Checkbox
+                    className="hover:cursor-pointer"
+                    onChange={toggleAll}
+                    checked={selection.length > 0 && selection.length === data.length}
+                    indeterminate={selection.length > 0 && selection.length !== data.length}
+                  />
+                </Table.Th>
+                {tableData.head}
+              </Table.Tr>
+            </Table.Thead>
 
-          {/* Table Body */}
-          <Table.Tbody>
-            {dataLoading  
-              ? <Table.Tr>
+            {/* Table Body */}
+            <Table.Tbody>
+              {dataLoading  
+                ? <Table.Tr>
+                    <Table.Td colSpan={columns.length + 1}>
+                      <Group my={20}>
+                        {Array(5).fill(null).map((_, index) => (
+                          <Box key={index} w="100%">
+                            {index > 0 && <Divider size={1} mb="md" />}
+                            <Skeleton visible height={30} radius="sm" />
+                          </Box>
+                        ))}
+                      </Group>
+                    </Table.Td>
+                  </Table.Tr>
+                : transformedData && transformedData.length > 0 ? tableData.body : (
+                <Table.Tr>
                   <Table.Td colSpan={columns.length + 1}>
-                    <Group my={20}>
-                      {Array(5).fill(null).map((_, index) => (
-                        <Box key={index} w="100%">
-                          {index > 0 && <Divider size={1} mb="md" />}
-                          <Skeleton visible height={30} radius="sm" />
-                        </Box>
-                      ))}
-                    </Group>
+                    <Text fw={500} ta="center">Nothing found</Text>
                   </Table.Td>
                 </Table.Tr>
-              : transformedData && transformedData.length > 0 ? tableData.body : (
-              <Table.Tr>
-                <Table.Td colSpan={columns.length + 1}>
-                  <Text fw={500} ta="center">Nothing found</Text>
-                </Table.Td>
-              </Table.Tr>
-            )}
-          </Table.Tbody>
-        </Table>
+              )}
+            </Table.Tbody>
+          </Table>
+        </Box>
         {pageProps && (
           <CustomPagination
             total={pageProps.total}

@@ -5,7 +5,7 @@ const brandLink = "https://shopxr.org";
 
 const Branding = () => {
   return (
-    <div className="fixed bottom-0 w-full flex justify-center items-center bg-gray-100 py-3 border-gray-200 border-t-1">
+    <div className="fixed bottom-0 w-full flex justify-center items-center py-3">
       <Text size="xs">Powered by</Text>
       <Anchor href={brandLink} target="_blank">
         <img alt="Powered by ShopXR" src={Logo} className="h-4" />

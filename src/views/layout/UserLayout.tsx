@@ -26,6 +26,7 @@ export const UserLayout = () => {
 
   return (
     <AppShell
+      w={'100%'}
       transitionDuration={500}
       transitionTimingFunction="ease"
       navbar={{
@@ -118,8 +119,8 @@ export const UserLayout = () => {
         </div>
       </AppShell.Navbar>
 
-      <AppShell.Main>
-        <Container m={30} pb={30} w={'100%'}>
+      <AppShell.Main className="flex flex-col min-h-screen">
+        <Container m={40}>
           <Title order={2} mb={40}>
             {currentPage}
           </Title>
