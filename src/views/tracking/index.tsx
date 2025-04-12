@@ -1,7 +1,7 @@
 import { CustomTable } from "../../components";
 import { IContact } from "./types";
 import { BuyingPhase, NotificationType, Role } from "../../types";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useContact } from "../../lib/hooks/useClient";
 import { useUser } from "../../lib/hooks/useUser";
 import { useSearchParams } from "react-router";
@@ -9,12 +9,15 @@ import { getLeadTrackerColumns } from "../../components/tableColumn";
 import { z } from "zod";
 import { showNotification } from "../../lib/utils";
 import { useAuthContext } from "../../lib/hooks/useAuthContext";
+import { getLeadTrackerFilters } from "../../components/tableFilter";
+import debounce from "lodash/debounce";
 
 export const LeadTracker = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState<number>(parseInt(searchParams.get('page') || '1'));
   const [limit, setLimit] = useState<number>(parseInt(searchParams.get('limit') || '10'));
   const [search, setSearch] = useState<string>(searchParams.get('search') || '');
+  const [debouncedSearch, setDebouncedSearch] = useState<string>(search);
 
   const [filters, setFilters] = useState({
     buying_phase: searchParams.get('buying_phase') || '',
@@ -26,34 +29,16 @@ export const LeadTracker = () => {
   const { data: userData } = useUsersQuery();
   const { user } = useAuthContext();
   const { useContactQuery, useUpdateMutation } = useContact();
-  const { data: contactData, isLoading, isError } = useContactQuery(page, limit, search, filters);
+  const { data: contactData, isLoading, isError } = useContactQuery(page, limit, debouncedSearch, filters);
 
-  const filterOptions = [
-    {
-      key: 'buying_phase',
-      label: 'Buysing Phase',
-      options: Object.values(BuyingPhase).map((value, index) => ({
-        label: value,
-        value: index.toString(),
-      }))
-    },
-    {
-      key: 'visited_showroom',
-      label: 'Showroom',
-      options: [
-        { value: 'true', label: 'Visited' },
-        { value: 'false', label: 'Not Visited' },
-      ]
-    },
-    {
-      key: 'purchased',
-      label: 'Purchase',
-      options: [
-        { value: 'true', label: 'Done' },
-        { value: 'false', label: 'Not Done' },
-      ]
-    }
-  ];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSetSearch = useCallback(
+    debounce((value: string) => {
+      setDebouncedSearch(value);
+      setPage(1);
+    }, 500),
+    []
+  );
 
   useEffect(() => {
     if (!userData) return;
@@ -67,7 +52,7 @@ export const LeadTracker = () => {
     const paramsChanged = [
       String(page) !== searchParams.get('page'),
       String(limit) !== searchParams.get('limit'),
-      search !== searchParams.get('search'),
+      debouncedSearch !== searchParams.get('search'),
       filtersChanged
     ].some(Boolean);
 
@@ -75,13 +60,13 @@ export const LeadTracker = () => {
       const newParams = new URLSearchParams();
       newParams.set('page', String(page));
       newParams.set('limit', String(limit));
-      if (search) newParams.set('search', search);
+      if (debouncedSearch) newParams.set('search', debouncedSearch);
       if (filters.buying_phase) newParams.set('buying_phase', filters.buying_phase);
       if (filters.visited_showroom) newParams.set('visited_showroom', filters.visited_showroom);
       if (filters.purchased) newParams.set('purchased', filters.purchased);
       setSearchParams(newParams, { replace: true });
     }
-  }, [page, search, limit, filters]);
+  }, [page, debouncedSearch, limit, filters, searchParams, setSearchParams]);
 
   if (isError) return <p>Error fetching clients</p>;
 
@@ -153,15 +138,18 @@ export const LeadTracker = () => {
       } 
       onSave={handleUpdate}
       searchInputProps={{
-        searchKey: ['email', 'assigned salesperson'],
+        searchKey: [
+          'email',
+          ...(user?.role === Role.Admin ? ['assigned salesperson'] : [])
+        ],
         value: search,
         onChange: (value: string) => {
           setSearch(value);
-          setPage(1);
+          debouncedSetSearch(value)
         }
       }}
       filterProps={{
-        filters: filterOptions,
+        filters: getLeadTrackerFilters,
         values: filters,
         onChange: (key: string, value: string) => {
           setFilters(prev => ({

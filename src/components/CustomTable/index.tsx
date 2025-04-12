@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { 
-  // IconChevronDown, 
-  // IconChevronUp, 
-  IconLink, 
-  // IconSelector 
-} 
-from '@tabler/icons-react';
+import { IconLink } from '@tabler/icons-react';
 import {
   Checkbox,
   Group,
@@ -21,11 +15,10 @@ import {
   Divider,
   Tooltip,
   ComboboxItem,
-  Pill,
   Code,
   Skeleton,
   Box,
-  // Center,
+  Badge,
 } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { ACTION_ICONS, MAX_LENGTH } from '../../types/constants';
@@ -213,7 +206,6 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
               variant="filled"
               className='w-max'
               placeholder="Type..."
-              rows={4}
               value={editedValue ? String(editedValue): undefined}
               onChange={event => handleEditChange(String(item.id), String(key), event.currentTarget.value)}
             />
@@ -246,11 +238,9 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
     if (options === 'boolean') {
       const isTrue = value === 'true';
       return (
-        <Pill 
-          style={{ backgroundColor: isTrue ? '#3CA73C' : '#DB5E5E', color: 'white' }}
-          size='md'>
-            {`${isTrue ? "Yes" : "No"}`}
-        </Pill>
+        <Badge color={isTrue ? 'green' : 'red'} fullWidth variant="light">
+          {`${isTrue ? "Yes" : "No"}`}
+        </Badge>
       )
     }
 
@@ -312,7 +302,6 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
               actions?.map(({ key, onAction }) =>
                 renderActionButton(key, () => {
                   handleAction(key, item, onAction);
-                  // onAction?.(item);
                 })
               )}
 

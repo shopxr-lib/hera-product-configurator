@@ -1,4 +1,4 @@
-import { IconEdit, IconTrash, IconCheck, IconX, IconRosetteDiscountCheck, IconRosetteDiscountCheckFilled, IconRestore } from "@tabler/icons-react";
+import { IconPencil, IconTrash, IconCheck, IconX, IconRosetteDiscountCheck, IconRosetteDiscountCheckFilled, IconRestore } from "@tabler/icons-react";
 import { Action, BuyingPhase } from ".";
 
 export const MAX_LENGTH = {
@@ -6,11 +6,11 @@ export const MAX_LENGTH = {
 }
 
 export const ACTION_ICONS: Record<string, { icon: React.ReactNode; color: string }> = {
-  [Action.Edit]: { icon: <IconEdit />, color: "blue" },
+  [Action.Edit]: { icon: <IconPencil />, color: "gray" },
   [Action.Delete]: { icon: <IconTrash />, color: "red" },
   [Action.Restore]: { icon: <IconRestore />, color: "teal" },
-  [Action.Approve]: { icon: <IconRosetteDiscountCheck />, color: "teal" },
-  [Action.ResetApproval]: { icon: <IconRosetteDiscountCheckFilled />, color: "teal" },
+  [Action.Approve]: { icon: <IconRosetteDiscountCheck />, color: "green" },
+  [Action.ResetApproval]: { icon: <IconRosetteDiscountCheckFilled />, color: "green" },
   [Action.Close]: { icon: <IconX />, color: "gray" },
   [Action.Confirm]: { icon: <IconCheck />, color: "teal" },
 };

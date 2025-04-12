@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useUser } from "../../lib/hooks/useUser";
 import { Role } from "../../types";
 import { CustomTable } from "../../components";
@@ -6,12 +6,15 @@ import { IUser } from "../../lib/services/auth/types";
 import { useSearchParams } from "react-router";
 import { getUserManagementColumns } from "../../components/tableColumn";
 import { useAuthContext } from "../../lib/hooks/useAuthContext";
+import { getUserManagementFilters } from "../../components/tableFilter";
+import debounce from "lodash/debounce";
 
 export const UserManagement = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState<number>(parseInt(searchParams.get('page') || '1'));
   const [limit, setLimit] = useState<number>(parseInt(searchParams.get('limit') || '10'));
   const [search, setSearch] = useState<string>(searchParams.get('search') || '');
+  const [debouncedSearch, setDebouncedSearch] = useState<string>(search);
 
   const [filters, setFilters] = useState({
     approved: searchParams.get('approved') || '',
@@ -24,27 +27,16 @@ export const UserManagement = () => {
   const { user } = useAuthContext();
 
   // Fetching paginated users
-  const { data: usersData, isLoading, isError } = usePaginatedUsersQuery(page, limit, search, filters);
+  const { data: usersData, isLoading, isError } = usePaginatedUsersQuery(page, limit, debouncedSearch, filters);
 
-
-  const filterOptions = [
-    {
-      key: 'approved',
-      label: 'Approved',
-      options: [
-        { value: 'true', label: 'Yes' },
-        { value: 'false', label: 'No' },
-      ]
-    },
-    {
-      key: 'deleted',
-      label: 'Deleted',
-      options: [
-        { value: 'true', label: 'Yes' },
-        { value: 'false', label: 'No' },
-      ]
-    }
-  ];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSetSearch = useCallback(
+    debounce((value: string) => {
+      setDebouncedSearch(value);
+      setPage(1);
+    }, 500),
+    []
+  );
 
   useEffect(() => {
     const filtersChanged = 
@@ -53,7 +45,7 @@ export const UserManagement = () => {
     const paramsChanged = [
       String(page) !== searchParams.get('page'),
       String(limit) !== searchParams.get('limit'),
-      search !== searchParams.get('search'),
+      debouncedSearch !== searchParams.get('search'),
       filtersChanged
     ].some(Boolean);
     
@@ -61,16 +53,16 @@ export const UserManagement = () => {
       const newParams = new URLSearchParams();
       newParams.set('page', String(page));
       newParams.set('limit', String(limit));
-      if (search) newParams.set('search', search);
+      if (debouncedSearch) newParams.set('search', debouncedSearch);
       if (filters.approved) newParams.set('approved', filters.approved);
       if (filters.deleted) newParams.set('deleted', filters.deleted);
       setSearchParams(newParams, { replace: true });
     }
-  }, [page, search, limit, filters]);
+  }, [page, debouncedSearch, limit, filters, searchParams, setSearchParams]);
 
   useEffect(() => {
     if (!user) loadUser();
-  }, [user]);
+  }, [loadUser, user]);
 
   if (isError) return <p>Error fetching users</p>;
   if (user?.role !== Role.Admin) return null;
@@ -85,11 +77,11 @@ export const UserManagement = () => {
         value: search,
         onChange: (value: string) => {
           setSearch(value);
-          setPage(1);
+          debouncedSetSearch(value);
         }
       }}
       filterProps={{
-        filters: filterOptions,
+        filters: getUserManagementFilters,
         values: filters,
         onChange: (key: string, value: string) => {
           setFilters(prev => ({
