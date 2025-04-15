@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@mantine/core": "^7.16.2",
+    "@mantine/dates": "^7.16.2",
     "@mantine/form": "^7.16.3",
     "@mantine/hooks": "^7.16.2",
     "@mantine/notifications": "^7.16.2",
@@ -20,6 +21,8 @@
     "@tailwindcss/vite": "^4.0.3",
     "@tanstack/react-query": "^5.66.0",
     "axios": "^1.7.9",
+    "dayjs": "^1.11.13",
+    "lodash": "^4.17.21",
     "mantine-form-zod-resolver": "^1.1.0",
     "react": "^18.3.1",
     "react-device-detect": "^2.2.3",
@@ -33,6 +36,7 @@
   "devDependencies": {
     "@eslint/js": "^9.17.0",
     "@tailwindcss/typography": "^0.5.16",
+    "@types/lodash": "^4.17.16",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
