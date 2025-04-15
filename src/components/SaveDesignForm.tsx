@@ -2,7 +2,7 @@ import { Button, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { z } from "zod";
-import PhoneInput from "./input/PhoneInput";
+import PhoneInput from "./Input/PhoneInput";
 import { isValidPhoneNumber } from "react-phone-number-input";
 
 type Props = {

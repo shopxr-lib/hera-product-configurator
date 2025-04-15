@@ -2,7 +2,7 @@ import { IconPhone, IconMail, IconCalendar } from "@tabler/icons-react";
 import { IUser } from "../../lib/services/auth/types";
 import { BuyingPhase, Role, Action } from "../../types";
 import { IContact } from "../../views/tracking/types";
-import { Column, ActionColumn } from "../../components/customTable/types";
+import { Column, ActionColumn } from "../CustomTable/types";
 import { ILeadTrackerColumnsProps, IUserManagementColumnProps } from "./types";
 import { BUYING_PHASE } from "../../types/constants";
 
@@ -44,7 +44,7 @@ export const getLeadTrackerColumns = ({ allUsers, role }: ILeadTrackerColumnsPro
     key: 'customer_buying_phase', 
     label: 'Customer Buying Phase', 
     type: 'select', 
-    render: (value) => BUYING_PHASE[value as number],
+    render: (value: unknown) => BUYING_PHASE[value as number],
     options: Object.values(BuyingPhase).map(value => ({
       label: value,
       value: value,
@@ -59,7 +59,7 @@ export const getLeadTrackerColumns = ({ allUsers, role }: ILeadTrackerColumnsPro
     key: 'interested_products', 
     label: 'List of Interested Products',
     type: 'textarea',
-    render: (value) => value ? String(value) : undefined
+    render: (value: unknown) => value ? String(value) : undefined
   },
   { 
     key: 'followed_up_date_1', 
@@ -110,13 +110,13 @@ export const getLeadTrackerColumns = ({ allUsers, role }: ILeadTrackerColumnsPro
       })),
     role: Role.Admin,
     visible: role === Role.Admin,
-    render: (value) => value ? String((value as unknown as IUser).email) : "N/A",
+    render: (value: unknown) => value ? String((value as unknown as IUser).email) : "N/A",
   },
   {
     key: 'notes',
     label: 'Notes',
     type: 'textarea',
-    render: (value) => value ? String(value) : undefined
+    render: (value: unknown) => value ? String(value) : undefined
   },
   {
     key: 'action',
@@ -144,13 +144,13 @@ export const getUserManagementColumns = ({ useApproveMutation, useDeleteMutation
   { 
     key: 'approved', 
     label: 'Approved', 
-    render: (value) => (value ? "Yes" : "No"),
+    render: (value: unknown) => (value ? "Yes" : "No"),
     options: 'boolean'
   },
   {
     key: 'deleted_at', 
     label: 'Deleted', 
-    render: (value) => (value === 0 ? "No" : "Yes"),
+    render: (value: unknown) => (value === 0 ? "No" : "Yes"),
     options: 'boolean'
   },
   {

@@ -1,7 +1,7 @@
 import { ComboboxItem } from "@mantine/core";
 import { Action, Role } from "../../types";
 import { ISearchInputProps } from "../SearchInput/types";
-import { IPageProps } from "../cutomPagination/types";
+import { IPageProps } from "../CutomPagination/types";
 
 export interface BaseColumn<T> {
   key: keyof T;

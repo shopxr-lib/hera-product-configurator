@@ -1,5 +1,5 @@
 import { BuyingPhase } from "../../types";
-import { IFilter } from "../customTable/types";
+import { IFilter } from "../CustomTable/types";
 
  export const getLeadTrackerFilters: IFilter[]= [
     {

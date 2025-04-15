@@ -26,7 +26,7 @@ import { formatDate, humanize, truncateString } from '../../lib/utils';
 import { Action } from '../../types';
 import { ICustomTableProps, StandardColumn, Column, ActionColumn, MultilineColumn } from './types';
 import { useAuthContext } from '../../lib/hooks/useAuthContext';
-import { CustomModal, CustomPagination, SearchInput } from '..';
+import { CustomModal, CustomPagination, SearchInput } from '../index';
 
 export const CustomTable = <T extends { id: number | string }>({ data, dataLoading, columns, onSave, searchInputProps, filterProps, pageProps }: ICustomTableProps<T>) => {
    // For current selected items
@@ -51,20 +51,22 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
 
   useEffect(() => {
     if (data === undefined) setTransformedData([])
-    const formattedData = data.map((record) => {
-      const newRecord = { ...record };
-      columns.forEach((col) => {
-        const key = col.key as keyof T;
-        if ((col as StandardColumn<T>).options === 'boolean') {
-          newRecord[key] = (record[key] ? "true" : "false") as T[keyof T];
-        } else if (col.render) {
-          newRecord[key] = col.render(record[key], record) as T[keyof T];
-        }
+    else {
+      const formattedData = data.map((record) => {
+        const newRecord = { ...record };
+        columns.forEach((col) => {
+          const key = col.key as keyof T;
+          if ((col as StandardColumn<T>).options === 'boolean') {
+            newRecord[key] = (record[key] ? "true" : "false") as T[keyof T];
+          } else if (col.render) {
+            newRecord[key] = col.render(record[key], record) as T[keyof T];
+          }
+        });
+        return newRecord;
       });
-      return newRecord;
-    });
-    setTransformedData(formattedData)
-  }, [data]);
+      setTransformedData(formattedData)
+    }
+  }, [columns, data]);
 
   const toggleRow = (id: string) =>
     setSelection((current) =>

@@ -1,14 +1,14 @@
-import { CustomTable } from "./customTable";
+import { CustomTable } from "./CustomTable";
 import Canvas from "./Canvas";
 import Customize from "./Customize";
 import CustomizePopUp from "./CustomizePopup2";
 import ShoppingCartFloating from "./ShoppingCartFloating";
 import ShoppingCartDrawer from "./ShoppingCartDrawer";
-import { CustomPagination } from "./cutomPagination";
-import { CustomModal } from "./customModal";
+import { CustomPagination } from "./CutomPagination";
+import { CustomModal } from "./CustomModal";
 import Branding from "./Branding";
 import ServerSync from "./ServerSync";
-import ProtectedRoute from "./protectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
 import SearchInput from "./SearchInput";
 
 export {
