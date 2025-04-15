@@ -7,9 +7,9 @@ import ShoppingCartDrawer from "./ShoppingCartDrawer";
 import CustomPagination from "./CustomPagination";
 import Branding from "./Branding";
 import ServerSync from "./ServerSync";
-import ProtectedRoute from "./ProtectedRoute";
 import SearchInput from "./SearchInput";
 import CustomModal from "./CustomModal";
+import ProtectedRoute from "./ProtectedRoute";
 
 export {
   Canvas,
@@ -19,9 +19,9 @@ export {
   ServerSync,
   ShoppingCartFloating,
   ShoppingCartDrawer,
-  ProtectedRoute,
   SearchInput,
   CustomTable,
   CustomPagination,
-  CustomModal
+  CustomModal,
+  ProtectedRoute,
 }
