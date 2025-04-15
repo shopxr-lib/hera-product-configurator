@@ -491,8 +491,8 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
             total={pageProps.total}
             currentPage={pageProps.value}
             itemsPerPage={pageProps.itemsPerPage}
-            onPageChange={(page) => pageProps.onPageChange(page)}
-            onItemsPerPageChange={(itemsPerPage) => pageProps.onItemsPerPageChange(itemsPerPage)}
+            onPageChange={(page: number) => pageProps.onPageChange(page)}
+            onItemsPerPageChange={(itemsPerPage: number) => pageProps.onItemsPerPageChange(itemsPerPage)}
           />
         )}
       </Group>

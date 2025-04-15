@@ -4,7 +4,7 @@ import Customize from "./Customize";
 import CustomizePopUp from "./CustomizePopup2";
 import ShoppingCartFloating from "./ShoppingCartFloating";
 import ShoppingCartDrawer from "./ShoppingCartDrawer";
-import { CustomPagination } from "./CutomPagination";
+import { CustomPagination } from "./CustomPagination";
 import { CustomModal } from "./CustomModal";
 import Branding from "./Branding";
 import ServerSync from "./ServerSync";
