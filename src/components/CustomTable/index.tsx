@@ -28,7 +28,7 @@ import { ICustomTableProps, StandardColumn, Column, ActionColumn, MultilineColum
 import { useAuthContext } from '../../lib/hooks/useAuthContext';
 import { CustomModal, CustomPagination, SearchInput } from '../index';
 
-export const CustomTable = <T extends { id: number | string }>({ data, dataLoading, columns, onSave, searchInputProps, filterProps, pageProps }: ICustomTableProps<T>) => {
+const CustomTable = <T extends { id: number | string }>({ data, dataLoading, columns, onSave, searchInputProps, filterProps, pageProps }: ICustomTableProps<T>) => {
    // For current selected items
    const [selection, setSelection] = useState<string[]>([]);
 
@@ -499,3 +499,5 @@ export const CustomTable = <T extends { id: number | string }>({ data, dataLoadi
   </>
   );
 }
+
+export default CustomTable;

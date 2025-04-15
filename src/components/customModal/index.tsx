@@ -48,7 +48,7 @@ const defaultConfigs: Record<
   },
 };
 
-export const CustomModal = ({
+const CustomModal = ({
   opened,
   onClose,
   onConfirm,
@@ -97,3 +97,5 @@ export const CustomModal = ({
     </Modal>
   );
 };
+
+export default CustomModal;
