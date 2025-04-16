@@ -8,7 +8,7 @@ import CustomPagination from "./CustomPagination";
 import Branding from "./Branding";
 import ServerSync from "./ServerSync";
 import SearchInput from "./SearchInput";
-import ProtectedRoute from "./ProtectedRoute/index.tsx";
+import ProtectedRoute from "./ProtectedRoute";
 import CustomModal from "./CustomModal";
 
 export {
@@ -22,6 +22,6 @@ export {
   SearchInput,
   CustomTable,
   CustomPagination,
-  ProtectedRoute,
   CustomModal,
+  ProtectedRoute,
 }
