@@ -8,8 +8,8 @@ import CustomPagination from "./CustomPagination";
 import Branding from "./Branding";
 import ServerSync from "./ServerSync";
 import SearchInput from "./SearchInput";
-import CustomModal from "./CustomModal";
 import ProtectedRoute from "./ProtectedRoute";
+import CustomModal from "./CustomModal";
 
 export {
   Canvas,
@@ -22,6 +22,6 @@ export {
   SearchInput,
   CustomTable,
   CustomPagination,
-  CustomModal,
   ProtectedRoute,
+  CustomModal,
 }
