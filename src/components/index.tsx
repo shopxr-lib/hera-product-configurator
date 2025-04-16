@@ -1,15 +1,15 @@
-import { CustomTable } from "./customTable";
+import CustomTable from "./CustomTable";
 import Canvas from "./Canvas";
 import Customize from "./Customize";
 import CustomizePopUp from "./CustomizePopup2";
 import ShoppingCartFloating from "./ShoppingCartFloating";
 import ShoppingCartDrawer from "./ShoppingCartDrawer";
-import { CustomPagination } from "./cutomPagination";
-import { CustomModal } from "./customModal";
+import CustomPagination from "./CustomPagination";
 import Branding from "./Branding";
 import ServerSync from "./ServerSync";
-import ProtectedRoute from "./protectedRoute";
 import SearchInput from "./SearchInput";
+import ProtectedRoute from "./ProtectedRoute";
+import CustomModal from "./CustomModal";
 
 export {
   Canvas,
@@ -19,9 +19,9 @@ export {
   ServerSync,
   ShoppingCartFloating,
   ShoppingCartDrawer,
-  ProtectedRoute,
   SearchInput,
   CustomTable,
   CustomPagination,
-  CustomModal
+  CustomModal,
+  ProtectedRoute,
 }

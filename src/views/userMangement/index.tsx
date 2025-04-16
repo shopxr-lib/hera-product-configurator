@@ -4,9 +4,9 @@ import { Role } from "../../types";
 import { CustomTable } from "../../components";
 import { IUser } from "../../lib/services/auth/types";
 import { useSearchParams } from "react-router";
-import { getUserManagementColumns } from "../../components/tableColumn";
+import { getUserManagementColumns } from "../../components/TableColumn";
 import { useAuthContext } from "../../lib/hooks/useAuthContext";
-import { getUserManagementFilters } from "../../components/tableFilter";
+import { getUserManagementFilters } from "../../components/TableFilter";
 import debounce from "lodash/debounce";
 
 export const UserManagement = () => {

@@ -11,7 +11,7 @@ interface PaginationComponentProps {
 
 const ItemsPerPageOptions = [10, 25, 50];
 
-export const CustomPagination: React.FC<PaginationComponentProps> = ({
+const CustomPagination: React.FC<PaginationComponentProps> = ({
   total,
   currentPage,
   itemsPerPage,
@@ -39,3 +39,5 @@ export const CustomPagination: React.FC<PaginationComponentProps> = ({
     </Group>
   );
 };
+
+export default CustomPagination;

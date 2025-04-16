@@ -5,11 +5,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useContact } from "../../lib/hooks/useClient";
 import { useUser } from "../../lib/hooks/useUser";
 import { useSearchParams } from "react-router";
-import { getLeadTrackerColumns } from "../../components/tableColumn";
+import { getLeadTrackerColumns } from "../../components/TableColumn";
 import { z } from "zod";
 import { showNotification } from "../../lib/utils";
 import { useAuthContext } from "../../lib/hooks/useAuthContext";
-import { getLeadTrackerFilters } from "../../components/tableFilter";
+import { getLeadTrackerFilters } from "../../components/TableFilter";
 import debounce from "lodash/debounce";
 
 export const LeadTracker = () => {
