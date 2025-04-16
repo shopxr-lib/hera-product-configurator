@@ -13,24 +13,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
-
-      # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-
-      # Install dependencies
       - name: Install dependencies
         run: npm install
-
-      # Build the project
       - name: Build the project
         run: npm run build
-
       # Optionally, cache dependencies for faster builds
       - name: Cache Node.js modules
         uses: actions/cache@v3
